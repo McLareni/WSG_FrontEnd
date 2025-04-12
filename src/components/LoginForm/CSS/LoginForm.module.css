@@ -1,0 +1,16 @@
+.formContainer {
+    position: absolute;
+    width: 435px;
+    height: 500px;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); /* Ось це забезпечує точне центрирування */
+    border-radius: 20px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form {
+    margin-top: 40px;
+  }

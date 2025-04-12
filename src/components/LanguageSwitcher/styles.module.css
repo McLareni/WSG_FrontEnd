@@ -1,0 +1,38 @@
+.languageSwitcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 8px;
+  }
+  
+  .languageSwitcher button {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+ 
+  
+  /* Українська мова: яскравий синій та жовтий */
+  .languageSwitcher .active-ua {
+    background: linear-gradient(45deg, #0056b3, #ffcc00); /* яскравий синій та жовтий */
+    color: white;
+  }
+  
+  /* Польська мова: яскравий червоний та білий */
+  .languageSwitcher .active-pl {
+    background: linear-gradient(45deg, #ff1e00, #ffffff); /* яскравий червоний та білий */
+    color: white;
+  }
+  
+  /* Англійська мова: яскравий синій та білий */
+  .languageSwitcher .active-en {
+    background: linear-gradient(45deg, #ffffff, #0066cc); /* яскравий синій та білий */
+    color: white;
+  }
+  
