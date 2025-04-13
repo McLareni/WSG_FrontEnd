@@ -9,7 +9,7 @@
 
 /* Base styles */
 :root {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Montserrat', sans-serif, 'Darker Grotesque';
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;

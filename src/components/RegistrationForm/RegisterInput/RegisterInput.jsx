@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../CSS/RegisterInput.module.css';
+import styles from './RegisterInput.module.css';
 
 const RegisterInput = ({ label, type, name, value, onChange, disabled, error }) => {
   return (
@@ -11,7 +11,6 @@ const RegisterInput = ({ label, type, name, value, onChange, disabled, error }) 
         value={value}
         onChange={onChange}
         className={`${styles.input} ${error ? styles.error : ''}`}
-        required
         disabled={disabled}
       />
       {error && <span className={styles.errorMessage}>{error}</span>}

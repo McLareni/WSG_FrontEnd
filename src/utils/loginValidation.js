@@ -1,5 +1,5 @@
 // utils/loginValidation.js
-import i18n from '../../../../node_modules/i18next-browser-languagedetector';
+import i18n from 'i18next-browser-languagedetector';
 
 // Валідація всієї форми логіну
 export const validateLoginForm = (formData) => {

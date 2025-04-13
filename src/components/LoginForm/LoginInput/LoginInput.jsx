@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../CSS/LoginInput.module.css';
+import styles from './LoginInput.module.css';
 
 const LoginInput = ({ label, type, name, value, onChange, error }) => {
   return (
@@ -11,7 +11,7 @@ const LoginInput = ({ label, type, name, value, onChange, error }) => {
         value={value}
         onChange={onChange}
         className={`${styles.input} ${error ? styles.error : ''}`}
-        required
+     
       />
       {error && <span className={styles.errorMessage}>{error}</span>}
     </div>

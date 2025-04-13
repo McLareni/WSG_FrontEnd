@@ -1,0 +1,41 @@
+{
+    "common": {
+      "welcome": "Welcome to WorkRoom",
+      "loginPrompt": "Enter your email and password to log in",
+      "pleaseFillOutForm": "Please fill out the form",
+      "noAccount": "Don't have an account?",
+      "alreadyHaveAccount": "Already have an account?"
+    },
+    "form": {
+      "email": "E-mail",
+      "password": "Password",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "albumNumber": "Album Number",
+      "confirmPassword": "Confirm Password"
+    },
+    "buttons": {
+      "submit": "Submit",
+      "login": "Login",
+      "registration": "Register",
+      "iAmTeacher": "I am teacher",
+      "uploadFile": "Upload File"
+    },
+    "validation": {
+      "passwordsNotMatch": "Passwords do not match",
+      "passwordRequired": "Password is required",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Please enter a valid email",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordInvalidFormat": "Password must contain uppercase, lowercase, digit and special character",
+      "firstNameRequired": "First name is required",
+      "firstNameTooShort": "First name must be 2-50 characters",
+      "firstNameInvalidChars": "First name cannot contain special characters",
+      "lastNameRequired": "Last name is required",
+      "lastNameTooShort": "Last name must be 2-50 characters",
+      "lastNameInvalidChars": "Last name cannot contain special characters",
+      "albumNumberRequired": "Album number is required",
+      "albumNumberTooShort": "Album number must be exactly 6 digits",
+      "albumNumberOnlyDigits": "Album number must contain only digits"
+    }
+  }

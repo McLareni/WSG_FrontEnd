@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../CSS/LoginHeader.module.css';
+import styles from './LoginHeader.module.css';
 
 const LoginHeader = ({ title, subtitle }) => {
   return (

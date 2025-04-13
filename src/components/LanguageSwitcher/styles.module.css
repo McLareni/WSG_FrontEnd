@@ -1,38 +1,73 @@
 .languageSwitcher {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 8px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.languageSwitcher button {
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.languageSwitcher button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Українська мова - синьо-жовтий градієнт */
+.languageSwitcher .active-ua {
+  background: linear-gradient(135deg, #0057b7 0%, #0057b7 50%, #ffd700 50%, #ffd700 100%);
+  color: white;
+  font-weight: bold;
+}
+
+/* Польська мова - червоно-білий градієнт */
+.languageSwitcher .active-pl {
+  background: linear-gradient(135deg, #dc143c 0%, #dc143c 50%, white 50%, white 100%);
+  color: #333;
+}
+
+/* Англійська мова - синьо-червоний градієнт (кольори UK) */
+.languageSwitcher .active-en {
+  background: linear-gradient(135deg, #012169 0%, #012169 33%, white 33%, white 66%, #c8102e 66%, #c8102e 100%);
+  color: white;
+}
+
+/* Інтерактивні ефекти */
+.languageSwitcher button:active {
+  transform: translateY(0);
+}
+
+/* Адаптація для мобільних пристроїв */
+@media (max-width: 768px) {
+  .languageSwitcher {
+    top: 10px;
+    right: 10px;
+    padding: 6px;
+    gap: 6px;
   }
   
   .languageSwitcher button {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
     padding: 4px 8px;
-    cursor: pointer;
     font-size: 12px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    min-width: 36px;
   }
-  
- 
-  
-  /* Українська мова: яскравий синій та жовтий */
-  .languageSwitcher .active-ua {
-    background: linear-gradient(45deg, #0056b3, #ffcc00); /* яскравий синій та жовтий */
-    color: white;
-  }
-  
-  /* Польська мова: яскравий червоний та білий */
-  .languageSwitcher .active-pl {
-    background: linear-gradient(45deg, #ff1e00, #ffffff); /* яскравий червоний та білий */
-    color: white;
-  }
-  
-  /* Англійська мова: яскравий синій та білий */
-  .languageSwitcher .active-en {
-    background: linear-gradient(45deg, #ffffff, #0066cc); /* яскравий синій та білий */
-    color: white;
-  }
-  
+}

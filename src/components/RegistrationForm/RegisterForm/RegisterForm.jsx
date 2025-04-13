@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from '../CSS/RegisterForm.module.css';
-import RegisterHeader from './RegisterHeader';
-import RegisterInput from './RegisterInput';
-import RegisterButton from './RegisterButton';
-import RegisterFooter from './RegisterFooter';
-import { validateRegisterForm, validateField } from './registerValidation';
+import styles from './RegisterForm.module.css';
+import RegisterHeader from '../RegisterHeader/RegisterHeader';
+import RegisterInput from '../RegisterInput/RegisterInput';
+import RegisterButton from '../RegisterButton/RegisterButton';
+import RegisterFooter from '../RegisterFooter/RegisterFooter';
+import { validateRegisterForm, validateField } from '../../../utils/registerValidation';
 
 const RegisterForm = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['adminUser', 'validation']);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -22,39 +22,38 @@ const RegisterForm = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: newValue
     }));
     
-    // Валідація при зміні поля
-    if (errors[name]) {
-      const fieldErrors = validateField(name, type === 'checkbox' ? checked : value, formData);
-      setErrors(prev => ({ ...prev, ...fieldErrors }));
-    }
+    // Real-time validation
+    const fieldErrors = validateField(name, newValue, formData, t);
+    setErrors(prev => ({ ...prev, ...fieldErrors }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validateRegisterForm(formData);
+    const validationErrors = validateRegisterForm(formData, t);
     setErrors(validationErrors);
     
     if (Object.keys(validationErrors).length === 0) {
       console.log('Form is valid', formData);
-      // Тут буде логіка відправки форми
+      // Submit logic here
     }
   };
 
   return (
     <div className={styles.formContainer}>
-      <RegisterHeader title={t('welcome')} subtitle={t('loginPrompt')} />
+      <RegisterHeader title={t('adminUser:common.welcome')} />
       
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form} noValidate autoComplete="off">
         <div className={styles.formColumns}>
-          {/* Ліва колонка */}
           <div className={styles.formColumn}>
             <RegisterInput
-              label={t('firstName')}
+              label={t('adminUser:form.firstName')}
               type="text"
               name="firstName"
               value={formData.firstName}
@@ -63,7 +62,7 @@ const RegisterForm = () => {
             />
             
             <RegisterInput
-              label={t('lastName')}
+              label={t('adminUser:form.lastName')}
               type="text"
               name="lastName"
               value={formData.lastName}
@@ -72,7 +71,7 @@ const RegisterForm = () => {
             />
             
             <RegisterInput
-              label={t('albumNumber')}
+              label={t('adminUser:form.albumNumber')}
               type="text"
               name="studentId"
               value={formData.studentId}
@@ -89,15 +88,14 @@ const RegisterForm = () => {
                 checked={formData.isTeacher}
                 onChange={handleChange}
               />
-              <label htmlFor="isTeacher">{t('iAmTeacher')}</label>
+              <label htmlFor="isTeacher">{t('adminUser:buttons.iAmTeacher')}</label>
             </div>
           </div>
 
-          {/* Права колонка */}
           <div className={styles.formColumn}>
             <RegisterInput
-              label={t('email')}
-              type="email"
+              label={t('adminUser:form.email')}
+              type="text"
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -105,7 +103,7 @@ const RegisterForm = () => {
             />
             
             <RegisterInput
-              label={t('password')}
+              label={t('adminUser:form.password')}
               type="password"
               name="password"
               value={formData.password}
@@ -114,7 +112,7 @@ const RegisterForm = () => {
             />
             
             <RegisterInput
-              label={t('confirmPassword')}
+              label={t('adminUser:form.confirmPassword')}
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
@@ -125,15 +123,11 @@ const RegisterForm = () => {
         </div>
         
         <div className={styles['button-footer']}>
-          <RegisterButton text={t('submit')} />
+          <RegisterButton />
         </div>
       </form>
       
-      <RegisterFooter 
-        text={t('alreadyHaveAccount')} 
-        linkText={t('login')} 
-        link="/login" 
-      />
+      <RegisterFooter />
     </div>
   );
 };
