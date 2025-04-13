@@ -1,0 +1,22 @@
+{
+    "profile": {
+      "title": "Profil użytkownika",
+      "personalInfo": {
+        "title": "Dane osobowe",
+        "name": "Pełne imię",
+        "email": "Adres email",
+        "studentId": "Numer albumu",
+        "role": "Rola konta"
+      },
+      "settings": {
+        "title": "Ustawienia",
+        "changePassword": "Zmień hasło",
+        "language": "Preferencje językowe"
+      },
+      "actions": {
+        "save": "Zapisz zmiany",
+        "edit": "Edytuj profil",
+        "upload": "Wgraj avatar"
+      }
+    }
+  }

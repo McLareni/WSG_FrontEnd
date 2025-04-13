@@ -1,0 +1,14 @@
+.formContainer {
+    position: relative;
+    width: 435px;
+    min-height: 500px;
+    margin: 50px auto;
+    border-radius: 20px;
+    background-color: white;
+    padding: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form {
+    margin-top: 40px;
+  }

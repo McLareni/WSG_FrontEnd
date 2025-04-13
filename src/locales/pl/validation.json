@@ -1,0 +1,20 @@
+{
+  "firstNameRequired": "Imię jest wymagane",
+  "firstNameTooShort": "Imię musi zawierać od 2 do 50 znaków",
+  "firstNameInvalidChars": "Imię nie może zawierać znaków specjalnych",
+  "lastNameRequired": "Nazwisko jest wymagane",
+  "lastNameTooShort": "Nazwisko musi zawierać od 2 do 50 znaków",
+  "lastNameInvalidChars": "Nazwisko nie może zawierać znaków specjalnych",
+  "albumNumberRequired": "Numer albumu jest wymagany",
+  "albumNumberTooShort": "Numer albumu musi mieć dokładnie 6 cyfr",
+  "albumNumberOnlyDigits": "Numer albumu może zawierać tylko cyfry",
+  "emailRequired": "Email jest wymagany",
+  "invalidEmail": "Wprowadź poprawny adres email",
+  "passwordRequired": "Hasło jest wymagane",
+  "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków",
+  "passwordRequireUppercase": "Hasło musi zawierać co najmniej jedną wielką literę",
+  "passwordRequireLowercase": "Hasło musi zawierać co najmniej jedną małą literę",
+  "passwordRequireDigit": "Hasło musi zawierać co najmniej jedną cyfrę (0-9)",
+  "passwordRequireSpecialChar": "Hasło musi zawierać znak specjalny",
+  "passwordsNotMatch": "Hasła się nie zgadzają"
+}
