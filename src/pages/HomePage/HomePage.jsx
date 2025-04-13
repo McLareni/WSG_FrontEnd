@@ -1,8 +1,8 @@
 // src/pages/HomePage.jsx
 import React from 'react';
-import Header from '../../components/Home/JSX/Header';
-import MainContent from '../../components/Home/JSX/MainContent';
-import Footer from '../../components/Home/JSX/Footer';
+import Header from '../../components/Home/Header/Header';
+import MainContent from '../../components/Home/HomeMainContent/MainContent';
+import Footer from '../../components/Home/HomeFooter/Footer';
 
 const HomePage = () => {
   return (
