@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom'; // Додано імпорт useNavigate
-import styles from '../CSS/LoginForm.module.css';
-import LoginHeader from './LoginHeader';
-import LoginInput from './LoginInput';
-import LoginButton from './LoginButton';
-import LoginFooter from './LoginFooter';
-import { validateLoginForm, validateLoginField } from './loginValidation';
+import { useNavigate } from 'react-router-dom';
+import styles from './LoginForm.module.css';
+import LoginHeader from '../LoginHeader/LoginHeader';
+import LoginInput from '../LoginInput/LoginInput';
+import LoginButton from '../LoginButton/LoginButton';
+import LoginFooter from '../LoginFooter/LoginFooter';
+import { validateLoginForm, validateLoginField } from '../../../utils/loginValidation';
 
 const LoginForm = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate(); // Додано хук для навігації
+  const { t } = useTranslation(['adminUser', 'validation']);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -19,10 +19,7 @@ const LoginForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
     
     if (errors[name]) {
       const fieldErrors = validateLoginField(name, value);
@@ -36,8 +33,6 @@ const LoginForm = () => {
     setErrors(validationErrors);
     
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Form is valid', formData);
-      // Переадресація на /home при успішній валідації
       navigate('/home');
     }
   };
@@ -45,46 +40,37 @@ const LoginForm = () => {
   return (
     <div className={styles.formContainer}>
       <LoginHeader 
-        title={t('welcome')} 
-        subtitle={t('loginPrompt')} 
+        title={t('adminUser:common.welcome')} 
+        subtitle={t('adminUser:common.loginPrompt')} 
       />
       
       <form onSubmit={handleSubmit} className={styles.form}>
         <div style={{ marginTop: '40px' }}>
           <LoginInput
-            label={t('email')}
+            label={t('adminUser:form.email')}
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            error={errors.email}
+            error={errors.email && t(`validation:${errors.email}`)}
           />
           
           <LoginInput
-            label={t('password')}
+            label={t('adminUser:form.password')}
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            error={errors.password}
+            error={errors.password && t(`validation:${errors.password}`)}
           />
         </div>
         
-        <div style={{ 
-          marginTop: '30px',
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
-          <LoginButton 
-          text={t('submit')} />
+        <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>
+          <LoginButton />
         </div>
       </form>
       
-      <LoginFooter 
-        text={t('noAccount')} 
-        linkText={t('registration')} 
-        link="/register" 
-      />
+      <LoginFooter />
     </div>
   );
 };

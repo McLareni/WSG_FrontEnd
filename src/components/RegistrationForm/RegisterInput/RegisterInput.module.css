@@ -1,26 +1,25 @@
 .inputGroup {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Зменшено з 8px */
+  gap: 4px; 
 }
 
 .label {
-  font-family: 'Darker Grotesque', sans-serif;
   font-weight: 700;
   font-size: 24px;
   color: #4a5568;
 }
 
 .input {
-  width: 100%; /* Додано для правильного розтягування */
+  width: 100%; 
   padding: 8px 12px;
   border: 2px solid #AEDDF8;
   border-radius: 10px;
   font-size: 20px;
   transition: all 0.3s;
   font-family: 'Montserat';
-  font-weight: bold;
-  background-color: #f8fafc; /* Додано світлий фон */
+  font-weight: 500;
+  background-color: #f8fafc; 
   box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.3);
 }
 

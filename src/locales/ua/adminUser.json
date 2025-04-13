@@ -1,0 +1,41 @@
+{
+    "common": {
+      "welcome": "Вітаємо в WorkRoom",
+      "loginPrompt": "Введіть ваш email та пароль для входу",
+      "pleaseFillOutForm": "Будь ласка, заповніть форму",
+      "noAccount": "Немає акаунту?",
+      "alreadyHaveAccount": "Маєте акаунт?"
+    },
+    "form": {
+      "email": "E-mail",
+      "password": "Пароль",
+      "firstName": "Ім'я",
+      "lastName": "Прізвище",
+      "albumNumber": "Номер альбому",
+      "confirmPassword": "Підтвердіть пароль"
+    },
+    "buttons": {
+      "submit": "Підтвердити",
+      "login": "Увійти",
+      "registration": "Зареєструватися",
+      "iAmTeacher": "Я є викладач",
+      "uploadFile": "Завантажити файл"
+    },
+    "validation": {
+      "passwordsNotMatch": "Паролі не співпадають",
+      "passwordRequired": "Пароль обов'язковий",
+      "emailRequired": "Email обов'язковий",
+      "invalidEmail": "Будь ласка, введіть коректний email",
+      "passwordTooShort": "Пароль повинен містити не менше 8 символів",
+      "passwordInvalidFormat": "Пароль має містити велику, малу літеру, цифру та спецсимвол",
+      "firstNameRequired": "Ім'я обов'язкове",
+      "firstNameTooShort": "Ім'я має містити від 2 до 50 символів",
+      "firstNameInvalidChars": "Ім'я не може містити спеціальних символів",
+      "lastNameRequired": "Прізвище обов'язкове",
+      "lastNameTooShort": "Прізвище має містити від 2 до 50 символів",
+      "lastNameInvalidChars": "Прізвище не може містити спеціальних символів",
+      "albumNumberRequired": "Номер альбому обов'язковий",
+      "albumNumberTooShort": "Номер альбому має містити рівно 6 цифр",
+      "albumNumberOnlyDigits": "Номер альбому повинен містити лише цифри"
+    }
+  }
