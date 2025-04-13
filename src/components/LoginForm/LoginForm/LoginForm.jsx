@@ -39,36 +39,40 @@ const LoginForm = () => {
 
   return (
     <div className={styles.formContainer}>
-      <LoginHeader 
-        title={t('adminUser:common.welcome')} 
-        subtitle={t('adminUser:common.loginPrompt')} 
-      />
-      
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <div style={{ marginTop: '40px' }}>
-          <LoginInput
-            label={t('adminUser:form.email')}
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            error={errors.email && t(`validation:${errors.email}`)}
-          />
-          
-          <LoginInput
-            label={t('adminUser:form.password')}
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            error={errors.password && t(`validation:${errors.password}`)}
-          />
-        </div>
+      <div className={styles.contentWrapper}>
+        <LoginHeader 
+          title={t('adminUser:common.welcome')} 
+          subtitle={t('adminUser:common.loginPrompt')} 
+        />
         
-        <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>
-          <LoginButton />
-        </div>
-      </form>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <LoginInput
+              label={t('adminUser:form.email')}
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              error={errors.email && t(`validation:${errors.email}`)}
+            />
+          </div>
+          
+          <div className={styles.inputGroup}>
+            <LoginInput
+              label={t('adminUser:form.password')}
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              error={errors.password && t(`validation:${errors.password}`)}
+            />
+          </div>
+          
+          <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>
+            <LoginButton />
+          </div>
+        </form>
+      </div>
       
       <LoginFooter />
     </div>

@@ -1,8 +1,6 @@
-// utils/registerValidation.js
 export const validateRegisterForm = (formData, t) => {
   const errors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,@!#%?\/_\-])[A-Za-z\d.,@!#%?\/_\-]{8,}$/;
   const nameRegex = /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻа-яА-ЯЇїІіЄєҐґ]+$/u;
 
   // Валідація імені
@@ -42,12 +40,9 @@ export const validateRegisterForm = (formData, t) => {
   }
 
   // Валідація пароля
-  if (!formData.password) {
-    errors.password = t('validation:passwordRequired');
-  } else if (!passwordRegex.test(formData.password)) {
-    errors.password = formData.password.length < 8
-      ? t('validation:passwordTooShort')
-      : t('validation:passwordInvalidFormat');
+  const passwordError = validatePassword(formData.password, t);
+  if (passwordError) {
+    errors.password = passwordError;
   }
 
   // Валідація підтвердження пароля
@@ -63,46 +58,109 @@ export const validateRegisterForm = (formData, t) => {
 export const validateField = (name, value, formData, t) => {
   const fieldErrors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.,@!#%?\/_\-])[A-Za-z\d.,@!#%?\/_\-]{8,}$/;
   const nameRegex = /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻа-яА-ЯЇїІіЄєҐґ]+$/u;
 
   switch (name) {
     case 'firstName':
-      if (!value.trim()) fieldErrors.firstName = t('validation:firstNameRequired');
-      else if (value.length < 2 || value.length > 50) fieldErrors.firstName = t('validation:firstNameTooShort');
-      else if (!nameRegex.test(value)) fieldErrors.firstName = t('validation:firstNameInvalidChars');
+      if (!value.trim()) {
+        fieldErrors.firstName = t('validation:firstNameRequired');
+      } else if (value.length < 2 || value.length > 50) {
+        fieldErrors.firstName = t('validation:firstNameTooShort');
+      } else if (!nameRegex.test(value)) {
+        fieldErrors.firstName = t('validation:firstNameInvalidChars');
+      } else {
+        fieldErrors.firstName = '';
+      }
       break;
+      
     case 'lastName':
-      if (!value.trim()) fieldErrors.lastName = t('validation:lastNameRequired');
-      else if (value.length < 2 || value.length > 50) fieldErrors.lastName = t('validation:lastNameTooShort');
-      else if (!nameRegex.test(value)) fieldErrors.lastName = t('validation:lastNameInvalidChars');
+      if (!value.trim()) {
+        fieldErrors.lastName = t('validation:lastNameRequired');
+      } else if (value.length < 2 || value.length > 50) {
+        fieldErrors.lastName = t('validation:lastNameTooShort');
+      } else if (!nameRegex.test(value)) {
+        fieldErrors.lastName = t('validation:lastNameInvalidChars');
+      } else {
+        fieldErrors.lastName = '';
+      }
       break;
+      
     case 'studentId':
       if (!formData.isTeacher) {
-        if (!value.trim()) fieldErrors.studentId = t('validation:albumNumberRequired');
-        else if (value.length !== 6) fieldErrors.studentId = t('validation:albumNumberTooShort');
-        else if (!/^\d+$/.test(value)) fieldErrors.studentId = t('validation:albumNumberOnlyDigits');
+        if (!value.trim()) {
+          fieldErrors.studentId = t('validation:albumNumberRequired');
+        } else if (value.length !== 6) {
+          fieldErrors.studentId = t('validation:albumNumberTooShort');
+        } else if (!/^\d+$/.test(value)) {
+          fieldErrors.studentId = t('validation:albumNumberOnlyDigits');
+        } else {
+          fieldErrors.studentId = '';
+        }
+      } else {
+        fieldErrors.studentId = '';
       }
       break;
+      
     case 'email':
-      if (!value.trim()) fieldErrors.email = t('validation:emailRequired');
-      else if (!emailRegex.test(value)) fieldErrors.email = t('validation:invalidEmail');
-      break;
-    case 'password':
-      if (!value) fieldErrors.password = t('validation:passwordRequired');
-      else if (!passwordRegex.test(value)) {
-        fieldErrors.password = value.length < 8
-          ? t('validation:passwordTooShort')
-          : t('validation:passwordInvalidFormat');
+      if (!value.trim()) {
+        fieldErrors.email = t('validation:emailRequired');
+      } else if (!emailRegex.test(value)) {
+        fieldErrors.email = t('validation:invalidEmail');
+      } else {
+        fieldErrors.email = '';
       }
       break;
-    case 'confirmPassword':
-      if (!value) fieldErrors.confirmPassword = t('validation:passwordRequired');
-      else if (formData.password !== value) fieldErrors.confirmPassword = t('validation:passwordsNotMatch');
+      
+    case 'password':
+      fieldErrors.password = validatePassword(value, t) || '';
       break;
+      
+    case 'confirmPassword':
+      if (!value) {
+        fieldErrors.confirmPassword = t('validation:passwordRequired');
+      } else if (formData.password !== value) {
+        fieldErrors.confirmPassword = t('validation:passwordsNotMatch');
+      } else {
+        fieldErrors.confirmPassword = '';
+      }
+      break;
+      
     default:
       break;
   }
 
   return fieldErrors;
+};
+
+const validatePassword = (password, t) => {
+  if (!password) {
+    return t('validation:passwordRequired');
+  }
+  
+  // Спочатку перевіряємо довжину
+  if (password.length < 8) {
+    return t('validation:passwordTooShort');
+  }
+
+  // Потім перевіряємо великі літери
+  if (!/[A-Z]/.test(password)) {
+    return t('validation:passwordRequireUppercase');
+  }
+
+  // Потім перевіряємо малі літери
+  if (!/[a-z]/.test(password)) {
+    return t('validation:passwordRequireLowercase');
+  }
+
+  // Потім перевіряємо цифри
+  if (!/\d/.test(password)) {
+    return t('validation:passwordRequireDigit');
+  }
+
+  // Нарешті перевіряємо спецсимволи
+  if (!/[.,@!#%?\/_\-]/.test(password)) {
+    return t('validation:passwordRequireSpecialChar');
+  }
+
+  return '';
 };
