@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginForm.module.css';
-import LoginHeader from '../LoginHeader/LoginHeader';
-import LoginInput from '../LoginInput/LoginInput';
-import LoginButton from '../LoginButton/LoginButton';
-import LoginFooter from '../LoginFooter/LoginFooter';
+import Header from '../../UI/Header/Header';
+import Input from '../../UI/Input/Input';
+import Button from '../../UI/Button/Button';
+import Footer from '../../UI/Footer/Footer';
 import { validateLoginForm, validateLoginField } from '../../../utils/loginValidation';
 
-const LoginForm = () => {
+const LoginForm = React.memo(() => {
   const { t } = useTranslation(['adminUser', 'validation']);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -16,67 +16,83 @@ const LoginForm = () => {
     password: ''
   });
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     
-    if (errors[name]) {
-      const fieldErrors = validateLoginField(name, value);
-      setErrors(prev => ({ ...prev, ...fieldErrors }));
-    }
-  };
+    const fieldErrors = validateLoginField(name, value);
+    setErrors(prev => ({ ...prev, ...fieldErrors }));
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    const validationErrors = validateLoginForm(formData);
+    setIsSubmitting(true);
+    
+    const validationErrors = validateLoginForm(formData, t);
     setErrors(validationErrors);
     
     if (Object.keys(validationErrors).length === 0) {
-      navigate('/home');
+      try {
+        navigate('/home');
+      } catch (error) {
+        setErrors({ server: error.message });
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      setIsSubmitting(false);
     }
-  };
+  }, [formData, t, navigate]);
 
   return (
-    <div className={styles.formContainer}>
-      <div className={styles.contentWrapper}>
-        <LoginHeader 
-          title={t('adminUser:common.welcome')} 
-          subtitle={t('adminUser:common.loginPrompt')} 
+    <div className={styles.pageContainer}>
+      <div className={styles.formContainer}>
+        <Header 
+          title={t('adminUser:common.welcome')}
+          subtitle={t('adminUser:common.loginPrompt')}
+          variant="login"
         />
         
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.inputGroup}>
-            <LoginInput
-              label={t('adminUser:form.email')}
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              error={errors.email && t(`validation:${errors.email}`)}
-            />
-          </div>
+          {errors.server && (
+            <div className={styles.errorMessage}>{errors.server}</div>
+          )}
           
-          <div className={styles.inputGroup}>
-            <LoginInput
-              label={t('adminUser:form.password')}
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              error={errors.password && t(`validation:${errors.password}`)}
-            />
-          </div>
+          <Input
+            label={t('adminUser:form.email')}
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={errors.email && t(`validation:${errors.email}`)}
+          />
           
-          <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'center' }}>
-            <LoginButton />
+          <Input
+            label={t('adminUser:form.password')}
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            error={errors.password && t(`validation:${errors.password}`)}
+          />
+          
+          <div className={styles.buttonWrapper}>
+            <Button 
+              type="submit"
+              variant="login"
+              disabled={isSubmitting || Object.keys(errors).length > 0}
+            >
+              {t('adminUser:buttons.login')}
+            </Button>
           </div>
         </form>
+        
+        <Footer variant="login" />
       </div>
-      
-      <LoginFooter />
     </div>
   );
-};
+});
 
 export default LoginForm;
