@@ -1,7 +1,7 @@
 export const validateRegisterForm = (formData, t) => {
   const errors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const nameRegex = /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻа-яА-ЯЇїІіЄєҐґ]+$/u;
+  const nameRegex = /^[\p{L}]+$/u; // Універсальний regex для літер будь-якої мови
 
   // Валідація імені
   if (!formData.firstName.trim()) {
@@ -58,7 +58,7 @@ export const validateRegisterForm = (formData, t) => {
 export const validateField = (name, value, formData, t) => {
   const fieldErrors = {};
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const nameRegex = /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻа-яА-ЯЇїІіЄєҐґ]+$/u;
+  const nameRegex = /^[\p{L}]+$/u; // Універсальний regex для літер будь-якої мови
 
   switch (name) {
     case 'firstName':
@@ -85,21 +85,22 @@ export const validateField = (name, value, formData, t) => {
       }
       break;
       
-    case 'studentId':
-      if (!formData.isTeacher) {
-        if (!value.trim()) {
-          fieldErrors.studentId = t('validation:albumNumberRequired');
-        } else if (value.length !== 6) {
-          fieldErrors.studentId = t('validation:albumNumberTooShort');
-        } else if (!/^\d+$/.test(value)) {
-          fieldErrors.studentId = t('validation:albumNumberOnlyDigits');
+      case 'studentId':
+        if (!formData.isTeacher) {
+          if (!value.trim()) {
+            fieldErrors.studentId = t('validation:albumNumberRequired');
+          } else if (value.length !== 6) {
+            fieldErrors.studentId = t('validation:albumNumberTooShort');
+          } else if (!/^\d+$/.test(value)) {
+            fieldErrors.studentId = t('validation:albumNumberOnlyDigits');
+          } else {
+            fieldErrors.studentId = '';
+          }
         } else {
+         
           fieldErrors.studentId = '';
         }
-      } else {
-        fieldErrors.studentId = '';
-      }
-      break;
+        break;
       
     case 'email':
       if (!value.trim()) {
@@ -125,6 +126,10 @@ export const validateField = (name, value, formData, t) => {
       }
       break;
       
+    case 'isTeacher':
+      // Валідація не потрібна для чекбоксу
+      break;
+      
     default:
       break;
   }
@@ -137,28 +142,27 @@ const validatePassword = (password, t) => {
     return t('validation:passwordRequired');
   }
   
-  // Спочатку перевіряємо довжину
   if (password.length < 8) {
     return t('validation:passwordTooShort');
   }
 
-  // Потім перевіряємо великі літери
-  if (!/[A-Z]/.test(password)) {
+  // Універсальна перевірка на наявність великої літери (будь-якої мови)
+  if (!/(?=.*\p{Lu})/u.test(password)) {
     return t('validation:passwordRequireUppercase');
   }
 
-  // Потім перевіряємо малі літери
-  if (!/[a-z]/.test(password)) {
+  // Універсальна перевірка на наявність малої літери (будь-якої мови)
+  if (!/(?=.*\p{Ll})/u.test(password)) {
     return t('validation:passwordRequireLowercase');
   }
 
-  // Потім перевіряємо цифри
+  // Перевірка на цифри
   if (!/\d/.test(password)) {
     return t('validation:passwordRequireDigit');
   }
 
-  // Нарешті перевіряємо спецсимволи
-  if (!/[.,@!#%?\/_\-]/.test(password)) {
+  // Перевірка на спецсимволи
+  if (!/[^\p{L}\d]/u.test(password)) {
     return t('validation:passwordRequireSpecialChar');
   }
 
