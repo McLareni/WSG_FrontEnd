@@ -1,0 +1,26 @@
+.headerContainer {
+    width: 372px;
+    height: 68px;
+    margin: 0 auto;
+    text-align:left;
+  }
+  
+  .title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    margin-bottom: 10px;
+    
+  }
+  
+  .subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    opacity: 70%;
+    font-weight:lighter;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #666;
+  }

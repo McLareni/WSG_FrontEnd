@@ -1,0 +1,20 @@
+{
+  "firstNameRequired": "First name is required",
+  "firstNameTooShort": "First name must be between 2 and 50 characters",
+  "firstNameInvalidChars": "First name cannot contain special characters",
+  "lastNameRequired": "Last name is required",
+  "lastNameTooShort": "Last name must be between 2 and 50 characters",
+  "lastNameInvalidChars": "Last name cannot contain special characters",
+  "albumNumberRequired": "Album number is required",
+  "albumNumberTooShort": "Album number must be exactly 6 digits",
+  "albumNumberOnlyDigits": "Album number can contain digits only",
+  "emailRequired": "Email is required",
+  "invalidEmail": "Please enter a valid email address",
+  "passwordRequired": "Password is required",
+  "passwordTooShort": "Password must be at least 8 characters long",
+  "passwordRequireUppercase": "Password must contain at least one uppercase letter",
+  "passwordRequireLowercase": "Password must contain at least one lowercase letter",
+  "passwordRequireDigit": "Password must contain at least one digit (0-9)",
+  "passwordRequireSpecialChar": "Password must contain a special character",
+  "passwordsNotMatch": "Passwords do not match"
+}

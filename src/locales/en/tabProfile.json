@@ -1,0 +1,22 @@
+{
+    "profile": {
+      "title": "User Profile",
+      "personalInfo": {
+        "title": "Personal Information",
+        "name": "Full Name",
+        "email": "Email Address",
+        "studentId": "Student ID",
+        "role": "Account Role"
+      },
+      "settings": {
+        "title": "Settings",
+        "changePassword": "Change Password",
+        "language": "Language Preferences"
+      },
+      "actions": {
+        "save": "Save Changes",
+        "edit": "Edit Profile",
+        "upload": "Upload Avatar"
+      }
+    }
+  }
