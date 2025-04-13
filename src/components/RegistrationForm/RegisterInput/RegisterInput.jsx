@@ -13,7 +13,9 @@ const RegisterInput = ({ label, type, name, value, onChange, disabled, error }) 
         className={`${styles.input} ${error ? styles.error : ''}`}
         disabled={disabled}
       />
-      {error && <span className={styles.errorMessage}>{error}</span>}
+      <span className={styles.errorMessage}>
+        {error || '\u00A0'}
+      </span>
     </div>
   );
 };

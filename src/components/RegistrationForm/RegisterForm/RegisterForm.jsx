@@ -23,22 +23,69 @@ const RegisterForm = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? checked : value;
-    
-    setFormData(prev => ({
-      ...prev,
+
+    const updatedFormData = {
+      ...formData,
       [name]: newValue
-    }));
-    
-    // Real-time validation
-    const fieldErrors = validateField(name, newValue, formData, t);
-    setErrors(prev => ({ ...prev, ...fieldErrors }));
+    };
+
+    // Очистити studentId, якщо вибрано "Я вчитель"
+    if (name === 'isTeacher' && checked) {
+      updatedFormData.studentId = '';
+    }
+
+    setFormData(updatedFormData);
+
+    // Валідація
+    const newErrors = { ...errors };
+
+    const fieldError = validateField(name, newValue, updatedFormData, t);
+    Object.assign(newErrors, fieldError);
+
+    // Спеціальна логіка
+    if (name === 'password') {
+      const confirmPwdError = validateField(
+        'confirmPassword',
+        updatedFormData.confirmPassword,
+        updatedFormData,
+        t
+      );
+      Object.assign(newErrors, confirmPwdError);
+    } 
+    else if (name === 'confirmPassword') {
+      const pwdError = validateField(
+        'password',
+        updatedFormData.password,
+        updatedFormData,
+        t
+      );
+      Object.assign(newErrors, pwdError);
+    } 
+    else if (name === 'isTeacher') {
+      const studentIdError = validateField(
+        'studentId',
+        updatedFormData.studentId,
+        updatedFormData,
+        t
+      );
+      Object.assign(newErrors, studentIdError);
+    }
+
+    // Очистити помилки для валідних полів
+    Object.keys(newErrors).forEach(key => {
+      if (newErrors[key] === '') {
+        delete newErrors[key];
+      }
+    });
+
+    setErrors(newErrors);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validateRegisterForm(formData, t);
     setErrors(validationErrors);
-    
+
     if (Object.keys(validationErrors).length === 0) {
       console.log('Form is valid', formData);
       // Submit logic here
@@ -48,7 +95,7 @@ const RegisterForm = () => {
   return (
     <div className={styles.formContainer}>
       <RegisterHeader title={t('adminUser:common.welcome')} />
-      
+
       <form onSubmit={handleSubmit} className={styles.form} noValidate autoComplete="off">
         <div className={styles.formColumns}>
           <div className={styles.formColumn}>
@@ -60,7 +107,7 @@ const RegisterForm = () => {
               onChange={handleChange}
               error={errors.firstName}
             />
-            
+
             <RegisterInput
               label={t('adminUser:form.lastName')}
               type="text"
@@ -69,7 +116,7 @@ const RegisterForm = () => {
               onChange={handleChange}
               error={errors.lastName}
             />
-            
+
             <RegisterInput
               label={t('adminUser:form.albumNumber')}
               type="text"
@@ -79,7 +126,7 @@ const RegisterForm = () => {
               disabled={formData.isTeacher}
               error={errors.studentId}
             />
-            
+
             <div className={styles.checkboxContainer}>
               <input
                 type="checkbox"
@@ -101,7 +148,7 @@ const RegisterForm = () => {
               onChange={handleChange}
               error={errors.email}
             />
-            
+
             <RegisterInput
               label={t('adminUser:form.password')}
               type="password"
@@ -110,7 +157,7 @@ const RegisterForm = () => {
               onChange={handleChange}
               error={errors.password}
             />
-            
+
             <RegisterInput
               label={t('adminUser:form.confirmPassword')}
               type="password"
@@ -121,12 +168,12 @@ const RegisterForm = () => {
             />
           </div>
         </div>
-        
+
         <div className={styles['button-footer']}>
           <RegisterButton />
         </div>
       </form>
-      
+
       <RegisterFooter />
     </div>
   );
