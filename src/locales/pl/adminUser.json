@@ -19,23 +19,7 @@
       "login": "Zaloguj się",
       "registration": "Zarejestruj się",
       "iAmTeacher": "Jestem nauczycielem",
-      "uploadFile": "Załaduj plik"
-    },
-    "validation": {
-      "passwordsNotMatch": "Hasła nie są identyczne",
-      "passwordRequired": "Hasło jest wymagane",
-      "emailRequired": "Email jest wymagany",
-      "invalidEmail": "Wprowadź poprawny email",
-      "passwordTooShort": "Hasło musi zawierać co najmniej 8 znaków",
-      "passwordInvalidFormat": "Hasło musi zawierać wielką, małą literę, cyfrę i znak specjalny",
-      "firstNameRequired": "Imię jest wymagane",
-      "firstNameTooShort": "Imię musi mieć od 2 do 50 znaków",
-      "firstNameInvalidChars": "Imię nie może zawierać znaków specjalnych",
-      "lastNameRequired": "Nazwisko jest wymagane",
-      "lastNameTooShort": "Nazwisko musi mieć od 2 do 50 znaków",
-      "lastNameInvalidChars": "Nazwisko nie może zawierać znaków specjalnych",
-      "albumNumberRequired": "Numer albumu jest wymagany",
-      "albumNumberTooShort": "Numer albumu musi mieć dokładnie 6 cyfr",
-      "albumNumberOnlyDigits": "Numer albumu może zawierać tylko cyfry"
+      "uploadFile": "Załaduj plik",
+      "loggingIn": "Wyjście..."
     }
   }

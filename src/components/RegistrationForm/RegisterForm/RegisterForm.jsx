@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './RegisterForm.module.css';
-import Header from '../../UI/Header/Header';
+import Header from '../../UI/LoginHeader/LoginHeader';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
-import Footer from '../../UI/Footer/Footer';
+import Footer from '../../UI/LoginFooter/LoginFooter';
 import Checkbox from '../../UI/Checkbox/Checkbox';
 import { useRegisterForm } from './useRegisterForm';
 

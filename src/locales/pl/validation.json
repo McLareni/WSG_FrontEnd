@@ -16,5 +16,6 @@
   "passwordRequireLowercase": "Hasło musi zawierać co najmniej jedną małą literę",
   "passwordRequireDigit": "Hasło musi zawierać co najmniej jedną cyfrę (0-9)",
   "passwordRequireSpecialChar": "Hasło musi zawierać znak specjalny",
-  "passwordsNotMatch": "Hasła się nie zgadzają"
+  "passwordsNotMatch": "Hasła się nie zgadzają",
+  "loginFailed": "Nieprawidłowy adres e-mail lub hasło"
 }

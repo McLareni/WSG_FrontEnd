@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import styles from './Footer.module.css';
+import styles from './LoginFooter.module.css';
 
 const Footer = ({ variant = 'login' }) => {
   const { t } = useTranslation('adminUser');
