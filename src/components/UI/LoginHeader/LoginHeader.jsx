@@ -1,6 +1,6 @@
 // src/UI/Header/Header.jsx
 import React from 'react';
-import styles from './Header.module.css';
+import styles from './LoginHeader.module.css';
 
 const Header = ({ 
   title, 
