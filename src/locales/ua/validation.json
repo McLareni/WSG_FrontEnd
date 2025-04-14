@@ -16,5 +16,6 @@
   "passwordRequireLowercase": "Пароль повинен містити щонайменше одну малу літеру",
   "passwordRequireDigit": "Пароль повинен містити щонайменше одну цифру (0-9)",
   "passwordRequireSpecialChar": "Пароль повинен містити спеціальний символ",
-  "passwordsNotMatch": "Паролі не співпадають"
+  "passwordsNotMatch": "Паролі не співпадають",
+  "loginFailed": "Невірний email або пароль"
 }

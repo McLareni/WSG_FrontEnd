@@ -1,0 +1,46 @@
+/* src/UI/Checkbox/Checkbox.module.css */
+.container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0;
+  }
+  
+  .input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+  }
+  
+  .input:checked {
+    background-color: #CCCCCC;
+    border-color: #f5f5f5;
+  }
+  
+  .input:checked::after {
+    content: "✓";
+    position: absolute;
+    color: black;
+    font-size: 14px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .label {
+    font-family: 'Darker Grotesque', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: #4a5568;
+    cursor: pointer;
+    margin: 0;
+    line-height: 1;
+  }

@@ -19,7 +19,7 @@
       "login": "Login",
       "registration": "Register",
       "iAmTeacher": "I am teacher",
-      "uploadFile": "Upload File"
+      "uploadFile": "Upload File",
+      "loggingIn": "Exit..."
     }
-    
   }
