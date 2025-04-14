@@ -10,7 +10,6 @@
 }
 
 .formContainer {
-  height: 660px;
   width: 918px;
   background: white;
   border-radius: 20px;
@@ -23,7 +22,6 @@
 .form {
   display: flex;
   flex-direction: column;
-  min-height: 500px; 
 }
 
 .formColumns {
