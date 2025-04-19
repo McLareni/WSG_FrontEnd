@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { validateRegisterForm, validateField } from '../../../utils/registerValidation';
-import registerRequest from '../../../utils/registerRequest';
 
 export const useRegisterForm = (t) => {
   const [formData, setFormData] = useState({
@@ -76,7 +75,7 @@ export const useRegisterForm = (t) => {
     });
   }, [t, formData]);
 
-  const handleSubmit = useCallback(async (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     
     // Для викладачів ігноруємо валідацію studentId
@@ -89,9 +88,7 @@ export const useRegisterForm = (t) => {
 
     if (Object.keys(validationErrors).length === 0) {
       console.log('Form is valid', formData);
-      const response = await registerRequest(formData);
-
-      
+      // Тут буде логіка відправки форми
     }
   }, [formData, t]);
 

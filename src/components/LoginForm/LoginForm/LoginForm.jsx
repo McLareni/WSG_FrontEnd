@@ -6,7 +6,6 @@ import Header from '../../UI/LoginHeader/LoginHeader';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
 import Footer from '../../UI/LoginFooter/LoginFooter';
-import { supabase } from '../../../supabaseClient';
 
 const LoginForm = () => {
   const { t } = useTranslation(['adminUser']);
@@ -19,17 +18,11 @@ const LoginForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
-    })
-    if (error) console.error(error)
-    else console.log('Signed in:', data)
+    // Просто перенаправляємо на /home при сабміті
     navigate('/home');
   };
 
