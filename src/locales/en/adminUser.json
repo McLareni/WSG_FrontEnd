@@ -1,25 +1,37 @@
 {
-    "common": {
-      "welcome": "Welcome to WorkRoom",
-      "loginPrompt": "Enter your email and password to log in",
-      "pleaseFillOutForm": "Please fill out the form",
-      "noAccount": "Don't have an account?",
-      "alreadyHaveAccount": "Already have an account?"
-    },
-    "form": {
-      "email": "E-mail",
-      "password": "Password",
-      "firstName": "First Name",
-      "lastName": "Last Name",
-      "albumNumber": "Album Number",
-      "confirmPassword": "Confirm Password"
-    },
-    "buttons": {
-      "submit": "Submit",
-      "login": "Login",
-      "registration": "Register",
-      "iAmTeacher": "I am teacher",
-      "uploadFile": "Upload File",
-      "loggingIn": "Exit..."
-    }
+  "common": {
+    "welcome": "Welcome to WorkRoom",
+    "loginPrompt": "Enter your email and password to log in",
+    "pleaseFillOutForm": "Please fill out the form",
+    "noAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?"
+  },
+  "form": {
+    "email": "E-mail",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "albumNumber": "Album Number",
+    "confirmPassword": "Confirm Password"
+  },
+  "buttons": {
+    "submit": "Submit",
+    "login": "Login",
+    "registration": "Register",
+    "iAmTeacher": "I am teacher",
+    "uploadFile": "Upload File",
+    "loggingIn": "Logging in...",
+    "loading": "Loading...",
+    "close": "Close"
+
+  },
+  "errors": {
+    "loginFailed": "Login failed. Please check your credentials.",
+    "fetchUserDetailsFailed": "Failed to fetch user details."
+  },
+  "confirmation" : {
+    "registrationSuccess": "Registration successful!",
+    "checkEmail" : "Please check your email to verify your acaunt"
   }
+  
+}

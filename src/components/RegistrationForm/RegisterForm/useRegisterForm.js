@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react';
 import { validateRegisterForm, validateField } from '../../../utils/registerValidation';
 import registerRequest from '../../../utils/registerRequest';
+import { useAuthToast } from '../../UI/ToastAuth/ToastAuth';
 
-export const useRegisterForm = (t) => {
+export const useRegisterForm = (t, navigate) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,8 +13,9 @@ export const useRegisterForm = (t) => {
     confirmPassword: '',
     isTeacher: false
   });
-  
+
   const [errors, setErrors] = useState({});
+  const authToast = useAuthToast();
 
   const handleChange = useCallback((e) => {
     const { name, value, type, checked } = e.target;
@@ -36,40 +38,22 @@ export const useRegisterForm = (t) => {
       const newErrors = { ...prevErrors };
       const updatedFormData = { ...formData, [name]: newValue, ...(name === 'isTeacher' && checked && { studentId: '' }) };
 
-      // Валідуємо змінені поля
       const fieldError = validateField(name, newValue, updatedFormData, t);
       Object.assign(newErrors, fieldError);
 
-      // Спеціальні випадки валідації
       if (name === 'password') {
-        const confirmPwdError = validateField(
-          'confirmPassword',
-          updatedFormData.confirmPassword,
-          updatedFormData,
-          t
-        );
-        Object.assign(newErrors, confirmPwdError);
+        Object.assign(newErrors, validateField('confirmPassword', updatedFormData.confirmPassword, updatedFormData, t));
       } 
       else if (name === 'confirmPassword') {
-        const pwdError = validateField(
-          'password',
-          updatedFormData.password,
-          updatedFormData,
-          t
-        );
-        Object.assign(newErrors, pwdError);
+        Object.assign(newErrors, validateField('password', updatedFormData.password, updatedFormData, t));
       }
 
-      // Якщо це чекбокс "Я викладач", очищаємо помилку для studentId
       if (name === 'isTeacher') {
         newErrors.studentId = '';
       }
 
-      // Видаляємо пусті помилки
       Object.keys(newErrors).forEach(key => {
-        if (newErrors[key] === '') {
-          delete newErrors[key];
-        }
+        if (newErrors[key] === '') delete newErrors[key];
       });
 
       return newErrors;
@@ -78,9 +62,8 @@ export const useRegisterForm = (t) => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    
-    // Для викладачів ігноруємо валідацію studentId
-    const formDataToValidate = formData.isTeacher 
+
+    const formDataToValidate = formData.isTeacher
       ? { ...formData, studentId: '' }
       : formData;
 
@@ -88,12 +71,28 @@ export const useRegisterForm = (t) => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      console.log('Form is valid', formData);
-      const response = await registerRequest(formData);
+      try {
+        await registerRequest(formData);
 
-      
+        authToast.success('registration.success', {
+          firstName: formData.firstName,
+          lastName: formData.lastName
+        });
+
+        // Перенаправлення після успішної реєстрації
+        navigate('/login');
+
+      } catch (error) {
+        console.error('Registration error:', error);
+
+        authToast.error('registration.failed', {
+          error: error.message
+        });
+
+        setErrors(prev => ({ ...prev, form: error.message }));
+      }
     }
-  }, [formData, t]);
+  }, [formData, t, authToast, navigate]);
 
   return {
     formData,

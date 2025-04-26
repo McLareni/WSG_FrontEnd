@@ -1,20 +1,52 @@
 {
-  "firstNameRequired": "First name is required",
-  "firstNameTooShort": "First name must be between 2 and 50 characters",
-  "firstNameInvalidChars": "First name cannot contain special characters",
-  "lastNameRequired": "Last name is required",
-  "lastNameTooShort": "Last name must be between 2 and 50 characters",
-  "lastNameInvalidChars": "Last name cannot contain special characters",
-  "albumNumberRequired": "Album number is required",
-  "albumNumberTooShort": "Album number must be exactly 6 digits",
-  "albumNumberOnlyDigits": "Album number can contain digits only",
-  "emailRequired": "Email is required",
-  "invalidEmail": "Please enter a valid email address",
-  "passwordRequired": "Password is required",
-  "passwordTooShort": "Password must be at least 8 characters long",
-  "passwordRequireUppercase": "Password must contain at least one uppercase letter",
-  "passwordRequireLowercase": "Password must contain at least one lowercase letter",
-  "passwordRequireDigit": "Password must contain at least one digit (0-9)",
-  "passwordRequireSpecialChar": "Password must contain a special character",
-  "passwordsNotMatch": "Passwords do not match"
+  "firstName": {
+    "required": "First name is required.",
+    "tooShort": "First name must be between 2 and 50 characters.",
+    "invalidChars": "First name cannot contain special characters."
+  },
+  "lastName": {
+    "required": "Last name is required.",
+    "tooShort": "Last name must be between 2 and 50 characters.",
+    "invalidChars": "Last name cannot contain special characters."
+  },
+  "albumNumber": {
+    "required": "Album number is required.",
+    "tooShort": "Album number must be exactly 6 digits.",
+    "onlyDigits": "Album number can contain only digits."
+  },
+  "email": {
+    "required": "Email address is required.",
+    "invalid": "Please enter a valid email address.",
+    "exists": "This email address is already registered."
+  },
+  "password": {
+    "required": "Password is required.",
+    "tooShort": "Password must be at least 8 characters long.",
+    "requireUppercase": "Password must contain at least one uppercase letter.",
+    "requireLowercase": "Password must contain at least one lowercase letter.",
+    "requireDigit": "Password must contain at least one digit (0–9).",
+    "requireSpecialChar": "Password must contain at least one special character.",
+    "notMatch": "Passwords do not match.",
+    "invalid": "Invalid password"
+  },
+  "server": {
+    "noResponse": "No response from server. Please try again later.",
+    "error": "An error occurred while sending the request.",
+    "tooManyRequests": "Too many attempts. Please try again later."
+  },
+  "registration": {
+    "success": "Registration successful! Welcome, {{firstName}} {{lastName}}!",
+    "failed": "Registration failed: {{error}}",
+    "profileExists": "A profile for this user already exists."
+  },
+  "common": {
+    "unknownError": "An unknown error occurred. Please try again."
+  },
+  "errors": {
+    "invalidCredentials": "Invalid email or password"
+  },
+  "login": {
+  "success": "Login successful. Welcome!",
+  "failed": "Login failed. Please check your credentials."
+}
 }

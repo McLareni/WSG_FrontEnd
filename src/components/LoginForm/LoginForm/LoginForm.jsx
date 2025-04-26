@@ -7,29 +7,38 @@ import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
 import Footer from '../../UI/LoginFooter/LoginFooter';
 import { supabase } from '../../../supabaseClient';
+import { useAuthToast, AuthToastContainer } from '../../UI/ToastAuth/ToastAuth';
 
 const LoginForm = () => {
-  const { t } = useTranslation(['adminUser']);
+  const { t } = useTranslation(['adminUser', 'validation']);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
+  const authToast = useAuthToast(); // ініціалізація тостів
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
-    })
-    if (error) console.error(error)
-    else console.log('Signed in:', data)
+    });
+
+    if (error) {
+      console.error(error);
+      authToast.error('errors.invalidCredentials'); // показати тост з помилкою
+      return;
+    }
+
+    authToast.success('login.success'); // показати успішний тост (додай ключ у переклад)
     navigate('/home');
   };
 
@@ -65,9 +74,12 @@ const LoginForm = () => {
             </Button>
           </div>
         </form>
-        
+
         <Footer variant="login" />
       </div>
+
+      {/* Контейнер для тостів */}
+      <AuthToastContainer />
     </div>
   );
 };
