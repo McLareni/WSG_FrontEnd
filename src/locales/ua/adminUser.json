@@ -1,6 +1,6 @@
 {
   "common": {
-    "welcome": "Ласкаво просимо до WorkRoom",
+    "welcome": "Вітаємо в WorkRoom",
     "loginPrompt": "Введіть email та пароль для входу",
     "pleaseFillOutForm": "Будь ласка, заповніть форму",
     "noAccount": "Немає облікового запису?",

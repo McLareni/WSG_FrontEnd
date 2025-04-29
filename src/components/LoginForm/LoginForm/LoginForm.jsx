@@ -1,45 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useLoginForm } from '../LoginForm/useLoginForm';
+import { useAuthToast, AuthToastContainer } from '../../UI/ToastAuth/ToastAuth';
 import styles from './LoginForm.module.css';
 import Header from '../../UI/LoginHeader/LoginHeader';
 import Input from '../../UI/Input/Input';
 import Button from '../../UI/Button/Button';
 import Footer from '../../UI/LoginFooter/LoginFooter';
-import { supabase } from '../../../supabaseClient';
-import { useAuthToast, AuthToastContainer } from '../../UI/ToastAuth/ToastAuth';
 
 const LoginForm = () => {
   const { t } = useTranslation(['adminUser', 'validation']);
   const navigate = useNavigate();
+  const authToast = useAuthToast();
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
-  const authToast = useAuthToast(); // ініціалізація тостів
+  const { 
+    isSubmitting, 
+    errors, 
+    touched,
+    setTouched,
+    validateField,
+    handleLogin 
+  } = useLoginForm();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    validateField(name, value);
+  };
+
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
+    
+    // Позначити всі поля як touched при сабміті
+    setTouched({
+      email: true,
+      password: true
     });
 
-    if (error) {
-      console.error(error);
-      authToast.error('errors.invalidCredentials'); // показати тост з помилкою
-      return;
+    const result = await handleLogin(formData);
+  
+  if (result.success) {
+    const toastId = authToast.success('validation.login.success');
+    // Зберігаємо ID тоста в localStorage
+    localStorage.setItem('successToastId', toastId);
+    navigate('/home?loginSuccess=true');
+  } else {
+      switch (result.error) {
+        case 'empty_form':
+          authToast.error('errors.emptyForm');
+          break;
+        case 'validation':
+          authToast.error('errors.formErrors');
+          break;
+        case 'invalid_credentials':
+          authToast.error('errors.invalidCredentials');
+          break;
+        default:
+          authToast.error('common.unknownError');
+      }
     }
-
-    authToast.success('login.success'); // показати успішний тост (додай ключ у переклад)
-    navigate('/home');
   };
 
   return (
@@ -51,13 +81,17 @@ const LoginForm = () => {
           variant="login"
         />
         
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className={styles.form} noValidate>
           <Input
             label={t('adminUser:form.email')}
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.email ? errors.email : ''}
+            required
+            autoComplete="username"
           />
           
           <Input
@@ -66,11 +100,20 @@ const LoginForm = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.password ? errors.password : ''}
+            required
+            autoComplete="current-password"
           />
           
           <div className={styles.buttonWrapper}>
-            <Button type="submit" variant="login">
-              {t('adminUser:buttons.login')}
+            <Button 
+              type="submit" 
+              variant="login"
+              disabled={isSubmitting}
+              loading={isSubmitting}
+            >
+              {isSubmitting ? t('adminUser:buttons.loggingIn') : t('adminUser:buttons.login')}
             </Button>
           </div>
         </form>
@@ -78,7 +121,6 @@ const LoginForm = () => {
         <Footer variant="login" />
       </div>
 
-      {/* Контейнер для тостів */}
       <AuthToastContainer />
     </div>
   );

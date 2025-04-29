@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './RegisterForm.module.css';
 import Header from '../../UI/LoginHeader/LoginHeader';
@@ -14,9 +14,29 @@ const RegisterForm = () => {
   const {
     formData,
     errors,
+    isSubmitting,
+    touched,
     handleChange,
-    handleSubmit
+    handleBlur,
+    handleSubmit,
+    isFormValid
   } = useRegisterForm(t);
+
+  // Special handler for names (only Latin letters)
+  const handleNameChange = useCallback((e) => {
+    const { name, value } = e.target;
+    if (/^[a-zA-Z'-]*$/.test(value)) {
+      handleChange(e);
+    }
+  }, [handleChange]);
+
+  // Special handler for student ID (only numbers, max 6)
+  const handleStudentIdChange = useCallback((e) => {
+    const { value } = e.target;
+    if (/^\d*$/.test(value) && value.length <= 6) {
+      handleChange(e);
+    }
+  }, [handleChange]);
 
   return (
     <div className={styles.pageContainer}>
@@ -34,8 +54,11 @@ const RegisterForm = () => {
                 type="text"
                 name="firstName"
                 value={formData.firstName}
-                onChange={handleChange}
-                error={errors.firstName}
+                onChange={handleNameChange}
+                onBlur={handleBlur}
+                error={touched.firstName && errors.firstName}
+                required
+               
               />
 
               <Input
@@ -43,8 +66,11 @@ const RegisterForm = () => {
                 type="text"
                 name="lastName"
                 value={formData.lastName}
-                onChange={handleChange}
-                error={errors.lastName}
+                onChange={handleNameChange}
+                onBlur={handleBlur}
+                error={touched.lastName && errors.lastName}
+                required
+                
               />
 
               <Input
@@ -52,9 +78,13 @@ const RegisterForm = () => {
                 type="text"
                 name="studentId"
                 value={formData.studentId}
-                onChange={handleChange}
+                onChange={handleStudentIdChange}
+                onBlur={handleBlur}
                 disabled={formData.isTeacher}
-                error={errors.studentId}
+                error={touched.studentId && errors.studentId}
+                required={!formData.isTeacher}
+               
+                maxLength={6}
               />
 
               <Checkbox
@@ -63,7 +93,6 @@ const RegisterForm = () => {
                 checked={formData.isTeacher}
                 onChange={handleChange}
                 label={t('adminUser:buttons.iAmTeacher')}
-                error={!formData.isTeacher && errors.studentId}
               />
             </div>
 
@@ -74,7 +103,9 @@ const RegisterForm = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                error={errors.email}
+                onBlur={handleBlur}
+                error={touched.email && errors.email}
+                required
               />
 
               <Input
@@ -83,7 +114,9 @@ const RegisterForm = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                error={errors.password}
+                onBlur={handleBlur}
+                error={touched.password && errors.password}
+                required
               />
 
               <Input
@@ -92,17 +125,27 @@ const RegisterForm = () => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                error={errors.confirmPassword}
+                onBlur={handleBlur}
+                error={touched.confirmPassword && errors.confirmPassword}
+                required
               />
             </div>
           </div>
 
           <div className={styles.buttonContainer}>
-            <Button variant="register" showTextSpan={true} />
+            <Button
+              type="submit"
+              variant="register"
+              showTextSpan={true}
+              loading={isSubmitting}
+              disabled={!isFormValid || isSubmitting}
+            >
+              {t('adminUser:buttons.register')}
+            </Button>
           </div>
         </form>
         
-        <div className='.footerContainer'>
+        <div className={styles.footerContainer}>
           <Footer variant="register" />
         </div>
       </div>

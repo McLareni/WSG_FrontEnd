@@ -10,39 +10,45 @@
     "invalidChars": "Nazwisko nie może zawierać znaków specjalnych."
   },
   "albumNumber": {
-    "required": "Numer albumu jest wymagany.",
-    "tooShort": "Numer albumu musi składać się dokładnie z 6 cyfr.",
-    "onlyDigits": "Numer albumu może zawierać tylko cyfry."
+    "required": "Numer indeksu jest wymagany.",
+    "tooShort": "Numer indeksu musi składać się dokładnie z 6 cyfr.",
+    "onlyDigits": "Numer indeksu może zawierać tylko cyfry."
   },
   "email": {
     "required": "Adres e-mail jest wymagany.",
-    "invalid": "Proszę podać poprawny adres e-mail.",
+    "invalid": "Wprowadź prawidłowy adres e-mail.",
     "exists": "Ten adres e-mail jest już zarejestrowany."
   },
   "password": {
     "required": "Hasło jest wymagane.",
-    "tooShort": "Hasło musi zawierać co najmniej 8 znaków.",
-    "requireUppercase": "Hasło musi zawierać co najmniej jedną wielką literę.",
-    "requireLowercase": "Hasło musi zawierać co najmniej jedną małą literę.",
-    "requireDigit": "Hasło musi zawierać co najmniej jedną cyfrę (0–9).",
-    "requireSpecialChar": "Hasło musi zawierać co najmniej jeden znak specjalny.",
+    "tooShort": "Hasło musi mieć co najmniej 8 znaków.",
+    "requireUppercase": "Hasło musi zawierać przynajmniej jedną wielką literę.",
+    "requireLowercase": "Hasło musi zawierać przynajmniej jedną małą literę.",
+    "requireDigit": "Hasło musi zawierać przynajmniej jedną cyfrę (0–9).",
+    "requireSpecialChar": "Hasło musi zawierać przynajmniej jeden znak specjalny.",
     "notMatch": "Hasła nie są zgodne.",
-    "invalid": "Nieprawidłowe hasło"
+    "invalid": "Nieprawidłowe hasło."
   },
   "server": {
     "noResponse": "Brak odpowiedzi z serwera. Spróbuj ponownie później.",
     "error": "Wystąpił błąd podczas wysyłania żądania.",
-    "tooManyRequests": "Zbyt wiele prób. Spróbuj później."
+    "tooManyRequests": "Zbyt wiele prób. Spróbuj ponownie później."
   },
   "registration": {
-    "success": "Rejestracja zakończona sukcesem! Sprawdź swój e-mail.",
-    "failed": "Rejestracja nie powiodła się. Sprawdź swoje dane.",
+    "success": "Rejestracja zakończona sukcesem! Witaj, {{firstName}} {{lastName}}!",
+    "failed": "Rejestracja nie powiodła się: {{error}}",
     "profileExists": "Profil dla tego użytkownika już istnieje."
   },
   "common": {
     "unknownError": "Wystąpił nieznany błąd. Spróbuj ponownie."
   },
   "errors": {
-    "invalidCredentials": "Nieprawidłowy e-mail lub hasło"
+    "invalidCredentials": "Nieprawidłowy adres e-mail lub hasło.",
+    "formErrors": "Proszę poprawnie wypełnić wszystkie wymagane pola.",
+    "emptyForm": "Proszę wypełnić wszystkie wymagane pola."
+  },
+  "login": {
+    "success": "Logowanie zakończone sukcesem. Witamy!",
+    "failed": "Logowanie nie powiodło się. Sprawdź swoje dane."
   }
 }

@@ -9,7 +9,7 @@ export const useAuthToast = () => {
   const authToast = {
     success: (translationKey, data) => toast.success(t(translationKey, data), {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: false,
       hideProgressBar: false,
       closeOnClick: false,
       pauseOnHover: true,
@@ -29,6 +29,18 @@ export const useAuthToast = () => {
       theme: "colored",
       transition: Slide,
       icon: "⚠️"
+    }),
+    
+    warn: (translationKey, data) => toast.warn(t(translationKey, data), {
+      position: "top-right",
+      autoClose: 6000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "colored",
+      transition: Slide,
+      icon: "ℹ️"
     })
   };
 
@@ -38,16 +50,16 @@ export const useAuthToast = () => {
 export const AuthToastContainer = () => {
   return (
     <ToastContainer 
-      position="top-right"
-      autoClose={5000}
-      newestOnTop
-      closeOnClick={false}
-      rtl={false}
-      pauseOnFocusLoss={false}
-      draggable
-      pauseOnHover
-      theme="colored"
-      transition={Slide}
-    />
+    position="top-right"
+    autoClose={5000}
+    newestOnTop
+    closeOnClick={false}
+    rtl={false}
+    pauseOnFocusLoss={false}
+    draggable
+    pauseOnHover
+    theme="colored"
+    transition={Slide}
+  />
   );
 };
