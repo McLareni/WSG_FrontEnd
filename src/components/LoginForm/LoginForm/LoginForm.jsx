@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLoginForm } from '../LoginForm/useLoginForm';
 import { useAuthToast, AuthToastContainer } from '../../UI/ToastAuth/ToastAuth';
 import styles from './LoginForm.module.css';
@@ -12,12 +12,26 @@ import Footer from '../../UI/LoginFooter/LoginFooter';
 const LoginForm = () => {
   const { t } = useTranslation(['adminUser', 'validation']);
   const navigate = useNavigate();
+  const location = useLocation();
   const authToast = useAuthToast();
   
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+
+  // Перевіряємо state при завантаженні сторінки
+  useEffect(() => {
+    if (location.state?.fromRegistration) {
+      authToast.success('registration.success', {
+        firstName: location.state.firstName,
+        lastName: location.state.lastName
+      });
+      
+      // Очищаємо state без перезавантаження сторінки
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [authToast, location, navigate]);
 
   const { 
     isSubmitting, 
@@ -42,7 +56,6 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Позначити всі поля як touched при сабміті
     setTouched({
       email: true,
       password: true
@@ -50,12 +63,10 @@ const LoginForm = () => {
 
     const result = await handleLogin(formData);
   
-  if (result.success) {
-    const toastId = authToast.success('validation.login.success');
-    // Зберігаємо ID тоста в localStorage
-    localStorage.setItem('successToastId', toastId);
-    navigate('/home?loginSuccess=true');
-  } else {
+    if (result.success) {
+      authToast.success('validation.login.success');
+      navigate('/home?loginSuccess=true');
+    } else {
       switch (result.error) {
         case 'empty_form':
           authToast.error('errors.emptyForm');

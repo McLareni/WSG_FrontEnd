@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../../../supabaseClient';
 
@@ -82,19 +82,30 @@ export const useLoginForm = () => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
-        password: formData.password,
+        password: formData.password
       });
 
       if (error) throw error;
 
-      return { success: true, data };
+      if (!data.session) {
+        throw new Error('No session returned');
+      }
+
+      return { 
+        success: true, 
+        data: {
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+          user: data.user
+        }
+      };
     } catch (error) {
       console.error('Login error:', error);
       return { 
         success: false, 
         error: error.message.includes('Invalid login credentials') 
           ? 'invalid_credentials' 
-          : 'unknown' 
+          : 'login_error'
       };
     } finally {
       setIsSubmitting(false);

@@ -20,7 +20,6 @@ export const useRegisterForm = (t, navigate) => {
 
   const authToast = useAuthToast();
 
-  // Реальний час валідації при зміні даних
   useEffect(() => {
     const newErrors = validateRegisterForm(formData, t);
     setErrors(newErrors);
@@ -30,22 +29,16 @@ export const useRegisterForm = (t, navigate) => {
     const { name, value, type, checked } = e.target;
     const newValue = type === 'checkbox' ? checked : value;
 
-    // Обмеження для номеру альбому (тільки цифри, максимум 6)
     if (name === 'studentId' && !formData.isTeacher) {
       if (value && !/^\d*$/.test(value)) return;
       if (value.length > 6) return;
     }
 
-    setFormData(prev => {
-      const updated = {
-        ...prev,
-        [name]: newValue
-      };
-      if (name === 'isTeacher' && checked) {
-        updated.studentId = '';
-      }
-      return updated;
-    });
+    setFormData(prev => ({
+      ...prev,
+      [name]: newValue,
+      ...(name === 'isTeacher' && checked ? { studentId: '' } : {})
+    }));
 
     setTouched(prev => ({ ...prev, [name]: true }));
   }, [formData.isTeacher]);
@@ -59,12 +52,10 @@ export const useRegisterForm = (t, navigate) => {
     const requiredFields = ['firstName', 'lastName', 'email', 'password', 'confirmPassword'];
     if (!formData.isTeacher) requiredFields.push('studentId');
 
-    // Перевірка заповнення полів
     const allFieldsFilled = requiredFields.every(field => 
       formData[field]?.toString().trim() !== ''
     );
 
-    // Перевірка наявності помилок
     const noErrors = Object.values(errors).every(err => !err);
 
     return allFieldsFilled && noErrors;
@@ -72,8 +63,7 @@ export const useRegisterForm = (t, navigate) => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-
-    // Позначити всі поля як touched
+  
     setTouched({
       firstName: true,
       lastName: true,
@@ -82,34 +72,34 @@ export const useRegisterForm = (t, navigate) => {
       password: true,
       confirmPassword: true
     });
-
+  
     if (!isFormValid()) {
-      authToast.error(t('errors.formErrors'));
+      authToast.error('errors.formErrors');
       return;
     }
-
+  
     setIsSubmitting(true);
-
+  
     try {
       await registerRequest({
         ...formData,
         studentId: formData.isTeacher ? null : formData.studentId
       });
       
-      authToast.success(t('registration.success', { 
-        firstName: formData.firstName,
-        lastName: formData.lastName 
-      }));
-      
-      navigate('/login?registrationSuccess=true', {
-        state: { registeredEmail: formData.email }
+      // Використовуємо navigate з state замість window.location.href
+      navigate('/login', {
+        state: {
+          fromRegistration: true,
+          firstName: formData.firstName,
+          lastName: formData.lastName
+        }
       });
+      
     } catch (error) {
-      authToast.error(t('registration.failed', { error: error.message }));
-    } finally {
+      authToast.error('registration.failed', { error: error.message });
       setIsSubmitting(false);
     }
-  }, [formData, authToast, navigate, t, isFormValid]);
+  }, [formData, authToast, t, isFormValid, navigate]);
 
   return {
     formData,

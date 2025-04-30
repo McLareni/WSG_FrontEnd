@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import styles from './RegisterForm.module.css';
 import Header from '../../UI/LoginHeader/LoginHeader';
 import Input from '../../UI/Input/Input';
@@ -11,6 +12,8 @@ import { AuthToastContainer } from '../../UI/ToastAuth/ToastAuth';
 
 const RegisterForm = () => {
   const { t } = useTranslation(['validation', 'adminUser']);
+  const navigate = useNavigate();
+  
   const {
     formData,
     errors,
@@ -20,17 +23,15 @@ const RegisterForm = () => {
     handleBlur,
     handleSubmit,
     isFormValid
-  } = useRegisterForm(t);
+  } = useRegisterForm(t, navigate);
 
-  // Special handler for names (only Latin letters)
   const handleNameChange = useCallback((e) => {
     const { name, value } = e.target;
-    if (/^[a-zA-Z'-]*$/.test(value)) {
+    if (/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ'-]*$/.test(value)) {
       handleChange(e);
     }
   }, [handleChange]);
 
-  // Special handler for student ID (only numbers, max 6)
   const handleStudentIdChange = useCallback((e) => {
     const { value } = e.target;
     if (/^\d*$/.test(value) && value.length <= 6) {
@@ -58,7 +59,6 @@ const RegisterForm = () => {
                 onBlur={handleBlur}
                 error={touched.firstName && errors.firstName}
                 required
-               
               />
 
               <Input
@@ -70,7 +70,6 @@ const RegisterForm = () => {
                 onBlur={handleBlur}
                 error={touched.lastName && errors.lastName}
                 required
-                
               />
 
               <Input
@@ -83,7 +82,6 @@ const RegisterForm = () => {
                 disabled={formData.isTeacher}
                 error={touched.studentId && errors.studentId}
                 required={!formData.isTeacher}
-               
                 maxLength={6}
               />
 
