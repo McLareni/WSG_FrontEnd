@@ -44,8 +44,7 @@
   },
   "errors": {
     "invalidCredentials": "Nieprawidłowy adres e-mail lub hasło.",
-    "formErrors": "Proszę poprawnie wypełnić wszystkie wymagane pola.",
-    "emptyForm": "Proszę wypełnić wszystkie wymagane pola."
+    "formErrors": "Proszę poprawnie wypełnić wszystkie wymagane pola."
   },
   "login": {
     "success": "Logowanie zakończone sukcesem. Witamy!",

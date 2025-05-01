@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLoginForm } from '../LoginForm/useLoginForm';
-import { useAuthToast, AuthToastContainer } from '../../UI/ToastAuth/ToastAuth';
+import { useAuthToast } from '../../UI/ToastAuth/ToastAuth';
 import styles from './LoginForm.module.css';
 import Header from '../../UI/LoginHeader/LoginHeader';
 import Input from '../../UI/Input/Input';
@@ -20,18 +20,15 @@ const LoginForm = () => {
     password: ''
   });
 
-  // Перевіряємо state при завантаженні сторінки
   useEffect(() => {
-    if (location.state?.fromRegistration) {
+    if (location.state?.fromRegistration && location.state.firstName && location.state.lastName) {
       authToast.success('registration.success', {
         firstName: location.state.firstName,
         lastName: location.state.lastName
       });
-      
-      // Очищаємо state без перезавантаження сторінки
       navigate(location.pathname, { replace: true, state: {} });
     }
-  }, [authToast, location, navigate]);
+  }, [location, navigate, authToast]);
 
   const { 
     isSubmitting, 
@@ -55,31 +52,15 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    setTouched({
-      email: true,
-      password: true
-    });
+    setTouched({ email: true, password: true });
 
     const result = await handleLogin(formData);
   
     if (result.success) {
       authToast.success('validation.login.success');
       navigate('/home?loginSuccess=true');
-    } else {
-      switch (result.error) {
-        case 'empty_form':
-          authToast.error('errors.emptyForm');
-          break;
-        case 'validation':
-          authToast.error('errors.formErrors');
-          break;
-        case 'invalid_credentials':
-          authToast.error('errors.invalidCredentials');
-          break;
-        default:
-          authToast.error('common.unknownError');
-      }
+    } else if (result.errorKey) {
+      authToast.error(result.error);
     }
   };
 
@@ -131,8 +112,6 @@ const LoginForm = () => {
 
         <Footer variant="login" />
       </div>
-
-      <AuthToastContainer />
     </div>
   );
 };

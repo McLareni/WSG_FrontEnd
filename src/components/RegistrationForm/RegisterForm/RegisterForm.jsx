@@ -8,7 +8,6 @@ import Button from '../../UI/Button/Button';
 import Footer from '../../UI/LoginFooter/LoginFooter';
 import Checkbox from '../../UI/Checkbox/Checkbox';
 import { useRegisterForm } from './useRegisterForm';
-import { AuthToastContainer } from '../../UI/ToastAuth/ToastAuth';
 
 const RegisterForm = () => {
   const { t } = useTranslation(['validation', 'adminUser']);
@@ -147,8 +146,6 @@ const RegisterForm = () => {
           <Footer variant="register" />
         </div>
       </div>
-      
-      <AuthToastContainer />
     </div>
   );
 };

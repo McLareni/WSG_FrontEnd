@@ -59,24 +59,20 @@ export const useLoginForm = () => {
     }
 
     setErrors(newErrors);
-    return { 
-      isValid: !hasErrors, 
-      errors: newErrors,
-      isFormEmpty: !formData.email && !formData.password
-    };
+    return { isValid: !hasErrors, errors: newErrors };
   };
 
   const handleLogin = async (formData) => {
-    const { isValid, isFormEmpty } = validateForm(formData);
-    
-    if (isFormEmpty) {
-      return { success: false, error: 'empty_form' };
-    }
+    const { isValid } = validateForm(formData);
     
     if (!isValid) {
-      return { success: false, error: 'validation' };
+      return { 
+        success: false, 
+        error: t('errors.formErrors'),
+        errorKey: 'errors.formErrors'
+      };
     }
-
+  
     setIsSubmitting(true);
     
     try {
@@ -84,28 +80,24 @@ export const useLoginForm = () => {
         email: formData.email,
         password: formData.password
       });
-
+  
       if (error) throw error;
-
-      if (!data.session) {
-        throw new Error('No session returned');
-      }
-
-      return { 
-        success: true, 
-        data: {
-          access_token: data.session.access_token,
-          refresh_token: data.session.refresh_token,
-          user: data.user
-        }
-      };
+  
+      return { success: true, data };
+      
     } catch (error) {
-      console.error('Login error:', error);
+      let errorKey = 'errors.invalidCredentials';
+      
+      if (error.message.includes('Email not confirmed')) {
+        errorKey = 'login.emailNotVerified';
+      } else if (error.message.includes('too many requests')) {
+        errorKey = 'server.tooManyRequests';
+      }
+  
       return { 
         success: false, 
-        error: error.message.includes('Invalid login credentials') 
-          ? 'invalid_credentials' 
-          : 'login_error'
+        error: t(errorKey),
+        errorKey
       };
     } finally {
       setIsSubmitting(false);

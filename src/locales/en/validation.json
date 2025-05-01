@@ -44,8 +44,7 @@
   },
   "errors": {
     "invalidCredentials": "Invalid email or password",
-    "formErrors" : "Please fill in all required fields correctly",
-    "emptyForm": "Please fill in all required fields"
+    "formErrors" : "Please fill in all required fields correctly"
   },
   "login": {
   "success": "Login successful. Welcome!",

@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
-import { validateRegisterForm, validateField } from '../../../utils/registerValidation';
+import { validateRegisterForm } from '../../../utils/registerValidation';
 import registerRequest from '../../../utils/registerRequest';
 import { useAuthToast } from '../../UI/ToastAuth/ToastAuth';
 
@@ -17,7 +17,6 @@ export const useRegisterForm = (t, navigate) => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [touched, setTouched] = useState({});
-
   const authToast = useAuthToast();
 
   useEffect(() => {
@@ -52,18 +51,13 @@ export const useRegisterForm = (t, navigate) => {
     const requiredFields = ['firstName', 'lastName', 'email', 'password', 'confirmPassword'];
     if (!formData.isTeacher) requiredFields.push('studentId');
 
-    const allFieldsFilled = requiredFields.every(field => 
+    return requiredFields.every(field => 
       formData[field]?.toString().trim() !== ''
-    );
-
-    const noErrors = Object.values(errors).every(err => !err);
-
-    return allFieldsFilled && noErrors;
+    ) && Object.values(errors).every(err => !err);
   }, [formData, errors]);
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-  
     setTouched({
       firstName: true,
       lastName: true,
@@ -74,7 +68,9 @@ export const useRegisterForm = (t, navigate) => {
     });
   
     if (!isFormValid()) {
-      authToast.error('errors.formErrors');
+      if (Object.keys(errors).length > 0) {
+        authToast.error(t('errors.formErrors'));
+      }
       return;
     }
   
@@ -86,9 +82,8 @@ export const useRegisterForm = (t, navigate) => {
         studentId: formData.isTeacher ? null : formData.studentId
       });
       
-      // Використовуємо navigate з state замість window.location.href
-      navigate('/login', {
-        state: {
+      navigate('/login', { 
+        state: { 
           fromRegistration: true,
           firstName: formData.firstName,
           lastName: formData.lastName
@@ -96,10 +91,15 @@ export const useRegisterForm = (t, navigate) => {
       });
       
     } catch (error) {
-      authToast.error('registration.failed', { error: error.message });
+      const errorMessage = error.translationKey 
+        ? t(error.translationKey, error.translationParams)
+        : t('common.unknownError');
+      
+      authToast.error(errorMessage);
+    } finally {
       setIsSubmitting(false);
     }
-  }, [formData, authToast, t, isFormValid, navigate]);
+  }, [formData, authToast, isFormValid, navigate, t, errors]);
 
   return {
     formData,
