@@ -1,11 +1,11 @@
-// src/components/MainContent/MainContent.jsx
 import React from 'react';
-import styles from './MainContent.module.css';
+
 
 const MainContent = () => {
   return (
-    <main className={styles.main}>
-      {/* Пустий компонент - місце для майбутнього вмісту */}
+    <main>
+      <h1>Welcome to Home Page</h1>
+     
     </main>
   );
 };
