@@ -1,7 +1,7 @@
 {
   "common": {
     "welcome": "Witamy w WorkRoom",
-    "loginPrompt": "Wprowadź email i hasło aby się zalogować",
+    "loginPrompt": "Wpisz swój adres e-mail i hasło, aby się zalogować",
     "pleaseFillOutForm": "Proszę wypełnić formularz",
     "noAccount": "Nie masz konta?",
     "alreadyHaveAccount": "Masz już konto?"
@@ -31,5 +31,16 @@
   "confirmation": {
     "registrationSuccess": "Rejestracja zakończona sukcesem!",
     "checkEmail": "Sprawdź swoją pocztę w celu weryfikacji konta"
+  },
+  "profile": {
+    "teacher": "Nauczyciel",
+    "email": "Email",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "createdRooms": "Utworzone pokoje",
+    "active": "Aktywna",
+    "inactive": "Nieaktywna",
+    "edit": "Edytuj",
+    "changePassword": "Zmień hasło"
   }
 }

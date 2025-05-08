@@ -43,8 +43,9 @@
     "unknownError": "Wystąpił nieznany błąd. Spróbuj ponownie."
   },
   "errors": {
-    "invalidCredentials": "Nieprawidłowy adres e-mail lub hasło.",
-    "formErrors": "Proszę poprawnie wypełnić wszystkie wymagane pola."
+    "formErrors": "Proszę poprawnie wypełnić wszystkie wymagane pola.",
+    "invalidCredentials": "Błędna nazwa użytkownika (e-mail) lub hasło"
+    
   },
   "login": {
     "success": "Logowanie zakończone sukcesem. Witamy!",

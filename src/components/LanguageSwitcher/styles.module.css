@@ -1,73 +1,88 @@
 .languageSwitcher {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
 }
 
-.languageSwitcher button {
-  background: none;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  min-width: 40px;
+.dropdownWrapper {
+  display: inline-block;
+  width: 70px;
+}
+
+.dropdownContainer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  border: 2px solid #2597D9;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: transparent;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.languageButton {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2597D9;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
 }
 
-.languageSwitcher button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+.arrowIcon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Українська мова - синьо-жовтий градієнт */
-.languageSwitcher .active-ua {
-  background: linear-gradient(135deg, #0057b7 0%, #0057b7 50%, #ffd700 50%, #ffd700 100%);
-  color: white;
-  font-weight: bold;
+.arrowDown {
+  transform: rotate(0deg);
 }
 
-/* Польська мова - червоно-білий градієнт */
-.languageSwitcher .active-pl {
-  background: linear-gradient(135deg, #dc143c 0%, #dc143c 50%, white 50%, white 100%);
-  color: #333;
+.arrowUp {
+  transform: rotate(180deg);
 }
 
-/* Англійська мова - синьо-червоний градієнт (кольори UK) */
-.languageSwitcher .active-en {
-  background: linear-gradient(135deg, #012169 0%, #012169 33%, white 33%, white 66%, #c8102e 66%, #c8102e 100%);
-  color: white;
+.dropdownMenu {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+  opacity: 0;
 }
 
-/* Інтерактивні ефекти */
-.languageSwitcher button:active {
-  transform: translateY(0);
+.menuOpen {
+  max-height: 120px;
+  opacity: 1;
 }
 
-/* Адаптація для мобільних пристроїв */
-@media (max-width: 768px) {
-  .languageSwitcher {
-    top: 10px;
-    right: 10px;
-    padding: 6px;
-    gap: 6px;
-  }
-  
-  .languageSwitcher button {
-    padding: 4px 8px;
-    font-size: 12px;
-    min-width: 36px;
-  }
+.menuClosed {
+  max-height: 0;
+  opacity: 0;
+}
+
+.menuItem {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #8DBCD7;
+  cursor: pointer;
+  background-color: transparent;
+  text-align: left;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+
+
+.menuItem:last-child {
+  margin-bottom: 4px;
 }

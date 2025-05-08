@@ -13,26 +13,9 @@ export const useLoginForm = () => {
 
   const validateField = (name, value) => {
     const newErrors = { ...errors };
-    
-    if (name === 'email') {
-      if (!value) {
-        newErrors.email = t('email.required');
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        newErrors.email = t('email.invalid');
-      } else {
-        delete newErrors.email;
-      }
-    }
 
-    if (name === 'password') {
-      if (!value) {
-        newErrors.password = t('password.required');
-      } else if (value.length < 8) {
-        newErrors.password = t('password.tooShort');
-      } else {
-        delete newErrors.password;
-      }
-    }
+    if (name === 'email' && value) delete newErrors.email;
+    if (name === 'password' && value) delete newErrors.password;
 
     setErrors(newErrors);
     return newErrors;
@@ -41,22 +24,9 @@ export const useLoginForm = () => {
   const validateForm = (formData) => {
     const newErrors = {};
     let hasErrors = false;
-    
-    if (!formData.email) {
-      newErrors.email = t('email.required');
-      hasErrors = true;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = t('email.invalid');
-      hasErrors = true;
-    }
 
-    if (!formData.password) {
-      newErrors.password = t('password.required');
-      hasErrors = true;
-    } else if (formData.password.length < 8) {
-      newErrors.password = t('password.tooShort');
-      hasErrors = true;
-    }
+    if (!formData.email) hasErrors = true;
+    if (!formData.password) hasErrors = true;
 
     setErrors(newErrors);
     return { isValid: !hasErrors, errors: newErrors };
@@ -64,44 +34,48 @@ export const useLoginForm = () => {
 
   const handleLogin = async (formData) => {
     const { isValid } = validateForm(formData);
-    
     if (!isValid) {
-      return { 
-        success: false, 
+      return {
+        success: false,
         error: t('errors.formErrors'),
         errorKey: 'errors.formErrors'
       };
     }
-  
+
     setIsSubmitting(true);
-    
+
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password
       });
-  
+
       if (error) throw error;
-  
+
       return { success: true, data };
-      
     } catch (error) {
-      let errorKey = 'errors.invalidCredentials';
-      
+      let errorKey = 'login.failed';
+
       if (error.message.includes('Email not confirmed')) {
         errorKey = 'login.emailNotVerified';
       } else if (error.message.includes('too many requests')) {
         errorKey = 'server.tooManyRequests';
+      } else if (error.message.includes('Invalid login credentials')) {
+        errorKey = 'errors.invalidCredentials';
       }
-  
-      return { 
-        success: false, 
+
+      return {
+        success: false,
         error: t(errorKey),
         errorKey
       };
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const updateErrorsOnLanguageChange = () => {
+    setErrors((prevErrors) => ({ ...prevErrors }));
   };
 
   return {
@@ -111,5 +85,6 @@ export const useLoginForm = () => {
     setTouched,
     validateField,
     handleLogin,
+    updateErrorsOnLanguageChange
   };
 };

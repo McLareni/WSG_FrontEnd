@@ -69,7 +69,7 @@ export const useRegisterForm = (t, navigate) => {
   
     if (!isFormValid()) {
       if (Object.keys(errors).length > 0) {
-        authToast.error(t('errors.formErrors'));
+        authToast.error(t('errors.formErrors')); 
       }
       return;
     }
@@ -81,18 +81,18 @@ export const useRegisterForm = (t, navigate) => {
         ...formData,
         studentId: formData.isTeacher ? null : formData.studentId
       });
-      
-      navigate('/login', { 
-        state: { 
-          fromRegistration: true,
-          firstName: formData.firstName,
-          lastName: formData.lastName
-        }
-      });
+  
+      authToast.success(t('registration.success', { 
+        firstName: formData.firstName,
+        lastName: formData.lastName
+      }));
+  
+      navigate('/login'); 
       
     } catch (error) {
+      
       const errorMessage = error.translationKey 
-        ? t(error.translationKey, error.translationParams)
+        ? t(error.translationKey, error.translationParams || {}) 
         : t('common.unknownError');
       
       authToast.error(errorMessage);

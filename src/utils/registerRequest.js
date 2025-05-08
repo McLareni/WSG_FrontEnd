@@ -4,14 +4,6 @@ const URL = import.meta.env.VITE_URL;
 const API_KEY = import.meta.env.VITE_SUPABASE_API_KEY;
 
 const registerRequest = async (userData) => {
-  // Log registration attempt
-  console.log('Registration attempt:', { 
-    email: userData.email,
-    firstName: userData.firstName,
-    lastName: userData.lastName,
-    isTeacher: !userData.studentId
-  });
-
   try {
     const response = await axios.post(
       `${URL}registration`,
@@ -19,7 +11,7 @@ const registerRequest = async (userData) => {
         email: userData.email,
         first_name: userData.firstName,
         last_name: userData.lastName,
-        album_number: userData.studentId || "", // Ensure empty string if undefined
+        album_number: userData.studentId || "",
         password: userData.password,
       },
       {
@@ -30,39 +22,49 @@ const registerRequest = async (userData) => {
       }
     );
 
-    console.log('Registration successful:', { 
-      email: userData.email,
-      userId: response.data?.user_id 
-    });
     return response.data;
 
   } catch (error) {
-    let errorMessage = "Registration failed";
-    let errorDetails = {
-      status: error.response?.status,
-      data: error.response?.data,
-      config: {
-        url: error.config?.url,
-        method: error.config?.method
-      }
-    };
+    let errorKey = 'common.unknownError';
+    let translationParams = {};
 
-    if (error.response?.data?.error) {
-      errorMessage = error.response.data.error;
-    } else if (error.message) {
-      errorMessage = error.message;
+    // Обробка помилок від Supabase/API
+    if (error.response?.data) {
+      const errorData = error.response.data;
+
+      // Для email, який вже існує
+      if (errorData.error?.includes('already exists') || 
+          errorData.error?.includes('already registered')) {
+        errorKey = 'email.exists';
+      }
+      // Для невірного номеру альбому
+      else if (errorData.error?.includes('album number') || 
+               errorData.error?.includes('invalid album')) {
+        errorKey = 'albumNumber.onlyDigits';
+      }
+      // Якщо бекенд повертає код помилки
+      else if (errorData.error_code === 'EMAIL_EXISTS') {
+        errorKey = 'email.exists';
+      }
     }
 
-    console.error('Registration error:', { 
-      message: errorMessage,
-      ...errorDetails,
-      inputData: {
-        email: userData.email,
-        firstName: userData.firstName
-      }
+    // Мережеві помилки
+    if (error.code === 'ECONNABORTED') {
+      errorKey = 'server.timeout';
+    } else if (error.message.includes('Network Error')) {
+      errorKey = 'server.noResponse';
+    }
+
+    console.error('Registration error:', {
+      errorKey,
+      originalError: error.response?.data || error.message
     });
-    
-    throw new Error(errorMessage);
+
+    throw {
+      translationKey: errorKey,
+      translationParams,
+      message: error.response?.data?.error || error.message
+    };
   }
 };
 

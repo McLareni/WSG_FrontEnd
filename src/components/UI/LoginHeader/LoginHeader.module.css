@@ -1,33 +1,23 @@
 /* src/UI/Header/Header.module.css */
 .header {
     font-family: 'Montserrat', sans-serif;
-    margin-bottom: 15px;
+    margin-bottom: 0px;
   }
-  
-  /* Стилі для логіну */
-  .login {
-    text-align: left;
-  }
-  
-
-  .register {
-    text-align: center;
-  }
-  
+ 
   .title {
-    font-weight: 700;
-    font-size: 32px;
-    line-height: 100%;
+    font-weight: 600;
+    font-size: 27px;
     letter-spacing: 0%;
-    color: #2a4365;
-    margin: 0 0 10px 0;
+    text-align: center;
+    height: 33px;
+    color: #3E3E3E;
+
   }
   
   .subtitle {
-    font-weight: 500;
+    font-weight:  500;
     opacity: 0.7;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #666;
-    margin: 0;
-  }
+    font-size: 14px;
+    color: #929292;
+    text-align: center;
+ }

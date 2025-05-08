@@ -23,15 +23,24 @@
     "loggingIn": "Logging in...",
     "loading": "Loading...",
     "close": "Close"
-
   },
   "errors": {
     "loginFailed": "Login failed. Please check your credentials.",
     "fetchUserDetailsFailed": "Failed to fetch user details."
   },
-  "confirmation" : {
+  "confirmation": {
     "registrationSuccess": "Registration successful!",
-    "checkEmail" : "Please check your email to verify your acaunt"
+    "checkEmail": "Please check your email to verify your acaunt"
+  },
+  "profile": {
+    "teacher": "Teacher",
+    "email": "Email",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "createdRooms": "Created Rooms",
+    "active": "Active",
+    "inactive": "Inactive",
+    "edit": "Edit",
+    "changePassword": "Change Password"
   }
-  
 }
