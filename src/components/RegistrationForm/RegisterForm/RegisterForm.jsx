@@ -18,6 +18,7 @@ const RegisterForm = () => {
     errors,
     isSubmitting,
     touched,
+    submitError,
     handleChange,
     handleBlur,
     handleSubmit,
@@ -41,6 +42,12 @@ const RegisterForm = () => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formContainer}>
+        {submitError && (
+          <div className={styles.errorMessage}>
+            {t(`validation:${submitError}`)}
+          </div>
+        )}
+
         <Header 
           title={t('adminUser:common.welcome')}
           variant="register"
@@ -57,6 +64,7 @@ const RegisterForm = () => {
                 onChange={handleNameChange}
                 onBlur={handleBlur}
                 error={touched.firstName && errors.firstName}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.firstName}
                 required
               />
 
@@ -68,6 +76,7 @@ const RegisterForm = () => {
                 onChange={handleNameChange}
                 onBlur={handleBlur}
                 error={touched.lastName && errors.lastName}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.lastName}
                 required
               />
 
@@ -80,6 +89,7 @@ const RegisterForm = () => {
                 onBlur={handleBlur}
                 disabled={formData.isTeacher}
                 error={touched.studentId && errors.studentId}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.studentId && !formData.isTeacher}
                 required={!formData.isTeacher}
                 maxLength={6}
               />
@@ -102,6 +112,7 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.email && errors.email}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.email}
                 required
               />
 
@@ -113,6 +124,7 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.password && errors.password}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.password}
                 required
               />
 
@@ -124,6 +136,7 @@ const RegisterForm = () => {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.confirmPassword && errors.confirmPassword}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.confirmPassword}
                 required
               />
             </div>

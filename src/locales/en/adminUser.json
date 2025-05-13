@@ -7,7 +7,7 @@
     "alreadyHaveAccount": "Already have an account?"
   },
   "form": {
-    "email": "E-mail",
+    "email": "Email",
     "password": "Password",
     "firstName": "First Name",
     "lastName": "Last Name",
@@ -16,9 +16,9 @@
   },
   "buttons": {
     "submit": "Submit",
-    "login": "Login",
+    "login": "Log In",
     "registration": "Register",
-    "iAmTeacher": "I am teacher",
+    "iAmTeacher": "I am a teacher",
     "uploadFile": "Upload File",
     "loggingIn": "Logging in...",
     "loading": "Loading...",
@@ -26,21 +26,21 @@
   },
   "errors": {
     "loginFailed": "Login failed. Please check your credentials.",
-    "fetchUserDetailsFailed": "Failed to fetch user details."
+    "fetchUserDetailsFailed": "Failed to fetch user details.",
+    "requiredField": "Required field",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordsDontMatch": "Passwords don't match"
   },
   "confirmation": {
     "registrationSuccess": "Registration successful!",
-    "checkEmail": "Please check your email to verify your acaunt"
+    "checkEmail": "Please check your email to verify your account"
   },
-  "profile": {
-    "teacher": "Teacher",
-    "email": "Email",
-    "firstName": "First Name",
-    "lastName": "Last Name",
-    "createdRooms": "Created Rooms",
-    "active": "Active",
-    "inactive": "Inactive",
-    "edit": "Edit",
-    "changePassword": "Change Password"
+  "passwordStrength": {
+    "strength": "Strength",
+    "veryWeak": "Very weak",
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong",
+    "veryStrong": "Very strong"
   }
 }

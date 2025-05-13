@@ -4,7 +4,9 @@
     "loginPrompt": "Введіть email та пароль для входу",
     "pleaseFillOutForm": "Будь ласка, заповніть форму",
     "noAccount": "Немає облікового запису?",
-    "alreadyHaveAccount": "Вже маєте обліковий запис?"
+    "alreadyHaveAccount": "Вже маєте обліковий запис?",
+    "loading": "Завантаження...",
+    "pleaseWait": "Будь ласка, зачекайте"
   },
   "form": {
     "email": "Електронна пошта",
@@ -26,21 +28,21 @@
   },
   "errors": {
     "loginFailed": "Помилка входу. Перевірте ваші облікові дані.",
-    "fetchUserDetailsFailed": "Не вдалося отримати дані користувача."
+    "fetchUserDetailsFailed": "Не вдалося отримати дані користувача.",
+    "requiredField": "Обов'язкове поле",
+    "passwordTooShort": "Пароль повинен містити щонайменше 8 символів",
+    "passwordsDontMatch": "Паролі не співпадають"
   },
   "confirmation": {
     "registrationSuccess": "Реєстрація успішна!",
     "checkEmail": "Будь ласка, перевірте вашу пошту для підтвердження облікового запису"
   },
-  "profile": {
-    "teacher": "Викладач",
-    "email": "Електронна пошта",
-    "firstName": "Ім'я",
-    "lastName": "Прізвище",
-    "createdRooms": "Створені кімнати",
-    "active": "Активна",
-    "inactive": "Неактивна",
-    "edit": "Редагувати",
-    "changePassword": "Змінити пароль"
+  "passwordStrength": {
+    "strength": "Надійність",
+    "veryWeak": "Дуже слабкий",
+    "weak": "Слабкий",
+    "medium": "Середній",
+    "strong": "Сильний",
+    "veryStrong": "Дуже сильний"
   }
 }

@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import styles from './styles.module.css';
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
-  const currentLanguage = i18n.language;
+  
+  //Дефолт мова
+  const currentLanguage = i18n.language || localStorage.getItem('i18nextLng') || 'pl';
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef(null);
 
@@ -14,8 +17,18 @@ const LanguageSwitcher = () => {
     { code: 'uk', label: 'UA' }
   ];
 
-  const currentLangObj = languages.find(lang => lang.code === currentLanguage);
-  const otherLanguages = languages.filter(lang => lang.code !== currentLanguage);
+  const defaultLanguage = languages.some(lang => lang.code === currentLanguage) 
+    ? currentLanguage 
+    : languages[0].code;
+
+  const currentLangObj = languages.find(lang => lang.code === defaultLanguage);
+  const otherLanguages = languages.filter(lang => lang.code !== defaultLanguage);
+
+  useEffect(() => {
+    if (i18n.language !== defaultLanguage) {
+      i18n.changeLanguage(defaultLanguage);
+    }
+  }, [defaultLanguage, i18n]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -34,13 +47,14 @@ const LanguageSwitcher = () => {
           <button
             className={styles.languageButton}
             onClick={() => setIsOpen(!isOpen)}
+            aria-label="Change language"
           >
             <span>{currentLangObj?.label}</span>
-            <img
-              src="/arrow.svg"
-              alt="arrow"
-              className={`${styles.arrowIcon} ${isOpen ? styles.arrowUp : styles.arrowDown}`}
-            />
+            {isOpen ? (
+              <FaArrowUp className={styles.arrowIcon} />
+            ) : (
+              <FaArrowDown className={styles.arrowIcon} />
+            )}
           </button>
 
           <div className={`${styles.dropdownMenu} ${isOpen ? styles.menuOpen : styles.menuClosed}`}>

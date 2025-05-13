@@ -1,13 +1,13 @@
 {
   "common": {
     "welcome": "Witamy w WorkRoom",
-    "loginPrompt": "Wpisz swój adres e-mail i hasło, aby się zalogować",
+    "loginPrompt": "Wprowadź email i hasło aby się zalogować",
     "pleaseFillOutForm": "Proszę wypełnić formularz",
     "noAccount": "Nie masz konta?",
     "alreadyHaveAccount": "Masz już konto?"
   },
   "form": {
-    "email": "E-mail",
+    "email": "Email",
     "password": "Hasło",
     "firstName": "Imię",
     "lastName": "Nazwisko",
@@ -16,7 +16,7 @@
   },
   "buttons": {
     "submit": "Wyślij",
-    "login": "Zaloguj się",
+    "login": "Zaloguj",
     "registration": "Zarejestruj się",
     "iAmTeacher": "Jestem nauczycielem",
     "uploadFile": "Prześlij plik",
@@ -25,22 +25,22 @@
     "close": "Zamknij"
   },
   "errors": {
-    "loginFailed": "Logowanie nie powiodło się. Sprawdź swoje dane.",
-    "fetchUserDetailsFailed": "Nie udało się pobrać danych użytkownika."
+    "loginFailed": "Logowanie nieudane. Sprawdź swoje dane.",
+    "fetchUserDetailsFailed": "Nie udało się pobrać danych użytkownika.",
+    "requiredField": "Wymagane pole",
+    "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków",
+    "passwordsDontMatch": "Hasła nie pasują do siebie"
   },
   "confirmation": {
-    "registrationSuccess": "Rejestracja zakończona sukcesem!",
-    "checkEmail": "Sprawdź swoją pocztę w celu weryfikacji konta"
+    "registrationSuccess": "Rejestracja udana!",
+    "checkEmail": "Sprawdź email aby potwierdzić konto"
   },
-  "profile": {
-    "teacher": "Nauczyciel",
-    "email": "Email",
-    "firstName": "Imię",
-    "lastName": "Nazwisko",
-    "createdRooms": "Utworzone pokoje",
-    "active": "Aktywna",
-    "inactive": "Nieaktywna",
-    "edit": "Edytuj",
-    "changePassword": "Zmień hasło"
+  "passwordStrength": {
+    "strength": "Siła hasła",
+    "veryWeak": "Bardzo słabe",
+    "weak": "Słabe",
+    "medium": "Średnie",
+    "strong": "Silne",
+    "veryStrong": "Bardzo silne"
   }
 }

@@ -51,3 +51,18 @@
   padding: 0 40px;
 }
 
+.errorMessage {
+  color: #C62B2B;
+  padding: 10px;
+  margin-bottom: 5px;
+  background: #FCCFCF;
+  border: 1px solid #EEA1A1;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}

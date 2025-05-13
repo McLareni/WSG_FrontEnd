@@ -1,14 +1,13 @@
 import { createClient } from '@supabase/supabase-js';
 
-
 const supabaseUrl = import.meta.env.VITE_LOGIN_URL; 
 const supabaseKey = import.meta.env.VITE_SUPABASE_API_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase URL or Key in environment variables');
+  throw new Error('Supabase URL або API ключ не встановлені у змінних оточення');
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey, {
+export const supabase = createClient(supabaseUrl, supabaseKey, {
   auth: {
     storage: localStorage,
     autoRefreshToken: true,
@@ -16,5 +15,3 @@ const supabase = createClient(supabaseUrl, supabaseKey, {
     detectSessionInUrl: true
   }
 });
-
-export { supabase };

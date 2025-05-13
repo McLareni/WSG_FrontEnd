@@ -1,90 +1,80 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { supabase } from '../../../supabaseClient';
+import useAuthStore from '../../../store/authStore';
 
 export const useLoginForm = () => {
-  const { t } = useTranslation('validation');
+  const { t, i18n } = useTranslation(["validation"]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({
-    email: false,
-    password: false
-  });
+  const { setUser, setSession } = useAuthStore();
 
-  const validateField = (name, value) => {
-    const newErrors = { ...errors };
+  // Додано ефект для скидання станів при зміні мови
+  useEffect(() => {
+    setIsSubmitting(false);
+  }, [i18n.language]);
 
-    if (name === 'email' && value) delete newErrors.email;
-    if (name === 'password' && value) delete newErrors.password;
-
-    setErrors(newErrors);
-    return newErrors;
-  };
-
-  const validateForm = (formData) => {
-    const newErrors = {};
+  const validateForm = (email, password) => {
+    const errors = {};
     let hasErrors = false;
 
-    if (!formData.email) hasErrors = true;
-    if (!formData.password) hasErrors = true;
+    if (!email.trim()) {
+      errors.email = true;
+      hasErrors = true;
+    }
 
-    setErrors(newErrors);
-    return { isValid: !hasErrors, errors: newErrors };
+    if (!password) {
+      errors.password = true;
+      hasErrors = true;
+    }
+
+    return { isValid: !hasErrors, errors };
   };
 
-  const handleLogin = async (formData) => {
-    const { isValid } = validateForm(formData);
+  const handleLogin = async (email, password) => {
+    setIsSubmitting(true);
+    
+    const { isValid, errors } = validateForm(email, password);
     if (!isValid) {
-      return {
-        success: false,
-        error: t('errors.formErrors'),
-        errorKey: 'errors.formErrors'
+      setIsSubmitting(false);
+      return { 
+        success: false, 
+        error: t("validation:errors.fillAllFields"),
+        fieldErrors: errors
       };
     }
 
-    setIsSubmitting(true);
-
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password
+        email: email.trim(),
+        password
       });
 
       if (error) throw error;
 
-      return { success: true, data };
+      setSession(data.session);
+      setUser(data.user);
+      
+      return { success: true };
+
     } catch (error) {
-      let errorKey = 'login.failed';
-
-      if (error.message.includes('Email not confirmed')) {
-        errorKey = 'login.emailNotVerified';
-      } else if (error.message.includes('too many requests')) {
-        errorKey = 'server.tooManyRequests';
-      } else if (error.message.includes('Invalid login credentials')) {
-        errorKey = 'errors.invalidCredentials';
+      console.error('Login error:', error);
+      
+      let errorKey = 'serverError';
+      if (error.message.includes('Invalid login credentials')) {
+        errorKey = 'invalidCredentials';
       }
-
-      return {
+      
+      return { 
         success: false,
-        error: t(errorKey),
-        errorKey
+        error: t(`validation:errors.${errorKey}`)
       };
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const updateErrorsOnLanguageChange = () => {
-    setErrors((prevErrors) => ({ ...prevErrors }));
-  };
-
   return {
     isSubmitting,
-    errors,
-    touched,
-    setTouched,
-    validateField,
-    handleLogin,
-    updateErrorsOnLanguageChange
+    handleLogin
   };
 };

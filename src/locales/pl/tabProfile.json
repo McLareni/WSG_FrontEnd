@@ -1,22 +1,20 @@
 {
-    "profile": {
-      "title": "Profil użytkownika",
-      "personalInfo": {
-        "title": "Dane osobowe",
-        "name": "Pełne imię",
-        "email": "Adres email",
-        "studentId": "Numer albumu",
-        "role": "Rola konta"
-      },
-      "settings": {
-        "title": "Ustawienia",
-        "changePassword": "Zmień hasło",
-        "language": "Preferencje językowe"
-      },
-      "actions": {
-        "save": "Zapisz zmiany",
-        "edit": "Edytuj profil",
-        "upload": "Wgraj avatar"
-      }
-    }
+  "teacher": "Nauczyciel",
+  "student": "Student",
+  "email": "Email",
+  "firstName": "Imię",
+  "lastName": "Nazwisko",
+  "createdRooms": "Utworzone pokoje",
+  "active": "Aktywna",
+  "inactive": "Nieaktywna",
+  "edit": "Edytuj",
+  "changePassword": "Zmień hasło",
+  "currentPassword": "Aktualne hasło",
+  "newPassword": "Nowe hasło",
+  "confirmPassword": "Potwierdź hasło",
+  "department": "Katedra",
+  "buttons": {
+    "saveChanges": "Zapisz zmiany",
+    "cancel": "Anuluj"
   }
+}

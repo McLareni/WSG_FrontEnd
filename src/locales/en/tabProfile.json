@@ -1,22 +1,20 @@
 {
-    "profile": {
-      "title": "User Profile",
-      "personalInfo": {
-        "title": "Personal Information",
-        "name": "Full Name",
-        "email": "Email Address",
-        "studentId": "Student ID",
-        "role": "Account Role"
-      },
-      "settings": {
-        "title": "Settings",
-        "changePassword": "Change Password",
-        "language": "Language Preferences"
-      },
-      "actions": {
-        "save": "Save Changes",
-        "edit": "Edit Profile",
-        "upload": "Upload Avatar"
-      }
-    }
+  "teacher": "Teacher",
+  "student": "Student",
+  "email": "Email",
+  "firstName": "First Name",
+  "lastName": "Last Name",
+  "createdRooms": "Created Rooms",
+  "active": "Active",
+  "inactive": "Inactive",
+  "edit": "Edit",
+  "changePassword": "Change Password",
+  "currentPassword": "Current Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password",
+  "department": "Department",
+  "buttons": {
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel"
   }
+}

@@ -1,11 +1,13 @@
-import React from 'react';
-import styles from './MyProfile.module.css';
-import Button from '../UI/Button/Button';
-import Input from '../UI/Input/Input';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./TeacherProfile.module.css";
+import Button from "../../UI/Button/Button";
+import Input from "../../UI/Input/Input";
+import { useTranslation } from "react-i18next";
 
-const MyProfile = () => {
-  const { t } = useTranslation('adminUser');
+const TeacherProfile = () => {
+  const { t } = useTranslation("tabProfile");
+  const navigate = useNavigate();
 
   return (
     <div className={styles.profileWrapper}>
@@ -14,13 +16,15 @@ const MyProfile = () => {
         <div className={styles.avatarContainer}>
           <div className={styles.avatar}></div>
         </div>
-        
-        <h1 className={styles.title}>{t('profile.teacher')}</h1>
-        
+
+       
+
         <section className={styles.section}>
+        <h1 className={styles.title}>{t("teacher")}</h1>
           <div className={styles.inputGroup}>
-            <Input 
-              label={t('profile.email')}
+            
+            <Input
+              label={t("email")}
               name="email"
               type="email"
               value=""
@@ -31,14 +35,14 @@ const MyProfile = () => {
 
         <section className={styles.section}>
           <div className={styles.inputGroup}>
-            <Input 
-              label={t('profile.firstName')}
+            <Input
+              label={t("firstName")}
               name="firstName"
               value=""
               onChange={() => {}}
             />
-            <Input 
-              label={t('profile.lastName')}
+            <Input
+              label={t("lastName")}
               name="lastName"
               value=""
               onChange={() => {}}
@@ -49,30 +53,40 @@ const MyProfile = () => {
         <div className={styles.divider}></div>
 
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>{t('profile.createdRooms')}</h2>
+          <h2 className={styles.sectionTitle}>{t("createdRooms")}</h2>
           <ul className={styles.roomsList}>
             <li className={styles.roomItem}>
               <span>Sala #122</span>
-              <span className={styles.activeStatus}>{t('profile.active')}</span>
+              <span className={styles.activeStatus}>{t("active")}</span>
             </li>
             <li className={styles.roomItem}>
               <span>Sala #123</span>
-              <span className={styles.activeStatus}>{t('profile.active')}</span>
+              <span className={styles.activeStatus}>{t("active")}</span>
             </li>
             <li className={styles.roomItem}>
               <span>Sala #124</span>
-              <span className={styles.inactiveStatus}>{t('profile.inactive')}</span>
+              <span className={styles.inactiveStatus}>{t("inactive")}</span>
             </li>
           </ul>
         </section>
 
         <div className={styles.actions}>
-          <Button variant="edit">{t('profile.edit')}</Button>
-          <Button variant="changePassword">{t('profile.changePassword')}</Button>
+          <Button 
+            variant="edit"
+            onClick={() => navigate("/teacher/profile/edit")}
+          >
+            {t("edit")}
+          </Button>
+          <Button
+            variant="changePassword"
+            onClick={() => navigate("/teacher/profile/password")}
+          >
+            {t("changePassword")}
+          </Button>
         </div>
       </div>
     </div>
   );
 };
 
-export default MyProfile;
+export default TeacherProfile;

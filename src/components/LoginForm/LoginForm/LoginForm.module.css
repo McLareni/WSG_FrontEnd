@@ -17,23 +17,25 @@
 
 .errorMessage {
   color: #C62B2B;
-  padding: 10px;
-  margin-bottom: 5px;
+  padding: 12px;
+  margin-bottom: 20px;
   background: #FCCFCF;
   border: 1px solid #EEA1A1;
-  border-radius: 6px;
+  border-radius: 8px;
   text-align: center;
   font-weight: 600;
   font-size: 14px;
+  display: block;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  margin: 20px 0;
+  gap: 14px; /* Відступи між полями вводу */
+  margin: 30px 0;
 }
 
 .buttonWrapper {
-  margin-top: 10px;
+  margin-top: 22px;
   text-align: center;
 }

@@ -1,54 +1,64 @@
 {
   "firstName": {
-    "required": "Imię jest wymagane.",
-    "tooShort": "Imię musi mieć od 2 do 50 znaków.",
-    "invalidChars": "Imię nie może zawierać znaków specjalnych."
+    "required": "Imię jest wymagane",
+    "tooShort": "Minimum 2 znaki",
+    "invalidChars": "Dozwolone są tylko litery"
   },
   "lastName": {
-    "required": "Nazwisko jest wymagane.",
-    "tooShort": "Nazwisko musi mieć od 2 do 50 znaków.",
-    "invalidChars": "Nazwisko nie może zawierać znaków specjalnych."
+    "required": "Nazwisko jest wymagane",
+    "tooShort": "Minimum 2 znaki",
+    "invalidChars": "Dozwolone są tylko litery"
   },
   "albumNumber": {
-    "required": "Numer indeksu jest wymagany.",
-    "tooShort": "Numer indeksu musi składać się dokładnie z 6 cyfr.",
-    "onlyDigits": "Numer indeksu może zawierać tylko cyfry."
+    "required": "Numer jest wymagany",
+    "invalid": "Musi zawierać 6 cyfr"
   },
   "email": {
-    "required": "Adres e-mail jest wymagany.",
-    "invalid": "Wprowadź prawidłowy adres e-mail.",
-    "exists": "Ten adres e-mail jest już zarejestrowany."
+    "required": "Email jest wymagany",
+    "invalid": "Nieprawidłowy format adresu email"
   },
   "password": {
-    "required": "Hasło jest wymagane.",
-    "tooShort": "Hasło musi mieć co najmniej 8 znaków.",
-    "requireUppercase": "Hasło musi zawierać przynajmniej jedną wielką literę.",
-    "requireLowercase": "Hasło musi zawierać przynajmniej jedną małą literę.",
-    "requireDigit": "Hasło musi zawierać przynajmniej jedną cyfrę (0–9).",
-    "requireSpecialChar": "Hasło musi zawierać przynajmniej jeden znak specjalny.",
-    "notMatch": "Hasła nie są zgodne.",
-    "invalid": "Nieprawidłowe hasło."
+    "required": "Hasło jest wymagane",
+    "tooShort": "Minimum 8 znaków",
+    "weak": "Hasło jest zbyt słabe",
+    "requirements": {
+      "length": "Zawiera co najmniej 8 znaków",
+      "uppercase": "Zawiera wielkie litery (A-Z)",
+      "lowercase": "Zawiera małe litery (a-z)",
+      "digit": "Zawiera co najmniej jedną cyfrę (0-9)",
+      "special": "Zawiera znak specjalny"
+    },
+    "confirmPassword": {
+      "notMatch": "Hasła nie są zgodne"
+    }
   },
   "server": {
-    "noResponse": "Brak odpowiedzi z serwera. Spróbuj ponownie później.",
+    "noResponse": "Brak odpowiedzi z serwera. Spróbuj później.",
     "error": "Wystąpił błąd podczas wysyłania żądania.",
-    "tooManyRequests": "Zbyt wiele prób. Spróbuj ponownie później."
+    "timeout": "Przekroczono limit czasu. Spróbuj ponownie."
   },
   "registration": {
     "success": "Rejestracja zakończona sukcesem! Witaj, {{firstName}} {{lastName}}!",
-    "failed": "Rejestracja nie powiodła się: {{error}}",
+    "failed": "Nie udało się zarejestrować: {{error}}",
     "profileExists": "Profil dla tego użytkownika już istnieje."
   },
-  "common": {
-    "unknownError": "Wystąpił nieznany błąd. Spróbuj ponownie."
-  },
   "errors": {
-    "formErrors": "Proszę poprawnie wypełnić wszystkie wymagane pola.",
-    "invalidCredentials": "Błędna nazwa użytkownika (e-mail) lub hasło"
-    
+    "requiredField": "Pole wymagane",
+    "invalidEmail": "Nieprawidłowy format adresu email",
+    "passwordTooShort": "Hasło musi zawierać co najmniej 8 znaków",
+    "formErrors": "Popraw błędy w formularzu",
+    "serverError": "Wystąpił błąd serwera",
+    "invalidCredentials": "Nieprawidłowy email lub hasło",
+    "fillRequiredFields": "Proszę wypełnić wymagane pola",
+    "emailNotVerified": "Potwierdź swój email przed zalogowaniem się",
+    "tooManyRequests": "Zbyt wiele żądań, spróbuj później",
+    "logoutFailed": "Wylogowanie nie powiodło się",
+    "unknownError": "Wystąpił nieznany błąd. Spróbuj ponownie.",
+    "fillAllFields": "Pola nie są wypełnione",
+    "passwordsNotMatch": "Hasła nie są zgodne",
+    "registrationFailed": "Nie udało się zarejestrować"
   },
   "login": {
-    "success": "Logowanie zakończone sukcesem. Witamy!",
-    "failed": "Logowanie nie powiodło się. Sprawdź swoje dane."
+    "success": "Logowanie zakończone sukcesem. Witamy!"
   }
 }

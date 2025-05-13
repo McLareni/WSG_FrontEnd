@@ -1,53 +1,63 @@
 {
   "firstName": {
-    "required": "First name is required.",
-    "tooShort": "First name must be between 2 and 50 characters.",
-    "invalidChars": "First name cannot contain special characters."
+    "required": "First name is required",
+    "tooShort": "Minimum 2 characters",
+    "invalidChars": "Only letters are allowed"
   },
   "lastName": {
-    "required": "Last name is required.",
-    "tooShort": "Last name must be between 2 and 50 characters.",
-    "invalidChars": "Last name cannot contain special characters."
+    "required": "Last name is required",
+    "tooShort": "Minimum 2 characters",
+    "invalidChars": "Only letters are allowed"
   },
   "albumNumber": {
-    "required": "Album number is required.",
-    "tooShort": "Album number must be exactly 6 digits.",
-    "onlyDigits": "Album number can contain only digits."
+    "required": "ID number is required",
+    "invalid": "Must contain 6 digits"
   },
   "email": {
-    "required": "Email address is required.",
-    "invalid": "Please enter a valid email address.",
-    "exists": "This email address is already registered."
+    "required": "Email is required",
+    "invalid": "Invalid email format"
   },
   "password": {
-    "required": "Password is required.",
-    "tooShort": "Password must be at least 8 characters long.",
-    "requireUppercase": "Password must contain at least one uppercase letter.",
-    "requireLowercase": "Password must contain at least one lowercase letter.",
-    "requireDigit": "Password must contain at least one digit (0–9).",
-    "requireSpecialChar": "Password must contain at least one special character.",
-    "notMatch": "Passwords do not match.",
-    "invalid": "Invalid password"
+    "required": "Password is required",
+    "weak": "Password is too weak",
+    "requirements": {
+      "length": "Contains at least 8 characters",
+      "uppercase": "Contains uppercase letters (A-Z)",
+      "lowercase": "Contains lowercase letters (a-z)",
+      "digit": "Contains at least one digit (0-9)",
+      "special": "Contains a special character"
+    },
+    "confirmPassword": {
+      "notMatch": "Passwords do not match"
+    }
   },
   "server": {
-    "noResponse": "No response from server. Please try again later.",
+    "noResponse": "No response from the server. Try again later.",
     "error": "An error occurred while sending the request.",
-    "tooManyRequests": "Too many attempts. Please try again later."
+    "timeout": "Request timed out. Try again."
   },
   "registration": {
     "success": "Registration successful! Welcome, {{firstName}} {{lastName}}!",
     "failed": "Registration failed: {{error}}",
     "profileExists": "A profile for this user already exists."
   },
-  "common": {
-    "unknownError": "An unknown error occurred. Please try again."
-  },
   "errors": {
+    "requiredField": "Required field",
+    "invalidEmail": "Invalid email format",
+    "passwordTooShort": "Password must contain at least 8 characters",
+    "formErrors": "Please correct the errors in the form",
+    "serverError": "A server error occurred",
     "invalidCredentials": "Invalid email or password",
-    "formErrors" : "Please fill in all required fields correctly"
+    "fillRequiredFields": "Please fill in the required fields",
+    "emailNotVerified": "Please verify your email before logging in",
+    "tooManyRequests": "Too many requests, try again later",
+    "logoutFailed": "Logout failed",
+    "unknownError": "An unknown error occurred. Try again.",
+    "fillAllFields": "Fields are not filled in",
+    "passwordsNotMatch": "Passwords do not match",
+    "registrationFailed": "Registration failed"
   },
   "login": {
-  "success": "Login successful. Welcome!",
-  "failed": "Login failed. Please check your credentials."
-}
+    "success": "Login successful. Welcome!"
+  }
 }

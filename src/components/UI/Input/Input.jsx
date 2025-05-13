@@ -10,13 +10,22 @@ const Input = ({
   onBlur,
   disabled = false,
   error = null,
-  hasSoftError = false, // 🔥 Новий проп для м'якої помилки
+  hasSoftError = false,
   width = "100%",
+  required = false,
   ...props
 }) => {
   return (
     <div className={styles.container} style={{ width }}>
-      {label && <label className={styles.label}>{label}</label>}
+      <div className={styles.topRow}>
+        {label && (
+          <label className={styles.label}>
+            {label}
+            {required && <span className={styles.required}>*</span>}
+          </label>
+        )}
+        {error && <span className={styles.errorMessage}>{error}</span>}
+      </div>
       <input
         type={type}
         name={name}
@@ -24,14 +33,11 @@ const Input = ({
         onChange={onChange}
         onBlur={onBlur}
         disabled={disabled}
-        className={`${styles.input} ${error ? styles.error : ""} ${
-          hasSoftError ? styles.softError : ""
-        }`} 
+        className={`${styles.input} ${
+          error ? styles.error : hasSoftError ? styles.softError : ""
+        }`}
         {...props}
       />
-      <span className={styles.errorMessage}>
-        {error || "\u00A0"}
-      </span>
     </div>
   );
 };
