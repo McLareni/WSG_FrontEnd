@@ -9,3 +9,5 @@ export const LOCALES = {
     TAB_PROFILE: 'tabProfile',
     
   };
+
+  

@@ -1,25 +1,40 @@
 {
-    "common": {
-      "welcome": "Вітаємо в WorkRoom",
-      "loginPrompt": "Введіть ваш email та пароль для входу",
-      "pleaseFillOutForm": "Будь ласка, заповніть форму",
-      "noAccount": "Немає акаунту?",
-      "alreadyHaveAccount": "Маєте акаунт?"
-    },
-    "form": {
-      "email": "E-mail",
-      "password": "Пароль",
-      "firstName": "Ім'я",
-      "lastName": "Прізвище",
-      "albumNumber": "Номер альбому",
-      "confirmPassword": "Підтвердіть пароль"
-    },
-    "buttons": {
-      "submit": "Підтвердити",
-      "login": "Увійти",
-      "registration": "Зареєструватися",
-      "iAmTeacher": "Я є викладач",
-      "uploadFile": "Завантажити файл",
-      "loggingIn": "Вхід..."
-    }
+  "common": {
+    "welcome": "Вітаємо в WorkRoom",
+    "loginPrompt": "Введіть email та пароль для входу",
+    "pleaseFillOutForm": "Будь ласка, заповніть форму",
+    "noAccount": "Немає облікового запису?",
+    "alreadyHaveAccount": "Вже маєте обліковий запис?",
+    "loading": "Завантаження...",
+    "pleaseWait": "Будь ласка, зачекайте"
+  },
+  "form": {
+    "email": "Електронна пошта",
+    "password": "Пароль",
+    "firstName": "Ім'я",
+    "lastName": "Прізвище",
+    "albumNumber": "Номер альбому",
+    "confirmPassword": "Підтвердження паролю"
+  },
+  "buttons": {
+    "submit": "Надіслати",
+    "login": "Увійти",
+    "registration": "Зареєструватися",
+    "iAmTeacher": "Я викладач",
+    "uploadFile": "Завантажити файл",
+    "loggingIn": "Вхід...",
+    "loading": "Завантаження...",
+    "close": "Закрити"
+  },
+  "errors": {
+    "loginFailed": "Помилка входу. Перевірте ваші облікові дані.",
+    "fetchUserDetailsFailed": "Не вдалося отримати дані користувача.",
+    "requiredField": "Обов'язкове поле",
+    "passwordTooShort": "Пароль повинен містити щонайменше 8 символів",
+    "passwordsDontMatch": "Паролі не співпадають"
+  },
+  "confirmation": {
+    "registrationSuccess": "Реєстрація успішна!",
+    "checkEmail": "Будь ласка, перевірте вашу пошту для підтвердження облікового запису"
   }
+}

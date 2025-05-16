@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import styles from './RegisterForm.module.css';
 import Header from '../../UI/LoginHeader/LoginHeader';
 import Input from '../../UI/Input/Input';
@@ -9,17 +10,44 @@ import Checkbox from '../../UI/Checkbox/Checkbox';
 import { useRegisterForm } from './useRegisterForm';
 
 const RegisterForm = () => {
-  const { t } = useTranslation(['adminUser', 'validation']);
+  const { t } = useTranslation(['validation', 'adminUser']);
+  const navigate = useNavigate();
+  
   const {
     formData,
     errors,
+    isSubmitting,
+    touched,
+    submitError,
     handleChange,
-    handleSubmit
-  } = useRegisterForm(t);
+    handleBlur,
+    handleSubmit,
+    isFormValid
+  } = useRegisterForm(t, navigate);
+
+  const handleNameChange = useCallback((e) => {
+    const { name, value } = e.target;
+    if (/^[A-Za-zżźćńółęąśŻŹĆĄŚĘŁÓŃ'-]*$/.test(value)) {
+      handleChange(e);
+    }
+  }, [handleChange]);
+
+  const handleStudentIdChange = useCallback((e) => {
+    const { value } = e.target;
+    if (/^\d*$/.test(value) && value.length <= 6) {
+      handleChange(e);
+    }
+  }, [handleChange]);
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formContainer}>
+        {submitError && (
+          <div className={styles.errorMessage}>
+            {t(`validation:${submitError}`)}
+          </div>
+        )}
+
         <Header 
           title={t('adminUser:common.welcome')}
           variant="register"
@@ -33,8 +61,11 @@ const RegisterForm = () => {
                 type="text"
                 name="firstName"
                 value={formData.firstName}
-                onChange={handleChange}
-                error={errors.firstName}
+                onChange={handleNameChange}
+                onBlur={handleBlur}
+                error={touched.firstName && errors.firstName}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.firstName}
+                required
               />
 
               <Input
@@ -42,8 +73,11 @@ const RegisterForm = () => {
                 type="text"
                 name="lastName"
                 value={formData.lastName}
-                onChange={handleChange}
-                error={errors.lastName}
+                onChange={handleNameChange}
+                onBlur={handleBlur}
+                error={touched.lastName && errors.lastName}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.lastName}
+                required
               />
 
               <Input
@@ -51,9 +85,13 @@ const RegisterForm = () => {
                 type="text"
                 name="studentId"
                 value={formData.studentId}
-                onChange={handleChange}
+                onChange={handleStudentIdChange}
+                onBlur={handleBlur}
                 disabled={formData.isTeacher}
-                error={errors.studentId}
+                error={touched.studentId && errors.studentId}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.studentId && !formData.isTeacher}
+                required={!formData.isTeacher}
+                maxLength={6}
               />
 
               <Checkbox
@@ -62,7 +100,6 @@ const RegisterForm = () => {
                 checked={formData.isTeacher}
                 onChange={handleChange}
                 label={t('adminUser:buttons.iAmTeacher')}
-                error={!formData.isTeacher && errors.studentId}
               />
             </div>
 
@@ -73,7 +110,10 @@ const RegisterForm = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                error={errors.email}
+                onBlur={handleBlur}
+                error={touched.email && errors.email}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.email}
+                required
               />
 
               <Input
@@ -82,7 +122,10 @@ const RegisterForm = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                error={errors.password}
+                onBlur={handleBlur}
+                error={touched.password && errors.password}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.password}
+                required
               />
 
               <Input
@@ -91,22 +134,31 @@ const RegisterForm = () => {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                error={errors.confirmPassword}
+                onBlur={handleBlur}
+                error={touched.confirmPassword && errors.confirmPassword}
+                hasSoftError={submitError === 'errors.fillAllFields' && !formData.confirmPassword}
+                required
               />
             </div>
           </div>
 
           <div className={styles.buttonContainer}>
-            <Button variant="register" showTextSpan={true} />
+            <Button
+              type="submit"
+              variant="register"
+              showTextSpan={true}
+              loading={isSubmitting}
+              disabled={!isFormValid || isSubmitting}
+            >
+              {t('adminUser:buttons.register')}
+            </Button>
           </div>
         </form>
         
-        <div className='.footerContainer'>
+        <div className={styles.footerContainer}>
           <Footer variant="register" />
-          </div>
+        </div>
       </div>
-
-    
     </div>
   );
 };

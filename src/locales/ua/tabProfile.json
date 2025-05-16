@@ -1,22 +1,26 @@
 {
-    "profile": {
-      "title": "Профіль користувача",
-      "personalInfo": {
-        "title": "Персональна інформація",
-        "name": "Повне ім'я",
-        "email": "Електронна адреса",
-        "studentId": "Номер альбому",
-        "role": "Роль акаунту"
-      },
-      "settings": {
-        "title": "Налаштування",
-        "changePassword": "Змінити пароль",
-        "language": "Мовні налаштування"
-      },
-      "actions": {
-        "save": "Зберегти зміни",
-        "edit": "Редагувати профіль",
-        "upload": "Завантажити аватар"
-      }
-    }
+  "teacher": "Викладач",
+  "albumNumber": "Студентський номер",
+  "student": "Студент",
+  "email": "Електронна пошта",
+  "firstName": "Ім'я",
+  "lastName": "Прізвище",
+  "createdRooms": "Створені кімнати",
+  "active": "Активна",
+  "inactive": "Неактивна",
+  "edit": "Редагувати",
+  "changePassword": "Змінити пароль",
+  "currentPassword": "Поточний пароль",
+  "newPassword": "Новий пароль",
+  "confirmPassword": "Підтвердіть новий пароль",
+  "department": "Кафедра",
+  "buttons": {
+    "saveChanges": "Зберегти зміни",
+    "cancel": "Скасувати"
+  },
+   "notFound": {
+    "title": "404",
+    "message": "Сторінку не знайдено",
+    "goHome": "Повернутися на головну"
   }
+}

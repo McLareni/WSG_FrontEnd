@@ -7,7 +7,7 @@ const Header = () => {
     <header className={styles.header}>
       {/* Пустий компонент - місце для майбутнього вмісту */
       
-      <h1>Я устал</h1>}
+      }
     </header>
   );
 };

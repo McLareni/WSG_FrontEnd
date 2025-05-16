@@ -5,8 +5,7 @@ import LanguageSwitcher from './LanguageSwitcher/LanguageSwitcher';
 const Layout = () => {
   return (
     <div className="app">
-   
-      {/* <LanguageSwitcher /> */}
+      <LanguageSwitcher />
       <main>
         <Outlet />  
       </main>
