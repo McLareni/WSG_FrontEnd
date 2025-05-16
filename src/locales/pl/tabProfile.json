@@ -1,6 +1,7 @@
 {
   "teacher": "Nauczyciel",
   "student": "Student",
+  "albumNumber": "Numer albumu",
   "email": "Email",
   "firstName": "Imię",
   "lastName": "Nazwisko",
@@ -16,5 +17,10 @@
   "buttons": {
     "saveChanges": "Zapisz zmiany",
     "cancel": "Anuluj"
+  },
+   "notFound": {
+    "title": "404",
+    "message": "Nie znaleziono strony",
+    "goHome": "Powrót do strony głównej"
   }
 }

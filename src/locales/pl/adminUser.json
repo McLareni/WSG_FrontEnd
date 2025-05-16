@@ -4,7 +4,8 @@
     "loginPrompt": "Wprowadź email i hasło aby się zalogować",
     "pleaseFillOutForm": "Proszę wypełnić formularz",
     "noAccount": "Nie masz konta?",
-    "alreadyHaveAccount": "Masz już konto?"
+    "alreadyHaveAccount": "Masz już konto?",
+    "pleaseWait": "Proszę czekać"
   },
   "form": {
     "email": "Email",
@@ -34,13 +35,5 @@
   "confirmation": {
     "registrationSuccess": "Rejestracja udana!",
     "checkEmail": "Sprawdź email aby potwierdzić konto"
-  },
-  "passwordStrength": {
-    "strength": "Siła hasła",
-    "veryWeak": "Bardzo słabe",
-    "weak": "Słabe",
-    "medium": "Średnie",
-    "strong": "Silne",
-    "veryStrong": "Bardzo silne"
   }
 }

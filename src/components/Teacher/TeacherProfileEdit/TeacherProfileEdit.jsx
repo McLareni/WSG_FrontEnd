@@ -1,101 +1,159 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import styles from './TeacherProfileEdit.module.css';
-import Button from '../../UI/Button/Button';
+import ProfileLayout from '../../Profile/ProfileLayout';
+import ProfileSection from '../../Profile/ProfileSection';
 import Input from '../../UI/Input/Input';
+import ProfileActions from '../../Profile/ProfileActions';
+import useAuthStore from "../../../store/useAuthStore";
+import { ERROR_MESSAGES, VALIDATION_RULES } from '../../../store/constants';
 
 const TeacherProfileEdit = () => {
-  const { t } = useTranslation("tabProfile");
+  const { t } = useTranslation(["tabProfile", "validation"]);
   const navigate = useNavigate();
+  const { user, updateProfile } = useAuthStore();
+  
+  const [formData, setFormData] = useState({
+    firstName: user?.first_name || '',
+    lastName: user?.last_name || '',
+    email: user?.email || ''
+  });
 
-  const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    form: ''
+  });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      form: ''
+    };
+    let isValid = true;
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = t(ERROR_MESSAGES.REQUIRED_FIELDS);
+      isValid = false;
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = t(ERROR_MESSAGES.REQUIRED_FIELDS);
+      isValid = false;
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = t(ERROR_MESSAGES.REQUIRED_FIELDS);
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      newErrors.email = t("validation.email.invalid");
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Логіка збереження профілю
-    console.log({ email, firstName, lastName });
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      const result = await updateProfile(formData);
+      
+      if (result?.success) {
+        navigate('/profile');
+      } else {
+        setErrors(prev => ({
+          ...prev,
+          form: result?.error || t(ERROR_MESSAGES.PROFILE_UPDATE_FAILED)
+        }));
+      }
+    } catch (err) {
+      console.error('Profile update error:', err);
+      setErrors(prev => ({
+        ...prev,
+        form: t(ERROR_MESSAGES.SERVER_ERROR)
+      }));
+    }
   };
 
   return (
-    <div className={styles.profileWrapper}>
-      <div className={styles.profileContainer}>
-        {/* Аватарка */}
-        <div className={styles.avatarContainer}>
-          <div className={styles.avatar}></div>
+    <ProfileLayout title={t("teacher")}>
+      {errors.form && (
+        <div className="error-message">
+          {errors.form}
         </div>
+      )}
+      
+      <form onSubmit={handleSubmit}>
+        <ProfileSection>
+          <Input
+            label={t("email")}
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            error={errors.email}
+            required
+          />
+        </ProfileSection>
 
-        <form onSubmit={handleSubmit}>
-          <section className={styles.section}>
-            <h1 className={styles.title}>{t("teacher")}</h1>
-            <div className={styles.inputGroup}>
-              <Input
-                label={t("email")}
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-          </section>
-
-          <section className={styles.section}>
-            <div className={styles.inputGroup}>
-              <Input
-                label={t("firstName")}
-                name="firstName"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-              <Input
-                label={t("lastName")}
-                name="lastName"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-          </section>
-
-          <div className={styles.divider}></div>
-
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>{t("createdRooms")}</h2>
-            <ul className={styles.roomsList}>
-              <li className={styles.roomItem}>
-                <span>Sala #122</span>
-                <span className={styles.activeStatus}>{t("active")}</span>
-              </li>
-              <li className={styles.roomItem}>
-                <span>Sala #123</span>
-                <span className={styles.activeStatus}>{t("active")}</span>
-              </li>
-              <li className={styles.roomItem}>
-                <span>Sala #124</span>
-                <span className={styles.inactiveStatus}>{t("inactive")}</span>
-              </li>
-            </ul>
-          </section>
-
-          <div className={styles.actions}>
-            <Button
-              type="button"
-              variant="cancel"
-              onClick={() => navigate('/teacher/profile')}
-            >
-              {t('buttons.cancel')}
-            </Button>
-            <Button
-              type="submit"
-              variant="saveChanges"
-            >
-              {t('buttons.saveChanges')}
-            </Button>
+        <ProfileSection>
+          <div className="inputGroup">
+            <Input
+              label={t("firstName")}
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              error={errors.firstName}
+              required
+            />
+            <Input
+              label={t("lastName")}
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              error={errors.lastName}
+              required
+            />
           </div>
-        </form>
-      </div>
-    </div>
+        </ProfileSection>
+
+        <div className="divider"></div>
+
+        <ProfileSection title={t("createdRooms")}>
+          <ul className="roomsList">
+            {user?.rooms?.map(room => (
+              <li key={room.id} className="roomItem">
+                <span>{room.name}</span>
+                <span className={room.active ? "activeStatus" : "inactiveStatus"}>
+                  {t(room.active ? "active" : "inactive")}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </ProfileSection>
+
+        <ProfileActions
+          mode="edit"
+          onCancel={() => navigate('/profile')}
+          onSave={handleSubmit}
+        />
+      </form>
+    </ProfileLayout>
   );
 };
 

@@ -1,72 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { supabase } from '../../../supabaseClient';
-import useAuthStore from '../../../store/authStore';
+import useAuthStore from '../../../store/useAuthStore';
 
 export const useLoginForm = () => {
-  const { t, i18n } = useTranslation(["validation"]);
+  const { t } = useTranslation(["validation"]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { setUser, setSession } = useAuthStore();
-
-  // Додано ефект для скидання станів при зміні мови
-  useEffect(() => {
-    setIsSubmitting(false);
-  }, [i18n.language]);
-
-  const validateForm = (email, password) => {
-    const errors = {};
-    let hasErrors = false;
-
-    if (!email.trim()) {
-      errors.email = true;
-      hasErrors = true;
-    }
-
-    if (!password) {
-      errors.password = true;
-      hasErrors = true;
-    }
-
-    return { isValid: !hasErrors, errors };
-  };
+  const { login } = useAuthStore();
 
   const handleLogin = async (email, password) => {
     setIsSubmitting(true);
     
-    const { isValid, errors } = validateForm(email, password);
-    if (!isValid) {
-      setIsSubmitting(false);
-      return { 
-        success: false, 
-        error: t("validation:errors.fillAllFields"),
-        fieldErrors: errors
-      };
-    }
-
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password
-      });
-
-      if (error) throw error;
-
-      setSession(data.session);
-      setUser(data.user);
+      const result = await login(email, password);
       
-      return { success: true };
-
-    } catch (error) {
-      console.error('Login error:', error);
-      
-      let errorKey = 'serverError';
-      if (error.message.includes('Invalid login credentials')) {
-        errorKey = 'invalidCredentials';
+      if (!result.success) {
+        // Явно повертаємо помилку для відображення
+        return { 
+          success: false, 
+          error: result.error === 'Invalid login credentials' 
+            ? t("validation:errors.invalidCredentials") 
+            : t("validation:errors.serverError")
+        };
       }
       
+      return { success: true };
+    } catch (error) {
       return { 
         success: false,
-        error: t(`validation:errors.${errorKey}`)
+        error: t("validation:errors.serverError")
       };
     } finally {
       setIsSubmitting(false);

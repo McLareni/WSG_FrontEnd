@@ -19,53 +19,41 @@ const LoginForm = React.memo(() => {
     password: "",
   });
 
-  const [fieldErrors, setFieldErrors] = useState({
-    email: false,
-    password: false
-  });
-
   const [formError, setFormError] = useState("");
 
-  // Скидаємо помилки при зміні мови
   useEffect(() => {
     setFormError("");
-    setFieldErrors({ email: false, password: false });
   }, [i18n.language]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
-    if (fieldErrors[name]) {
-      setFieldErrors(prev => ({ ...prev, [name]: false }));
-    }
-    
-    if (formError) setFormError("");
+    setFormError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFieldErrors({ email: false, password: false });
-    setFormError("");
+    
+    // Базова перевірка на заповненість полів
+    if (!formData.email.trim() || !formData.password.trim()) {
+      setFormError(t("validation:errors.fillRequiredFields"));
+      return;
+    }
 
     const result = await handleLogin(formData.email, formData.password);
       
     if (!result.success) {
-      if (result.fieldErrors) {
-        setFieldErrors(result.fieldErrors);
-      }
-      
-      if (result.error) {
-        setFormError(result.error);
-      }
-    } else {
-      navigate(location.state?.from?.pathname || "/home", { replace: true });
+      setFormError(result.error);
+      return;
     }
+
+    navigate(location.state?.from?.pathname || "/home", { replace: true });
   };
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formContainer}>
+        {/* Блок для відображення помилок */}
         {formError && (
           <div className={styles.errorMessage} role="alert">
             {formError}
@@ -84,7 +72,6 @@ const LoginForm = React.memo(() => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            error={fieldErrors.email}
             autoComplete="username"
             required
           />
@@ -95,7 +82,6 @@ const LoginForm = React.memo(() => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            error={fieldErrors.password}
             autoComplete="current-password"
             required
           />

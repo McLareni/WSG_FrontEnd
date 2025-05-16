@@ -36,13 +36,5 @@
   "confirmation": {
     "registrationSuccess": "Реєстрація успішна!",
     "checkEmail": "Будь ласка, перевірте вашу пошту для підтвердження облікового запису"
-  },
-  "passwordStrength": {
-    "strength": "Надійність",
-    "veryWeak": "Дуже слабкий",
-    "weak": "Слабкий",
-    "medium": "Середній",
-    "strong": "Сильний",
-    "veryStrong": "Дуже сильний"
   }
 }

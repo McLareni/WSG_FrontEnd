@@ -1,28 +1,24 @@
-// src/router/router.jsx
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import Layout from '../components/Layout';
-import LoginPage from '../pages/LoginPage/LoginPage';
-import RegisterPage from '../pages/RegisterPage/RegisterPage';
-import HomePage from '../pages/HomePage/HomePage';
-import TeacherProfilePage from '../pages/TeacherProfilePage/TeacherProfilePage';
-import TeacherPasswordPage from '../pages/TeacherPasswordPage/TeacherPasswordPage';
-import TeacherEditPage from '../pages/TeacherEditPage/TeacherEditPage';
-import StudentProfilePage from '../pages/StudentProfilePage/StudentProfilePage'
-import StudentPasswordPage from '../pages/StudentPasswordPage/StudentPasswordPage'
-import ProtectedRoute from '../components/Auth/ProtectedRoute';
-import PublicRoute from '../components/Auth/PublicRoute';
-import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import Layout from "../components/Layout";
+import LoginPage from "../pages/LoginPage/LoginPage";
+import RegisterPage from "../pages/RegisterPage/RegisterPage";
+import HomePage from "../pages/HomePage/HomePage";
+import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
+import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
+import ProfilePage from "../pages/ProfilePage/ProfilePage"; // Імпортуємо уніфікований компонент
 
 const router = createBrowserRouter([
   {
-    element: <Layout />, 
+    path: "/",
+    element: <Layout />,
     children: [
       {
-        path: '/',
+        index: true,
         element: <Navigate to="/login" replace />,
       },
       {
-        path: '/login',
+        path: "login",
         element: (
           <PublicRoute>
             <LoginPage />
@@ -30,7 +26,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/register',
+        path: "register",
         element: (
           <PublicRoute>
             <RegisterPage />
@@ -38,7 +34,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/home',
+        path: "home",
         element: (
           <ProtectedRoute>
             <HomePage />
@@ -46,55 +42,31 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: '/teacher/profile',
+        path: "profile",
         element: (
           <ProtectedRoute>
-            <TeacherProfilePage />
+            <ProfilePage mode="profile" /> {/* Основна сторінка профілю */}
           </ProtectedRoute>
         ),
       },
       {
-        path: '/teacher/profile/password',
+        path: "profile/edit",
         element: (
           <ProtectedRoute>
-            <TeacherPasswordPage />
+            <ProfilePage mode="edit" /> {/* Редагування профілю */}
           </ProtectedRoute>
         ),
       },
       {
-        path: '/teacher/profile/edit',
+        path: "profile/password",
         element: (
           <ProtectedRoute>
-            <TeacherEditPage />
+            <ProfilePage mode="password" /> {/* Зміна пароля */}
           </ProtectedRoute>
         ),
       },
       {
-        path: '/student/profile',
-        element: (
-          <ProtectedRoute>
-            <StudentProfilePage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/student/profile/password',
-        element: (
-          <ProtectedRoute>
-            <StudentPasswordPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/student/profile/edit',
-        element: (
-          <ProtectedRoute>
-            <StudentPasswordPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: '*',
+        path: "*",
         element: <NotFoundPage />,
       },
     ],

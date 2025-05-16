@@ -1,93 +1,147 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import styles from './TeacherProfilePassword.module.css'; 
-import Button from '../../UI/Button/Button';
+import ProfileLayout from '../../Profile/ProfileLayout';
+import ProfileSection from '../../Profile/ProfileSection';
 import Input from '../../UI/Input/Input';
-
+import ProfileActions from '../../Profile/ProfileActions';
+import useAuthStore from "../../../store/useAuthStore";
+import { ERROR_MESSAGES, VALIDATION_RULES } from '../../../store/constants';
 
 const TeacherProfilePassword = () => {
-  const { t } = useTranslation('tabProfile');
+  const { t } = useTranslation(["tabProfile", "validation"]);
   const navigate = useNavigate();
+  const { updatePassword } = useAuthStore();
+
   const [formData, setFormData] = useState({
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
 
+  const [errors, setErrors] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+    form: ''
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+      form: ''
+    };
+    let isValid = true;
+
+    if (!formData.currentPassword) {
+      newErrors.currentPassword = t(ERROR_MESSAGES.REQUIRED_FIELDS);
+      isValid = false;
+    }
+
+    if (!formData.newPassword) {
+      newErrors.newPassword = t(ERROR_MESSAGES.REQUIRED_FIELDS);
+      isValid = false;
+    } else if (formData.newPassword.length < VALIDATION_RULES.PASSWORD_MIN_LENGTH) {
+      newErrors.newPassword = t(ERROR_MESSAGES.PASSWORD_TOO_SHORT);
+      isValid = false;
+    }
+
+    if (formData.newPassword !== formData.confirmPassword) {
+      newErrors.confirmPassword = t(ERROR_MESSAGES.PASSWORDS_NOT_MATCH);
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Password change submitted', formData);
-    navigate('/teacher/profile');
+    
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      const result = await updatePassword(formData);
+      
+      if (result?.success) {
+        navigate('/profile');
+      } else {
+        setErrors(prev => ({
+          ...prev,
+          form: result?.error || t(ERROR_MESSAGES.PASSWORD_CHANGE_FAILED)
+        }));
+      }
+    } catch (err) {
+      console.error('Password change error:', err);
+      setErrors(prev => ({
+        ...prev,
+        form: t(ERROR_MESSAGES.SERVER_ERROR)
+      }));
+    }
   };
 
   return (
-    <div className={styles.profileWrapper}>
-      <div className={styles.profileContainer}>
-        <div className={styles.avatarContainer}>
-          <div className={styles.avatar}></div>
+    <ProfileLayout title={t("teacher")}>
+      {errors.form && (
+        <div className="error-message">
+          {errors.form}
         </div>
+      )}
+      
+      <form onSubmit={handleSubmit}>
+        <ProfileSection>
+          <Input
+            label={t("currentPassword")}
+            name="currentPassword"
+            type="password"
+            value={formData.currentPassword}
+            onChange={handleChange}
+            error={errors.currentPassword}
+            required
+          />
+        </ProfileSection>
 
-        <form onSubmit={handleSubmit}>
-          <section className={styles.section}>
-            <h1 className={styles.title}>{t('teacher')}</h1>
-            <div className={styles.inputGroup}>
-              <Input
-                label={t('currentPassword')}
-                name="currentPassword"
-                type="password"
-                value={formData.currentPassword}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <Input
-                label={t('newPassword')}
-                name="newPassword"
-                type="password"
-                value={formData.newPassword}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className={styles.inputGroup}>
-              <Input
-                label={t('confirmPassword')}
-                name="confirmPassword"
-                type="password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-            </div>
+        <ProfileSection>
+          <Input
+            label={t("newPassword")}
+            name="newPassword"
+            type="password"
+            value={formData.newPassword}
+            onChange={handleChange}
+            error={errors.newPassword}
+            required
+          />
+        </ProfileSection>
 
-           
-          </section>
+        <ProfileSection>
+          <Input
+            label={t("confirmPassword")}
+            name="confirmPassword"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            error={errors.confirmPassword}
+            required
+          />
+        </ProfileSection>
 
-          <div className={styles.actions}>
-            <Button 
-              type="button" 
-              variant="cancel"
-              onClick={() => navigate('/teacher/profile')}
-            >
-              {t('buttons.cancel')}
-            </Button>
-            <Button 
-              type="submit" 
-              variant="saveChanges"
-            >
-              {t('buttons.saveChanges')}
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>
+        <ProfileActions
+          mode="edit"
+          onCancel={() => navigate('/profile')}
+          onSave={handleSubmit}
+        />
+      </form>
+    </ProfileLayout>
   );
 };
 

@@ -4,7 +4,8 @@
     "loginPrompt": "Enter your email and password to log in",
     "pleaseFillOutForm": "Please fill out the form",
     "noAccount": "Don't have an account?",
-    "alreadyHaveAccount": "Already have an account?"
+    "alreadyHaveAccount": "Already have an account?",
+    "pleaseWait": "Please wait"
   },
   "form": {
     "email": "Email",
@@ -34,13 +35,5 @@
   "confirmation": {
     "registrationSuccess": "Registration successful!",
     "checkEmail": "Please check your email to verify your account"
-  },
-  "passwordStrength": {
-    "strength": "Strength",
-    "veryWeak": "Very weak",
-    "weak": "Weak",
-    "medium": "Medium",
-    "strong": "Strong",
-    "veryStrong": "Very strong"
   }
 }

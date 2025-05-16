@@ -1,6 +1,7 @@
 {
   "teacher": "Teacher",
   "student": "Student",
+  "albumNumber": "Album number",
   "email": "Email",
   "firstName": "First Name",
   "lastName": "Last Name",
@@ -16,5 +17,10 @@
   "buttons": {
     "saveChanges": "Save Changes",
     "cancel": "Cancel"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Page not found",
+    "goHome": "Back to home"
   }
 }

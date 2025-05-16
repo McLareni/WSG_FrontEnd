@@ -1,52 +1,9 @@
-// import React, { useState, useEffect } from 'react';
-// import { useTranslation } from 'react-i18next';
-// import { RouterProvider } from 'react-router-dom';
-// import router from './router/router';
-// import { AuthToastContainer } from './components/UI/ToastAuth/ToastAuth';
-// import useAuthStore from './store/authStore';
-// import { Loader } from './components/UI/Loader/Loader'; // Імпорт компонента
-
-// function App() {
-//   const { t } = useTranslation();
-//   const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
-//   const checkSession = useAuthStore((state) => state.checkSession);
-
-//   useEffect(() => {
-//     const initializeAuth = async () => {
-//       try {
-//         await checkSession();
-//       } catch (error) {
-//         console.error(t('errors.authCheckFailed')); // Переклад помилки
-//       } finally {
-//         setIsAuthCheckComplete(true);
-//       }
-//     };
-
-//     initializeAuth();
-//   }, [checkSession, t]);
-
-//   if (!isAuthCheckComplete) {
-//     return <Loader />; // Використання компонента
-//   }
-
-//   return (
-//     <>
-//       <RouterProvider router={router} />
-//       <AuthToastContainer />
-//     </>
-//   );
-// }
-
-// export default App;
-
-
-
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RouterProvider } from 'react-router-dom';
 import router from './router/router';
 import { AuthToastContainer } from './components/UI/ToastAuth/ToastAuth';
-import useAuthStore from './store/authStore';
+import useAuthStore from './store/useAuthStore';
 import { Loader } from './components/UI/Loader/Loader';
 
 const devButtonStyle = {
@@ -71,9 +28,7 @@ const devButtonStyle = {
 function App() {
   const { t } = useTranslation();
   const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
-  const checkSession = useAuthStore((state) => state.checkSession);
-  const logout = useAuthStore((state) => state.logout);
-  const isLoading = useAuthStore((state) => state.isLoading);
+  const { checkSession, logout, isLoading } = useAuthStore();
 
   useEffect(() => {
     const initializeAuth = async () => {
