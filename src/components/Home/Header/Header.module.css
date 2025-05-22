@@ -1,4 +1,47 @@
-/* src/components/Header/Header.module.css */
 .header {
-    
-  }
+  width: 100%;
+  background-color: #aeddf8;
+  /* прибрав margin-bottom, бо він не впливає на фіксованість */
+}
+
+.headerContainer {
+  width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.logo {
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #3e3e3e;
+  margin: 0;
+  padding: 28px 0 26px 83px;
+}
+
+.centerSection {
+  display: flex;
+  gap: 3rem;
+}
+
+.navLink {
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+  text-decoration: none;
+  padding: 28px 0 24px;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: #2a9df4;
+  text-decoration: underline;
+}
+
+.navLink + .navLink {
+  margin-left: 1.5rem;
+}

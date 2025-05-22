@@ -1,0 +1,13 @@
+src/pages/HomePage.module.css .homePage {
+  padding-top: 70px;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+.homePage {
+  width: 100%;
+  background-color: #d6ecf9;
+}

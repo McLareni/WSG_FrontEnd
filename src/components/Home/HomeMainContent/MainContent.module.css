@@ -1,4 +1,21 @@
-/* src/components/MainContent/MainContent.module.css */
+/* src/components/Home/HomeMainContent/MainContent.module.css */
 .main {
-    
-  }
+  padding: 24px;
+  background: #d6ecf9;
+}
+
+.filterSection {
+  max-width: 1200px;
+  margin: 0 auto 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}

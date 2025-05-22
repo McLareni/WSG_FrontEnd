@@ -1,31 +1,28 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import Layout from '../components/Layout';
-import LoginPage from '../pages/LoginPage/LoginPage';
-import RegisterPage from '../pages/RegisterPage/RegisterPage';
-import HomePage from '../pages/HomePage/HomePage';
+import { createBrowserRouter, Navigate } from "react-router-dom";
+import Layout from "../components/Layout";
+import LoginPage from "../pages/LoginPage/LoginPage";
+import RegisterPage from "../pages/RegisterPage/RegisterPage";
+import HomePage from "../pages/HomePage/HomePage";
 
 const router = createBrowserRouter([
   {
-    element: <Layout />, 
+    element: <Layout />,
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Navigate to="/login" replace />,
       },
       {
-        path: '/login',
+        path: "/login",
         element: <LoginPage />,
       },
       {
-        path: '/register',
+        path: "/register",
         element: <RegisterPage />,
-      },
-      {
-        path: '/home',
-        element: <HomePage />,
       },
     ],
   },
+  { path: "/home", element: <HomePage /> },
 ]);
 
 export default router;

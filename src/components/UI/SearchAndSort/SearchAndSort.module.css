@@ -1,0 +1,105 @@
+/* src/components/UI/SearchAndSort/SearchAndSort.module.css */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: nowrap;
+  margin-bottom: 55px;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdownsWrapper {
+  display: flex;
+  gap: 16px;
+}
+
+.dropdownContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.label {
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownButton {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  width: 242px;
+  /* padding: 8px 16px; */
+  background: #2597d9;
+  border: 1px solid #2597d9;
+  border-radius: 8px;
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+/* .dropdownButton:hover {
+  background: #f0f8ff;
+} */
+
+.arrow {
+  margin-left: 8px;
+  color: #fff;
+  transition: transform 0.2s;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.menuItem {
+  padding: 10px 16px;
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menuItem:hover {
+  background: #f0f8ff;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .dropdownsWrapper {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
