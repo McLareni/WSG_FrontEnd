@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./LoginForm.module.css";
@@ -9,52 +9,64 @@ import Footer from "../../UI/LoginFooter/LoginFooter";
 import { useLoginForm } from "./useLoginForm";
 
 const LoginForm = React.memo(() => {
-  const { t, i18n } = useTranslation(["adminUser", "validation"]);
+  const { t } = useTranslation(["adminUser", "validation"]);
   const navigate = useNavigate();
   const location = useLocation();
-  const { isSubmitting, handleLogin } = useLoginForm();
-
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
   const [formError, setFormError] = useState("");
-
-  useEffect(() => {
-    setFormError("");
-  }, [i18n.language]);
+  const [fieldErrors, setFieldErrors] = useState({
+    email: false,
+    password: false
+  });
+  
+  const { isSubmitting, handleLogin } = useLoginForm();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    setFormError("");
+    // Скидаємо помилку тільки для цього поля
+    if (fieldErrors[name]) {
+      setFieldErrors(prev => ({ ...prev, [name]: false }));
+      if (formError === t("validation:errors.invalidCredentials")) {
+        setFormError("");
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Базова перевірка на заповненість полів
-    if (!formData.email.trim() || !formData.password.trim()) {
-      setFormError(t("validation:errors.fillRequiredFields"));
-      return;
-    }
-
     const result = await handleLogin(formData.email, formData.password);
-      
+    
     if (!result.success) {
       setFormError(result.error);
+      if (result.fieldErrors) {
+        setFieldErrors(result.fieldErrors);
+      }
       return;
     }
-
+    
+    // Скидаємо форму тільки при успішному логіні
+    setFormData({ email: "", password: "" });
+    setFormError("");
+    setFieldErrors({ email: false, password: false });
     navigate(location.state?.from?.pathname || "/home", { replace: true });
+  };
+
+  const getErrorMessage = (fieldName) => {
+    if (!fieldErrors[fieldName]) return "";
+    return formError;
   };
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formContainer}>
-        {/* Блок для відображення помилок */}
-        {formError && (
+        {formError && formError !== t("validation:errors.invalidCredentials") && (
           <div className={styles.errorMessage} role="alert">
             {formError}
           </div>
@@ -74,6 +86,8 @@ const LoginForm = React.memo(() => {
             onChange={handleChange}
             autoComplete="username"
             required
+            error={fieldErrors.email}
+            errorMessage={getErrorMessage("email")}
           />
 
           <Input
@@ -84,6 +98,8 @@ const LoginForm = React.memo(() => {
             onChange={handleChange}
             autoComplete="current-password"
             required
+            error={fieldErrors.password}
+            errorMessage={getErrorMessage("password")}
           />
 
           <div className={styles.buttonWrapper}>

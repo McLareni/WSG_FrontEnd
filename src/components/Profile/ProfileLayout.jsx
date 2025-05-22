@@ -1,6 +1,6 @@
 import styles from './ProfileLayout.module.css';
 
-const ProfileLayout = ({ title, children }) => {
+const ProfileLayout = ({ title, children, actions }) => {
   return (
     <div className={styles.profileWrapper}>
       <div className={styles.profileContainer}>
@@ -10,7 +10,11 @@ const ProfileLayout = ({ title, children }) => {
         
         <h1 className={styles.title}>{title}</h1>
         
-        {children}
+        <div className={styles.content}>
+          {children}
+        </div>
+        
+        {actions && <div className={styles.actionsContainer}>{actions}</div>}
       </div>
     </div>
   );

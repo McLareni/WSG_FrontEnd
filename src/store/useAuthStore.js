@@ -2,64 +2,49 @@ import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 import { supabase } from '../supabaseClient';
 import * as api from './api';
-import * as validators from './validators';
 import { ERROR_MESSAGES } from './constants';
-
-const isDevelopment = import.meta.env.MODE === 'development';
 
 const useAuthStore = create(
   devtools(
     persist(
       (set, get) => ({
-        // Початковий стан
         user: null,
         session: null,
         isLoading: false,
         error: null,
 
-        // Допоміжний метод для обробки помилок
         _handleError: (error) => {
-          const message = Object.values(ERROR_MESSAGES).includes(error.message)
-            ? error.message
-            : ERROR_MESSAGES.UNKNOWN_ERROR;
+          const message = error.message || ERROR_MESSAGES.UNKNOWN_ERROR;
           set({ error: message });
           return { success: false, error: message };
         },
 
-        // Перевірка поточної сесії
         checkSession: async () => {
           try {
             set({ isLoading: true });
             const { data: { session }, error } = await supabase.auth.getSession();
             
-            if (error) throw error;
-            
-            if (session) {
-              const userDetails = await api.fetchUserDetails(session.user.id);
-              set({ 
-                session,
-                user: {
-                  id: session.user.id,
-                  email: session.user.email,
-                  ...userDetails,
-                  ...session.user.user_metadata
-                },
-                error: null
-              });
-            } else {
-              set({ user: null, session: null, error: null });
+            if (error || !session) {
+              set({ user: null, session: null });
+              return null;
             }
+
+            const userDetails = await api.fetchUserDetails(session.user.id);
+            set({ 
+              session,
+              user: { ...session.user, ...userDetails },
+              error: null
+            });
             
             return session;
           } catch (error) {
             set({ error: error.message });
-            throw error;
+            return null;
           } finally {
             set({ isLoading: false });
           }
         },
 
-        // Вхід в систему
         login: async (email, password) => {
           try {
             set({ isLoading: true, error: null });
@@ -92,7 +77,6 @@ const useAuthStore = create(
           }
         },
 
-        // Вихід з системи
         logout: async () => {
           try {
             set({ isLoading: true });
@@ -106,18 +90,16 @@ const useAuthStore = create(
           }
         },
 
-        // Оновлення профілю
         updateProfile: async (updates) => {
           try {
             set({ isLoading: true, error: null });
-            validators.validateProfileData(updates);
-
-            await api.updateUserProfile(get().user.id, updates);
-            await api.updateAuthProfile(updates);
-
+            const { user } = get();
+            
+            await api.updateUserProfile(user.id, updates);
+            
             set({
               user: {
-                ...get().user,
+                ...user,
                 ...updates
               }
             });
@@ -130,48 +112,9 @@ const useAuthStore = create(
           }
         },
 
-        // Зміна пароля
-        updatePassword: async ({ newPassword, confirmPassword }) => {
-          try {
-            set({ isLoading: true, error: null });
-            validators.validatePassword(newPassword, confirmPassword);
-
-            await api.updateUserPassword(newPassword);
-            return { success: true };
-          } catch (error) {
-            return get()._handleError(error);
-          } finally {
-            set({ isLoading: false });
-          }
-        },
-
-        // Оновлення даних користувача
-        refreshUser: async () => {
-          try {
-            const { session } = get();
-            if (!session) return null;
-
-            const userDetails = await api.fetchUserDetails(session.user.id);
-            set({
-              user: {
-                ...get().user,
-                ...userDetails
-              }
-            });
-
-            return userDetails;
-          } catch (error) {
-            return get()._handleError(error);
-          }
-        },
-
-        // Скидання помилки
-        resetError: () => set({ error: null }),
-
-        // Перевірка чи авторизований користувач
         isAuthenticated: () => {
           const { session } = get();
-          return !!session && session.expires_at * 1000 > Date.now();
+          return !!session && new Date(session.expires_at * 1000) > new Date();
         }
       }),
       {
@@ -187,11 +130,7 @@ const useAuthStore = create(
           } : null
         }),
       }
-    ),
-    { 
-      name: 'AuthStore',
-      enabled: isDevelopment,
-    }
+    )
   )
 );
 

@@ -54,6 +54,7 @@
     "logoutFailed": "Не вдалося вийти з облікового запису",
     "unknownError": "Сталася невідома помилка. Спробуйте ще раз.",
     "fillAllFields": "Поля не заповнені",
+    "passwordRequired": "Введіть пароль",
     "passwordsNotMatch": "Паролі не співпадають",
     "registrationFailed": "Не вдалося зареєструватися"
   },

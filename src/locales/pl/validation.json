@@ -55,6 +55,7 @@
     "logoutFailed": "Wylogowanie nie powiodło się",
     "unknownError": "Wystąpił nieznany błąd. Spróbuj ponownie.",
     "fillAllFields": "Pola nie są wypełnione",
+    "passwordRequired": "Wprowadź hasło",
     "passwordsNotMatch": "Hasła nie są zgodne",
     "registrationFailed": "Nie udało się zarejestrować"
   },

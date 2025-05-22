@@ -54,6 +54,7 @@
     "logoutFailed": "Logout failed",
     "unknownError": "An unknown error occurred. Try again.",
     "fillAllFields": "Fields are not filled in",
+    "passwordRequired": "Enter your password",
     "passwordsNotMatch": "Passwords do not match",
     "registrationFailed": "Registration failed"
   },

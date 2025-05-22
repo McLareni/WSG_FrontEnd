@@ -6,7 +6,9 @@ import HomePage from "../pages/HomePage/HomePage";
 import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
-import ProfilePage from "../pages/ProfilePage/ProfilePage"; // Імпортуємо уніфікований компонент
+import ProfileView from "../pages/ProfilePage/ProfileView"; 
+import ProfileEdit from "../pages/ProfilePage/ProfileEdit";
+import ProfilePassword from "../pages/ProfilePage/ProfilePassword";
 
 const router = createBrowserRouter([
   {
@@ -43,27 +45,32 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: (
-          <ProtectedRoute>
-            <ProfilePage mode="profile" /> {/* Основна сторінка профілю */}
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "profile/edit",
-        element: (
-          <ProtectedRoute>
-            <ProfilePage mode="edit" /> {/* Редагування профілю */}
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "profile/password",
-        element: (
-          <ProtectedRoute>
-            <ProfilePage mode="password" /> {/* Зміна пароля */}
-          </ProtectedRoute>
-        ),
+        children: [
+          {
+            index: true,
+            element: (
+              <ProtectedRoute>
+                <ProfileView />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "edit",
+            element: (
+              <ProtectedRoute>
+                <ProfileEdit />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "password",
+            element: (
+              <ProtectedRoute>
+                <ProfilePassword />
+              </ProtectedRoute>
+            ),
+          },
+        ],
       },
       {
         path: "*",
