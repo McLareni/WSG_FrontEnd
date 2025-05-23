@@ -56,7 +56,9 @@
     "fillAllFields": "Поля не заповнені",
     "passwordRequired": "Введіть пароль",
     "passwordsNotMatch": "Паролі не співпадають",
-    "registrationFailed": "Не вдалося зареєструватися"
+    "registrationFailed": "Не вдалося зареєструватися",
+    "currentPassword": "Поточний пароль",
+    "required": "Новий пароль обов'язковий"
   },
   "login": {
     "success": "Вхід успішний. Ласкаво просимо!"

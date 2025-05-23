@@ -57,7 +57,8 @@
     "fillAllFields": "Pola nie są wypełnione",
     "passwordRequired": "Wprowadź hasło",
     "passwordsNotMatch": "Hasła nie są zgodne",
-    "registrationFailed": "Nie udało się zarejestrować"
+    "registrationFailed": "Nie udało się zarejestrować",
+    "currentPassword": "Aktualne hasło"
   },
   "login": {
     "success": "Logowanie zakończone sukcesem. Witamy!"

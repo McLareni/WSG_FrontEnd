@@ -8,9 +8,9 @@ import ProfileActions from '../../components/Profile/ProfileActions';
 import useAuthStore from "../../store/useAuthStore";
 
 const ProfilePassword = () => {
-  const { t } = useTranslation(["tabProfile", "validation"]);
+  const { t } = useTranslation(["tabProfile"]);
   const navigate = useNavigate();
-  const { user, updatePassword } = useAuthStore(); // Додано деструктуризацію user
+  const { user } = useAuthStore();
   
   const [formData, setFormData] = useState({
     currentPassword: '',
@@ -18,36 +18,21 @@ const ProfilePassword = () => {
     confirmPassword: ''
   });
 
-  const [errors, setErrors] = useState({});
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  const handleSave = async (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
-    
-    if (formData.newPassword !== formData.confirmPassword) {
-      setErrors({ confirmPassword: t("validation:errors.passwordsNotMatch") });
-      return;
-    }
-
-    try {
-      await updatePassword(formData.currentPassword, formData.newPassword);
-      navigate('/profile');
-    } catch (error) {
-      setErrors({ form: error.message });
-    }
+    // Тимчасовий обробник - просто закриває форму
+    navigate('/profile');
   };
 
-  if (!user) return <div className="error">{t("errors.userNotFound")}</div>; // Додана перевірка на user
+  if (!user) return <div>{t("userNotFound")}</div>;
 
   return (
-    <ProfileLayout title={t(user.role)}> {/* Використовуємо user зі стора */}
-      {errors.form && <div className="error-message">{errors.form}</div>}
-      
+    <ProfileLayout title={t(user.role)}>
       <form onSubmit={handleSave}>
         <ProfileSection>
           <Input
@@ -56,7 +41,6 @@ const ProfilePassword = () => {
             type="password"
             value={formData.currentPassword}
             onChange={handleChange}
-            required
           />
           <Input
             label={t("newPassword")}
@@ -64,7 +48,6 @@ const ProfilePassword = () => {
             type="password"
             value={formData.newPassword}
             onChange={handleChange}
-            required
           />
           <Input
             label={t("confirmPassword")}
@@ -72,8 +55,6 @@ const ProfilePassword = () => {
             type="password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            error={errors.confirmPassword}
-            required
           />
         </ProfileSection>
 
