@@ -1,73 +1,117 @@
 .languageSwitcher {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 8px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(5px);
+  transition: all 0.3s ease-out;
 }
 
-.languageSwitcher button {
-  background: none;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 12px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  min-width: 40px;
+.dropdownWrapper {
+  display: inline-block;
+  width: 70px;
+}
+
+.dropdownContainer {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  border: 2px solid #2597D9;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: transparent;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.dropdownContainer:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.18);
+}
+
+.languageButton {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  background-color: transparent;
+  border: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2597D9;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  transition: all 0.2s ease;
 }
 
-.languageSwitcher button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+.languageButton:hover {
+  background-color: rgba(37, 151, 217, 0.05);
 }
 
-/* Українська мова - синьо-жовтий градієнт */
-.languageSwitcher .active-ua {
-  background: linear-gradient(135deg, #0057b7 0%, #0057b7 50%, #ffd700 50%, #ffd700 100%);
-  color: white;
-  font-weight: bold;
+.arrowIcon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  color: #2597D9;
 }
 
-/* Польська мова - червоно-білий градієнт */
-.languageSwitcher .active-pl {
-  background: linear-gradient(135deg, #dc143c 0%, #dc143c 50%, white 50%, white 100%);
-  color: #333;
+.dropdownMenu {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  overflow: hidden;
+  max-height: 0;
+  transition: 
+    max-height 0.4s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(-5px);
 }
 
-/* Англійська мова - синьо-червоний градієнт (кольори UK) */
-.languageSwitcher .active-en {
-  background: linear-gradient(135deg, #012169 0%, #012169 33%, white 33%, white 66%, #c8102e 66%, #c8102e 100%);
-  color: white;
-}
-
-/* Інтерактивні ефекти */
-.languageSwitcher button:active {
+.menuOpen {
+  max-height: 150px;
+  opacity: 1;
   transform: translateY(0);
+  transition: 
+    max-height 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.3s ease 0.1s,
+    transform 0.3s ease 0.1s;
 }
 
-/* Адаптація для мобільних пристроїв */
-@media (max-width: 768px) {
-  .languageSwitcher {
-    top: 10px;
-    right: 10px;
-    padding: 6px;
-    gap: 6px;
-  }
-  
-  .languageSwitcher button {
-    padding: 4px 8px;
-    font-size: 12px;
-    min-width: 36px;
-  }
+.menuClosed {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: 
+    max-height 0.2s cubic-bezier(0.22, 0.32, 0, 1),
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.menuItem {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #8DBCD7;
+  cursor: pointer;
+  background-color: transparent;
+  text-align: left;
+  border: none;
+  transition: 
+    color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.menuItem:hover {
+  color: #2597D9;
+  background-color: rgba(37, 151, 217, 0.08);
+  transform: translateX(2px);
+}
+
+.menuItem:active {
+  transform: translateX(2px) scale(0.98);
+}
+
+.menuItem:last-child {
+  margin-bottom: 4px;
 }
