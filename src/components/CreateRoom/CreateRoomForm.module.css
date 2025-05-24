@@ -1,0 +1,245 @@
+.form {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+
+  margin-top: 20px;
+}
+
+.lokalizacja {
+  width: 350px;
+}
+
+.opis {
+  width: 100%;
+}
+
+.blockTitle {
+  font-weight: 700;
+  font-size: 24px;
+  font-family: "Darker Grotesque", monospace;
+  color: #000000;
+}
+
+.roomTypeContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.roomType {
+  height: 33px;
+
+  font-family: "Roboto";
+  font-size: 16px;
+  line-height: 33px;
+  color: #00a2ff;
+
+  background: #ffffff;
+  border-radius: 16px;
+
+  padding: 0 26px;
+
+  cursor: pointer;
+}
+
+.roomType.active {
+  background: #1eadff;
+  color: #ffffff;
+}
+
+.placesContainer > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.placesContainer > table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #aeddf8;
+
+  background: #ffffff;
+
+  font-family: "Roboto";
+}
+
+.placesContainer > table tr {
+}
+
+.placesContainer > table th {
+  text-align: start;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.colNr {
+  width: 50px;
+}
+
+.colCount {
+  width: 90px;
+}
+
+.colBtn {
+  width: 100px;
+}
+
+.placesContainer > table td {
+  text-align: center;
+  font-weight: normal;
+}
+
+.placesContainer > table td,
+.placesContainer > table th {
+  border: 1px solid #aeddf8;
+  padding: 4px;
+}
+
+.placesContainer > table textarea {
+  border: none;
+  outline: none;
+  width: 100%;
+  resize: vertical;
+
+  font-weight: 300;
+}
+
+.placesContainer > table input {
+  border: none;
+  outline: none;
+  text-align: center;
+
+  width: 100%;
+
+  font-weight: 300;
+}
+
+/* Hidden scoll */
+.placesContainer > table input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.placesContainer > table input[type="number"]::-webkit-outer-spin-button,
+.placesContainer > table input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  margin: 0;
+}
+
+.deletePlaceButton {
+  background: #ff0000;
+  color: #ffffff;
+  border-radius: 12px;
+  width: 56px;
+  height: 36px;
+}
+
+.deletePlaceButton > svg {
+  width: 22px;
+  height: 22px;
+  stroke-width: 1px;
+}
+
+.addPlaceButton {
+  background: #1eadff;
+  color: #ffffff;
+  border-radius: 99px;
+  padding: 0 16px;
+  height: 33px;
+
+  font-family: "Roboto";
+  font-size: 16px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.addPlaceButton > svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1px;
+}
+
+.harmonogramContainer > table input[type="time"] {
+  background: #ffffff;
+  border: 2px solid #aeddf8;
+  border-radius: 10px;
+  margin: 0 20px;
+  width: 130px;
+  height: 27px;
+
+  text-align: center;
+}
+
+.harmonogramContainer > table input[type="time"]::-webkit-inner-spin-button,
+.harmonogramContainer
+  > table
+  input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.harmonogramContainer > table input[type="time"] {
+  -moz-appearance: textfield;
+}
+
+.harmonogramContainer > table input[type="time"]:disabled {
+  background: #ebebeb;
+}
+
+.harmonogramContainer > table input[type="time"]:focus {
+  outline: none;
+}
+
+.harmonogramContainer > table input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+
+  background: #f9f9f9;
+  border: 1px solid #929292;
+  border-radius: 4px;
+  margin: 0;
+}
+
+.harmonogramContainer > table td:last-child {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.harmonogramContainer > table {
+  font-family: "Roboto";
+  font-weight: 500;
+
+  margin-left: 100px;
+}
+
+.harmonogramContainer > table td {
+  height: 30px;
+}
+
+.createRoomBtn {
+  background: #2597d9;
+
+  font-family: "Roboto";
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+
+  width: 280px;
+  height: 50px;
+
+  border-radius: 10px;
+
+  margin-top: 30px;
+}

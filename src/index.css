@@ -2,14 +2,13 @@
 *,
 *::before,
 *::after {
-  
   padding: 0;
   box-sizing: border-box;
 }
 
 /* Base styles */
 :root {
-  font-family: 'Montserrat', sans-serif, 'Darker Grotesque';
+  font-family: "Darker Grotesque", monospace;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,12 +22,14 @@ body {
   background: linear-gradient(135deg, #f0f9ff 0%, #a2d4ff 100%);
   display: flex;
   justify-content: center;
-  align-items: center;
   color: #242424;
 }
 
 /* Typography */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 700;
   line-height: 1.2;
 }
@@ -47,7 +48,8 @@ button {
 }
 
 /* Remove list styles */
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 

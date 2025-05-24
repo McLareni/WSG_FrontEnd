@@ -1,0 +1,38 @@
+{
+  "type": {
+    "informatyka": "Computer Science",
+    "fizyka": "Physics",
+    "chemia": "Chemistry",
+    "grafika": "Graphics",
+    "wychowanie fizyczne": "Physical Education",
+    "other": "Other"
+  },
+  "titles": {
+    "title": "Room Title",
+    "location": "Location",
+    "description": "Description",
+    "type": "Type",
+    "places": "Places",
+    "harmonoram": "Schedule"
+  },
+  "schedule": {
+    "from": "From",
+    "to": "To"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "table": {
+    "addPlace": "Add place",
+    "number": "No.",
+    "description": "Description",
+    "count": "Count"
+  },
+  "blockDay": "Block day"
+}

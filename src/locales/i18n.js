@@ -1,18 +1,22 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 // Імпорт перекладів
-import adminUserEN from './en/adminUser.json';
-import tabProfileEN from './en/tabProfile.json';
-import adminUserPL from './pl/adminUser.json';
-import tabProfilePL from './pl/tabProfile.json';
-import adminUserUK from './ua/adminUser.json';
-import tabProfileUK from './ua/tabProfile.json';
+import adminUserEN from "./en/adminUser.json";
+import tabProfileEN from "./en/tabProfile.json";
+import adminUserPL from "./pl/adminUser.json";
+import tabProfilePL from "./pl/tabProfile.json";
+import adminUserUK from "./ua/adminUser.json";
+import tabProfileUK from "./ua/tabProfile.json";
 
-import validationEN from './en/validation.json';
-import validationUK from './ua/validation.json';
-import validationPL from './pl/validation.json';
+import validationEN from "./en/validation.json";
+import validationUK from "./ua/validation.json";
+import validationPL from "./pl/validation.json";
+
+import createRoomEN from "./en/createRoom.json";
+import createRoomPL from "./pl/createRoom.json";
+import createRoomUK from "./ua/createRoom.json";
 
 i18n
   .use(LanguageDetector)
@@ -22,29 +26,39 @@ i18n
       en: {
         adminUser: adminUserEN,
         tabProfile: tabProfileEN,
-        validation: validationEN
+        validation: validationEN,
+        createRoom: createRoomEN,
       },
       pl: {
         adminUser: adminUserPL,
         tabProfile: tabProfilePL,
-        validation: validationPL
+        validation: validationPL,
+        createRoom: createRoomPL,
       },
       uk: {
         adminUser: adminUserUK,
         tabProfile: tabProfileUK,
-        validation: validationUK
-      }
+        validation: validationUK,
+        createRoom: createRoomUK,
+      },
     },
-    fallbackLng: 'en',
-    ns: ['adminUser', 'tabProfile' , 'validation'],
-    defaultNS: 'adminUser',
+    fallbackLng: "en",
+    ns: ["adminUser", "tabProfile", "validation", "createRoom"],
+    defaultNS: "adminUser",
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
     },
     detection: {
-      order: ['querystring', 'cookie', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag'],
-      caches: ['cookie']
-    }
+      order: [
+        "querystring",
+        "cookie",
+        "localStorage",
+        "sessionStorage",
+        "navigator",
+        "htmlTag",
+      ],
+      caches: ["cookie"],
+    },
   });
 
 export default i18n;

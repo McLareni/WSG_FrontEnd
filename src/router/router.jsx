@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Layout from "../components/Layout";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
@@ -9,6 +9,7 @@ import ProfileEdit from "../pages/ProfilePage/ProfileEdit";
 import ProfilePassword from "../pages/ProfilePage/ProfilePassword";
 import LoginRouter from "./loginRouter";
 import TeacherRouter from "./TeacherRouter";
+import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,12 @@ const router = createBrowserRouter([
           {
             // Protected Teacher routes
             element: <TeacherRouter />,
-            children: [],
+            children: [
+              {
+                path: "create-room",
+                element: <CreateRoomPage />,
+              },
+            ],
           },
         ],
       },

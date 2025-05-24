@@ -1,0 +1,38 @@
+{
+  "type": {
+    "informatyka": "Informatyka",
+    "fizyka": "Fizyka",
+    "chemia": "Chemia",
+    "grafika": "Grafika",
+    "wychowanie fizyczne": "Wychowanie fizyczne",
+    "other": "Inne"
+  },
+  "titles": {
+    "title": "Tytuł pokoju",
+    "location": "Lokalizacja",
+    "description": "Opis",
+    "type": "Typ",
+    "places": "Miejsca",
+    "harmonoram": "Harmonogram"
+  },
+  "schedule": {
+    "from": "Od",
+    "to": "Do"
+  },
+  "days": {
+    "monday": "Poniedziałek",
+    "tuesday": "Wtorek",
+    "wednesday": "Środa",
+    "thursday": "Czwartek",
+    "friday": "Piątek",
+    "saturday": "Sobota",
+    "sunday": "Niedziela"
+  },
+  "table": {
+    "addPlace": "Dodaj miejsce",
+    "number": "Nr.",
+    "description": "Opis",
+    "count": "Ilość"
+  },
+  "blockDay": "Zablokuj dzień"
+}
