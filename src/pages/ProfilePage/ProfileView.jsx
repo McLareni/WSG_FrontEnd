@@ -67,11 +67,11 @@ const ProfileView = () => {
             rooms={[
               { id: 1, name: "#101", active: true },
               { id: 2, name: "B202", active: false },
-              { id: 3, name: "F303", active: true },
-              { id: 3, name: "F303", active: true },
-               { id: 2, name: "B202", active: false },
-                { id: 2, name: "B202", active: false },
-                 { id: 2, name: "B202", active: false },
+              { id: 4, name: "F303", active: true },
+              { id: 5, name: "F303", active: true },
+              { id: 6, name: "B202", active: false },
+              { id: 7, name: "B202", active: false },
+              { id: 8, name: "B202", active: false },
 
             ]}
           />

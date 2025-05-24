@@ -15,45 +15,45 @@ const ProfileActions = ({
 }) => {
   const { t } = useTranslation("tabProfile");
   
-  if (mode === 'view') {
-    return (
-      <div className={styles.actionsContainer}>
-        <Button 
-          variant="edit"
-          onClick={onEdit}
-          disabled={editDisabled}
-          aria-label={t("edit")}
-        >
-          {t("edit")}
-        </Button>
-        <Button
-          variant="changePassword"
-          onClick={onChangePassword}
-          disabled={changePasswordDisabled}
-          aria-label={t("changePassword")}
-        >
-          {t("changePassword")}
-        </Button>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.actionsContainer}>
-      <Button
-        variant="cancel"
-        onClick={onCancel}
-        disabled={isSubmitting}
-      >
-        {t('buttons.cancel')}
-      </Button>
-      <Button
-        variant="saveChanges"
-        onClick={onSave}
-        disabled={isSubmitting}
-      >
-        {isSubmitting ? t('buttons.saving') : t('buttons.saveChanges')}
-      </Button>
+      {mode === 'view' ? (
+        <>
+          <Button 
+            variant="edit"
+            onClick={onEdit}
+            disabled={editDisabled}
+            aria-label={t("edit")}
+          >
+            {t("edit")}
+          </Button>
+          <Button
+            variant="changePassword"
+            onClick={onChangePassword}
+            disabled={changePasswordDisabled}
+            aria-label={t("changePassword")}
+          >
+            {t("changePassword")}
+          </Button>
+        </>
+      ) : (
+        <>
+          <Button
+            variant="cancel"
+            onClick={onCancel}
+            disabled={isSubmitting}
+          >
+            {t('buttons.cancel')}
+          </Button>
+          <Button
+            variant="saveChanges"
+            onClick={onSave}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? t('buttons.saving') : t('buttons.saveChanges')}
+          </Button>
+        </>
+      )}
     </div>
   );
 };

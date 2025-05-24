@@ -141,7 +141,6 @@
 .divider {
   height: 1px;
   background-color: #eee;
-  margin: 1.5rem 0;
   position: relative;
 }
 
@@ -271,12 +270,7 @@
   padding: 0.5rem 0;
 }
 
-/* Скроли (для сучасних браузерів)  
 
-
-cкролл чи збільшуєм просто форму?
- провірь і скажи заодно провірю на скільки сильно ти все провіряєш 
-в edit просто в профілі cкрол */
 
 
 .roomsListWrapper::-webkit-scrollbar {

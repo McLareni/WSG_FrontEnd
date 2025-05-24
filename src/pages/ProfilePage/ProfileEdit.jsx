@@ -176,36 +176,6 @@ const ProfileEdit = () => {
           </ProfileSection>
         )}
 
-        {isTeacher && (
-          <>
-            <div className={styles.divider} />
-            <ProfileSection title={t("createdRooms")}>
-              <ul className={styles.roomsList}>
-                {[{ id: 1, name: "#101", active: true },
-                     { id: 1, name: "#101", active: true },
-              { id: 2, name: "B202", active: false },
-              { id: 3, name: "F303", active: true },
-              { id: 3, name: "F303", active: true },
-               { id: 2, name: "B202", active: false },
-                { id: 2, name: "B202", active: false },
-                 { id: 2, name: "B202", active: false },
-                ].map((room) => (
-                  <li key={room.id} className={styles.roomItem}>
-                    <span>{room.name}</span>
-                    <span
-                      className={
-                        room.active ? styles.activeStatus : styles.inactiveStatus
-                      }
-                    >
-                      {t(room.active ? "active" : "inactive")}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </ProfileSection>
-          </>
-        )}
-
         <ProfileActions
           mode="edit"
           onCancel={() => navigate("/profile")}
