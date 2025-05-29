@@ -1,25 +1,39 @@
 {
-    "common": {
-      "welcome": "Witamy w WorkRoom",
-      "loginPrompt": "Wpisz swój adres e-mail i hasło, aby się zalogować",
-      "pleaseFillOutForm": "Proszę wypełnić formularz",
-      "noAccount": "Nie masz konta?",
-      "alreadyHaveAccount": "Masz już konto?"
-    },
-    "form": {
-      "email": "E-mail",
-      "password": "Hasło",
-      "firstName": "Imię",
-      "lastName": "Nazwisko",
-      "albumNumber": "Numer albumu",
-      "confirmPassword": "Powtórz hasło"
-    },
-    "buttons": {
-      "submit": "Zatwierdź",
-      "login": "Zaloguj się",
-      "registration": "Zarejestruj się",
-      "iAmTeacher": "Jestem nauczycielem",
-      "uploadFile": "Załaduj plik",
-      "loggingIn": "Wyjście..."
-    }
+  "common": {
+    "welcome": "Witamy w WorkRoom",
+    "loginPrompt": "Wprowadź email i hasło aby się zalogować",
+    "pleaseFillOutForm": "Proszę wypełnić formularz",
+    "noAccount": "Nie masz konta?",
+    "alreadyHaveAccount": "Masz już konto?",
+    "pleaseWait": "Proszę czekać"
+  },
+  "form": {
+    "email": "Email",
+    "password": "Hasło",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "albumNumber": "Numer albumu",
+    "confirmPassword": "Potwierdź hasło"
+  },
+  "buttons": {
+    "submit": "Wyślij",
+    "login": "Zaloguj",
+    "registration": "Zarejestruj się",
+    "iAmTeacher": "Jestem nauczycielem",
+    "uploadFile": "Prześlij plik",
+    "loggingIn": "Logowanie...",
+    "loading": "Ładowanie...",
+    "close": "Zamknij"
+  },
+  "errors": {
+    "loginFailed": "Logowanie nieudane. Sprawdź swoje dane.",
+    "fetchUserDetailsFailed": "Nie udało się pobrać danych użytkownika.",
+    "requiredField": "Wymagane pole",
+    "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków",
+    "passwordsDontMatch": "Hasła nie pasują do siebie"
+  },
+  "confirmation": {
+    "registrationSuccess": "Rejestracja udana!",
+    "checkEmail": "Sprawdź email aby potwierdzić konto"
   }
+}

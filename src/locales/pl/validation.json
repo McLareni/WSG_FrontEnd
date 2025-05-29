@@ -1,21 +1,66 @@
 {
-  "firstNameRequired": "Imię jest wymagane",
-  "firstNameTooShort": "Imię musi zawierać od 2 do 50 znaków",
-  "firstNameInvalidChars": "Imię nie może zawierać znaków specjalnych",
-  "lastNameRequired": "Nazwisko jest wymagane",
-  "lastNameTooShort": "Nazwisko musi zawierać od 2 do 50 znaków",
-  "lastNameInvalidChars": "Nazwisko nie może zawierać znaków specjalnych",
-  "albumNumberRequired": "Numer albumu jest wymagany",
-  "albumNumberTooShort": "Numer albumu musi mieć dokładnie 6 cyfr",
-  "albumNumberOnlyDigits": "Numer albumu może zawierać tylko cyfry",
-  "emailRequired": "Email jest wymagany",
-  "invalidEmail": "Wprowadź poprawny adres email",
-  "passwordRequired": "Hasło jest wymagane",
-  "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków",
-  "passwordRequireUppercase": "Hasło musi zawierać co najmniej jedną wielką literę",
-  "passwordRequireLowercase": "Hasło musi zawierać co najmniej jedną małą literę",
-  "passwordRequireDigit": "Hasło musi zawierać co najmniej jedną cyfrę (0-9)",
-  "passwordRequireSpecialChar": "Hasło musi zawierać znak specjalny",
-  "passwordsNotMatch": "Hasła się nie zgadzają",
-  "loginFailed": "Nieprawidłowy adres e-mail lub hasło"
+  "firstName": {
+    "required": "Imię jest wymagane",
+    "tooShort": "Minimum 2 znaki",
+    "invalidChars": "Dozwolone są tylko litery"
+  },
+  "lastName": {
+    "required": "Nazwisko jest wymagane",
+    "tooShort": "Minimum 2 znaki",
+    "invalidChars": "Dozwolone są tylko litery"
+  },
+  "albumNumber": {
+    "required": "Numer jest wymagany",
+    "invalid": "Musi zawierać 6 cyfr"
+  },
+  "email": {
+    "required": "Email jest wymagany",
+    "invalid": "Nieprawidłowy format adresu email"
+  },
+  "password": {
+    "required": "Hasło jest wymagane",
+    "tooShort": "Minimum 8 znaków",
+    "weak": "Hasło jest zbyt słabe",
+    "requirements": {
+      "length": "Zawiera co najmniej 8 znaków",
+      "uppercase": "Zawiera wielkie litery (A-Z)",
+      "lowercase": "Zawiera małe litery (a-z)",
+      "digit": "Zawiera co najmniej jedną cyfrę (0-9)",
+      "special": "Zawiera znak specjalny"
+    },
+    "confirmPassword": {
+      "notMatch": "Hasła nie są zgodne"
+    }
+  },
+  "server": {
+    "noResponse": "Brak odpowiedzi z serwera. Spróbuj później.",
+    "error": "Wystąpił błąd podczas wysyłania żądania.",
+    "timeout": "Przekroczono limit czasu. Spróbuj ponownie."
+  },
+  "registration": {
+    "success": "Rejestracja zakończona sukcesem! Witaj, {{firstName}} {{lastName}}!",
+    "failed": "Nie udało się zarejestrować: {{error}}",
+    "profileExists": "Profil dla tego użytkownika już istnieje."
+  },
+  "errors": {
+    "requiredField": "Pole wymagane",
+    "invalidEmail": "Nieprawidłowy format adresu email",
+    "passwordTooShort": "Hasło musi zawierać co najmniej 8 znaków",
+    "formErrors": "Popraw błędy w formularzu",
+    "serverError": "Wystąpił błąd serwera",
+    "invalidCredentials": "Nieprawidłowy email lub hasło",
+    "fillRequiredFields": "Proszę wypełnić wymagane pola",
+    "emailNotVerified": "Potwierdź swój email przed zalogowaniem się",
+    "tooManyRequests": "Zbyt wiele żądań, spróbuj później",
+    "logoutFailed": "Wylogowanie nie powiodło się",
+    "unknownError": "Wystąpił nieznany błąd. Spróbuj ponownie.",
+    "fillAllFields": "Pola nie są wypełnione",
+    "passwordRequired": "Wprowadź hasło",
+    "passwordsNotMatch": "Hasła nie są zgodne",
+    "registrationFailed": "Nie udało się zarejestrować",
+    "currentPassword": "Aktualne hasło"
+  },
+  "login": {
+    "success": "Logowanie zakończone sukcesem. Witamy!"
+  }
 }
