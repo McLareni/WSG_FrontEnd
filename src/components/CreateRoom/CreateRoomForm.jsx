@@ -5,6 +5,9 @@ import styles from "./CreateRoomForm.module.css";
 import { useTranslation } from "react-i18next";
 import { VscAdd } from "react-icons/vsc";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { createRoomRequest } from "../../utils/roomRequest";
+import { validationForm } from "../../utils/createRoomValidation";
+import { toast } from "react-toastify";
 
 const ROOM_TYPES = [
   "informatyka",
@@ -31,6 +34,14 @@ const CreateRoomForm = () => {
   const [description, setDescription] = useState("");
   const [activeType, setType] = useState("");
   const [places, setPlaces] = useState([]);
+  const [schedule, setSchedule] = useState(
+    DAYS.map((day) => ({
+      day,
+      from: "",
+      to: "",
+      closed: false,
+    }))
+  );
 
   const { t } = useTranslation("createRoom");
 
@@ -64,15 +75,6 @@ const CreateRoomForm = () => {
     setPlaces((prevPlaces) => prevPlaces.filter((_, i) => i !== index));
   };
 
-  const [schedule, setSchedule] = useState(
-    DAYS.map((day) => ({
-      day,
-      from: "",
-      to: "",
-      closed: false,
-    }))
-  );
-
   const handleScheduleChange = (index, field, value) => {
     setSchedule((prev) =>
       prev.map((item, i) => (i === index ? { ...item, [field]: value } : item))
@@ -94,8 +96,35 @@ const CreateRoomForm = () => {
     );
   };
 
+  const handleCreateRoom = async (e) => {
+    e.preventDefault();
+
+    const roomData = {
+      title,
+      location,
+      description,
+      type: activeType,
+      places,
+      schedule: schedule.filter((item) => !item.closed),
+    };
+
+    const error = validationForm(roomData);
+
+    if (error.length) {
+      const [baseKey, dayKey] = error[0].split(" ");
+      return toast.error(
+        `${t(`${baseKey}`)} ${dayKey ? t(`days.${dayKey}`) : ""}`
+      );
+    }
+
+    const response = await createRoomRequest(roomData);
+    if (response.id) {
+      toast.success("Room created");
+    }
+  };
+
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={(e) => handleCreateRoom(e)}>
       <div>
         <ImagePicker />
         <Input
@@ -245,7 +274,7 @@ const CreateRoomForm = () => {
           </table>
         </div>
 
-        <button type="button" className={styles.createRoomBtn}>
+        <button type="submit" className={styles.createRoomBtn}>
           Stwórz gabinet
         </button>
       </div>

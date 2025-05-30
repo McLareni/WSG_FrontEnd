@@ -34,5 +34,22 @@
     "description": "Opis",
     "count": "Ilość"
   },
-  "blockDay": "Zablokuj dzień"
+  "blockDay": "Zablokuj dzień",
+  "validation": {
+    "title.required": "Tytuł jest wymagany",
+    "title.minLength": "Tytuł musi mieć co najmniej 3 znaki",
+    "location.required": "Lokalizacja jest wymagana",
+    "description.required": "Opis jest wymagany",
+    "description.minLength": "Opis musi mieć co najmniej 10 znaków",
+    "type.required": "Typ jest wymagany",
+    "places.required": "Wymagane jest co najmniej jedno miejsce",
+    "places.desc.required": "Opis jest wymagany dla każdego miejsca",
+    "schedule.required": "Harmonogram jest wymagany",
+    "schedule.from.required": "Godzina rozpoczęcia jest wymagana",
+    "schedule.to.required": "Godzina zakończenia jest wymagana",
+    "schedule.timeOrder": "Godzina rozpoczęcia musi być wcześniejsza niż godzina zakończenia",
+    "schedule.from.requiredDay": "Godzina rozpoczęcia jest wymagana dla dnia",
+    "schedule.to.requiredDay": "Godzina zakończenia jest wymagana dla dnia",
+    "schedule.timeOrderDay": "Godzina rozpoczęcia musi być wcześniejsza niż godzina zakończenia dla dnia"
+  }
 }
