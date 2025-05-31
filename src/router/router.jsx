@@ -7,7 +7,7 @@ import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import ProfileView from "../pages/ProfilePage/ProfileView";
 import ProfileEdit from "../pages/ProfilePage/ProfileEdit";
 import ProfilePassword from "../pages/ProfilePage/ProfilePassword";
-import LoginRouter from "./loginRouter";
+import LoginRouter from "./LoginRouter";
 import TeacherRouter from "./TeacherRouter";
 import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
 
