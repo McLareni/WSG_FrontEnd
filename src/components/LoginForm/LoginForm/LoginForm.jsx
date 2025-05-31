@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import styles from "./LoginForm.module.css";
@@ -8,69 +8,55 @@ import Button from "../../UI/Button/Button";
 import Footer from "../../UI/LoginFooter/LoginFooter";
 import { useLoginForm } from "./useLoginForm";
 
-const LoginForm = React.memo(() => {
-  const { t } = useTranslation(["adminUser", "validation"]);
+const LoginForm = () => {
+  const { t, i18n } = useTranslation(["adminUser", "validation"]);
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [formError, setFormError] = useState("");
-  const [fieldErrors, setFieldErrors] = useState({
-    email: false,
-    password: false,
-  });
-
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState({ type: null, message: "" });
   const { isSubmitting, handleLogin } = useLoginForm();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    // Скидаємо помилку тільки для цього поля
-    if (fieldErrors[name]) {
-      setFieldErrors((prev) => ({ ...prev, [name]: false }));
-      if (formError === t("validation:errors.invalidCredentials")) {
-        setFormError("");
-      }
+  // Оновлюємо текст помилки при зміні мови
+  useEffect(() => {
+    if (error.type) {
+      setError(prev => ({
+        ...prev,
+        message: t(`validation:errors.${prev.type}`)
+      }));
     }
-  };
+  }, [i18n.language, t]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const result = await handleLogin(formData.email, formData.password);
-
-    if (!result.success) {
-      setFormError(result.error);
-      if (result.fieldErrors) {
-        setFieldErrors(result.fieldErrors);
-      }
+    
+    // Валідація на порожні поля
+    if (!formData.email.trim() || !formData.password.trim()) {
+      setError({
+        type: 'fillAllFields',
+        message: t("validation:errors.fillAllFields")
+      });
       return;
     }
 
-    // Скидаємо форму тільки при успішному логіні
-    setFormData({ email: "", password: "" });
-    setFormError("");
-    setFieldErrors({ email: false, password: false });
-    navigate("/");
-  };
-
-  const getErrorMessage = (fieldName) => {
-    if (!fieldErrors[fieldName]) return "";
-    return formError;
+    const result = await handleLogin(formData.email, formData.password);
+    
+    if (!result.success) {
+      setError({
+        type: result.errorType,
+        message: result.message
+      });
+    } else {
+      navigate("/");
+    }
   };
 
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formContainer}>
-        {formError &&
-          formError !== t("validation:errors.invalidCredentials") && (
-            <div className={styles.errorMessage} role="alert">
-              {formError}
-            </div>
-          )}
+        {error.message && (
+          <div className={styles.errorMessage} role="alert">
+            {error.message}
+          </div>
+        )}
 
         <Header
           title={t("adminUser:common.welcome")}
@@ -83,11 +69,8 @@ const LoginForm = React.memo(() => {
             type="email"
             name="email"
             value={formData.email}
-            onChange={handleChange}
-            autoComplete="username"
-            required
-            error={fieldErrors.email}
-            errorMessage={getErrorMessage("email")}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            error={error.type === 'fillAllFields' && !formData.email}
           />
 
           <Input
@@ -95,11 +78,8 @@ const LoginForm = React.memo(() => {
             type="password"
             name="password"
             value={formData.password}
-            onChange={handleChange}
-            autoComplete="current-password"
-            required
-            error={fieldErrors.password}
-            errorMessage={getErrorMessage("password")}
+            onChange={(e) => setFormData({...formData, password: e.target.value})}
+            error={error.type === 'fillAllFields' && !formData.password}
           />
 
           <div className={styles.buttonWrapper}>
@@ -118,6 +98,6 @@ const LoginForm = React.memo(() => {
       </div>
     </div>
   );
-});
+};
 
 export default LoginForm;

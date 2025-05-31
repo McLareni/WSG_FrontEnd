@@ -28,6 +28,7 @@ const devButtonStyle = {
 function App() {
   const { t } = useTranslation();
   const [isAuthCheckComplete, setIsAuthCheckComplete] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
   const { checkSession, logout, isLoading } = useAuthStore();
 
   useEffect(() => {
@@ -37,7 +38,10 @@ function App() {
       } catch (error) {
         console.error(t('validation:errors.serverError'), error);
       } finally {
-        setIsAuthCheckComplete(true);
+        // Додаємо затримку для завершення анімації
+        setTimeout(() => {
+          setIsAuthCheckComplete(true);
+        }, 500); // Час для завершення анімації лоадера
       }
     };
 
@@ -45,11 +49,7 @@ function App() {
   }, [checkSession, t]);
 
   if (!isAuthCheckComplete || isLoading) {
-    return (
-      <div className="fullscreen-loader">
-        <Loader />
-      </div>
-    );
+    return <Loader isLoading={!isAuthCheckComplete} />;
   }
 
   return (

@@ -52,6 +52,7 @@
     "emailNotVerified": "Please verify your email before logging in",
     "tooManyRequests": "Too many requests, try again later",
     "logoutFailed": "Logout failed",
+    "emailExists": "ЕThe email address is already in use",
     "unknownError": "An unknown error occurred. Try again.",
     "fillAllFields": "Fields are not filled in",
     "passwordRequired": "Enter your password",

@@ -10,8 +10,10 @@ const useAuthStore = create(
       (set, get) => ({
         user: null,
         session: null,
-        isLoading: false,
         error: null,
+
+        // Новий метод для очищення помилок
+        clearErrors: () => set({ error: null }),
 
         _handleError: (error) => {
           const message = error.message || ERROR_MESSAGES.UNKNOWN_ERROR;
@@ -21,15 +23,16 @@ const useAuthStore = create(
 
         checkSession: async () => {
           try {
-            set({ isLoading: true });
-            const {
-              data: { session },
-              error,
-            } = await supabase.auth.getSession();
+            const { data: { session }, error } = await supabase.auth.getSession();
 
             if (error || !session) {
               set({ user: null, session: null });
               return null;
+            }
+
+            // Якщо сесія вже є і не змінилася - не робимо зайвих запитів
+            if (get().session?.access_token === session.access_token) {
+              return session;
             }
 
             const userDetails = await api.fetchUserDetails(session.user.id);
@@ -43,29 +46,22 @@ const useAuthStore = create(
           } catch (error) {
             set({ error: error.message });
             return null;
-          } finally {
-            set({ isLoading: false });
           }
         },
 
         login: async (email, password) => {
           try {
-            set({ isLoading: true, error: null });
-            const { data, error: authError } =
-              await supabase.auth.signInWithPassword({
-                email,
-                password,
-              });
+            set({ error: null });
+            const { data, error: authError } = await supabase.auth.signInWithPassword({
+              email,
+              password,
+            });
 
             if (authError) throw authError;
             if (!data?.session) throw new Error(ERROR_MESSAGES.SERVER_ERROR);
 
-            const userDetails = await api.fetchUserDetails(
-              data.session.user.id
-            );
-
-            console.log(userDetails);
-
+            const userDetails = await api.fetchUserDetails(data.session.user.id);
+            
             set({
               session: data.session,
               user: {
@@ -80,27 +76,22 @@ const useAuthStore = create(
             return { success: true };
           } catch (error) {
             return get()._handleError(error);
-          } finally {
-            set({ isLoading: false });
           }
         },
-
+        
         logout: async () => {
           try {
-            set({ isLoading: true });
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
             set({ user: null, session: null, error: null });
           } catch (error) {
             return get()._handleError(error);
-          } finally {
-            set({ isLoading: false });
           }
         },
 
         updateProfile: async (updates) => {
           try {
-            set({ isLoading: true, error: null });
+            set({ error: null });
             const { user } = get();
 
             await api.updateUserProfile(user.id, updates);
@@ -115,8 +106,6 @@ const useAuthStore = create(
             return { success: true };
           } catch (error) {
             return get()._handleError(error);
-          } finally {
-            set({ isLoading: false });
           }
         },
 
