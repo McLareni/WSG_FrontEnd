@@ -78,6 +78,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "/home", element: <HomePage /> },
 ]);
 
 export default router;

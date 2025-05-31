@@ -2,7 +2,6 @@
 *,
 *::before,
 *::after {
-  
   padding: 0;
   box-sizing: border-box;
 }
@@ -16,11 +15,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+#root {
+  width: 100%;
+}
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f0f9ff 0%, #a2d4ff 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,10 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 700;
   line-height: 1.2;
 }
@@ -47,7 +50,8 @@ button {
 }
 
 /* Remove list styles */
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
