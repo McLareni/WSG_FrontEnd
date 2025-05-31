@@ -8,7 +8,7 @@ const Header = () => {
         <h1 className={styles.logo}>WorkRoom</h1>
 
         <nav className={styles.centerSection}>
-          <a href="/home" className={styles.navLink}>
+          <a href="/" className={styles.navLink}>
             Strona główna
           </a>
           <a href="/profile" className={styles.navLink}>
@@ -18,8 +18,6 @@ const Header = () => {
             Biura
           </a>
         </nav>
-
-        <div>{/* сюди, наприклад, кнопка зміни мови */}</div>
       </div>
     </header>
   );

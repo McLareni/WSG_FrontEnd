@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  height: 100vh;
 }
 
 .formContainer {
@@ -16,11 +17,11 @@
 }
 
 .errorMessage {
-  color: #C62B2B;
+  color: #c62b2b;
   padding: 12px;
   margin-bottom: 20px;
-  background: #FCCFCF;
-  border: 1px solid #EEA1A1;
+  background: #fccfcf;
+  border: 1px solid #eea1a1;
   border-radius: 8px;
   text-align: center;
   font-weight: 600;

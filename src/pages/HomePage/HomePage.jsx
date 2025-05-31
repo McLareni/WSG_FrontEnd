@@ -7,7 +7,6 @@ import styles from "./HomePage.module.css";
 const HomePage = () => {
   return (
     <div className={styles.homePage}>
-      <Header />
       <div className={styles.content}>
         <MainContent />
       </div>

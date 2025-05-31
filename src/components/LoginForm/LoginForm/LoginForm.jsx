@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./LoginForm.module.css";
 import Header from "../../UI/LoginHeader/LoginHeader";
 import Input from "../../UI/Input/Input";
@@ -11,8 +11,7 @@ import { useLoginForm } from "./useLoginForm";
 const LoginForm = React.memo(() => {
   const { t } = useTranslation(["adminUser", "validation"]);
   const navigate = useNavigate();
-  const location = useLocation();
-  
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,17 +20,17 @@ const LoginForm = React.memo(() => {
   const [formError, setFormError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({
     email: false,
-    password: false
+    password: false,
   });
-  
+
   const { isSubmitting, handleLogin } = useLoginForm();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     // Скидаємо помилку тільки для цього поля
     if (fieldErrors[name]) {
-      setFieldErrors(prev => ({ ...prev, [name]: false }));
+      setFieldErrors((prev) => ({ ...prev, [name]: false }));
       if (formError === t("validation:errors.invalidCredentials")) {
         setFormError("");
       }
@@ -40,9 +39,9 @@ const LoginForm = React.memo(() => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const result = await handleLogin(formData.email, formData.password);
-    
+
     if (!result.success) {
       setFormError(result.error);
       if (result.fieldErrors) {
@@ -50,12 +49,12 @@ const LoginForm = React.memo(() => {
       }
       return;
     }
-    
+
     // Скидаємо форму тільки при успішному логіні
     setFormData({ email: "", password: "" });
     setFormError("");
     setFieldErrors({ email: false, password: false });
-    navigate(location.state?.from?.pathname || "/home", { replace: true });
+    navigate("/");
   };
 
   const getErrorMessage = (fieldName) => {
@@ -66,11 +65,12 @@ const LoginForm = React.memo(() => {
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formContainer}>
-        {formError && formError !== t("validation:errors.invalidCredentials") && (
-          <div className={styles.errorMessage} role="alert">
-            {formError}
-          </div>
-        )}
+        {formError &&
+          formError !== t("validation:errors.invalidCredentials") && (
+            <div className={styles.errorMessage} role="alert">
+              {formError}
+            </div>
+          )}
 
         <Header
           title={t("adminUser:common.welcome")}

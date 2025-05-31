@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import useAuthStore from "../store/useAuthStore";
 
 import { Loader } from "./UI/Loader/Loader";
+import Header from "./Home/Header/Header";
 
 const Layout = () => {
   const [authChecked, setAuthChecked] = useState(false);
@@ -18,9 +19,17 @@ const Layout = () => {
   }, [isLoading, i18n.language]);
 
   return (
-    <div className="app">
+    <div className="app" style={{ height: "100%" }}>
+      <Header />
       <LanguageSwitcher />
-      <main>{isLoading || !authChecked ? <Loader /> : <Outlet />}</main>
+      <main
+        style={{
+          width: "100%",
+          height: "calc(100% - 92px)"
+        }}
+      >
+        {isLoading || !authChecked ? <Loader /> : <Outlet />}
+      </main>
     </div>
   );
 };

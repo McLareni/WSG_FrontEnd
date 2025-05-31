@@ -1,6 +1,6 @@
 .languageSwitcher {
   position: absolute;
-  top: 50px;
+  top: 25px;
   right: 50px;
   z-index: 1000;
   transition: all 0.3s ease-out;
@@ -14,7 +14,7 @@
 .dropdownContainer {
   display: flex;
   flex-direction: column;
-  border: 2px solid #2597D9;
+  border: 2px solid #2597d9;
   border-radius: 12px;
   overflow: hidden;
   background-color: transparent;
@@ -35,7 +35,7 @@
   padding: 8px 12px;
   font-size: 14px;
   font-weight: 600;
-  color: #2597D9;
+  color: #2597d9;
   cursor: pointer;
   outline: none;
   width: 100%;
@@ -50,7 +50,7 @@
   width: 14px;
   height: 14px;
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-  color: #2597D9;
+  color: #2597d9;
 }
 
 .dropdownMenu {
@@ -59,9 +59,7 @@
   background-color: transparent;
   overflow: hidden;
   max-height: 0;
-  transition: 
-    max-height 0.4s cubic-bezier(0.32, 0.72, 0, 1),
-    opacity 0.3s ease,
+  transition: max-height 0.4s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.3s ease,
     transform 0.3s ease;
   opacity: 0;
   transform: translateY(-5px);
@@ -71,19 +69,15 @@
   max-height: 150px;
   opacity: 1;
   transform: translateY(0);
-  transition: 
-    max-height 0.5s cubic-bezier(0.32, 0.72, 0, 1),
-    opacity 0.3s ease 0.1s,
-    transform 0.3s ease 0.1s;
+  transition: max-height 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
 }
 
 .menuClosed {
   max-height: 0;
   opacity: 0;
   transform: translateY(-5px);
-  transition: 
-    max-height 0.2s cubic-bezier(0.22, 0.32, 0, 1),
-    opacity 0.2s ease,
+  transition: max-height 0.2s cubic-bezier(0.22, 0.32, 0, 1), opacity 0.2s ease,
     transform 0.2s ease;
 }
 
@@ -91,19 +85,16 @@
   padding: 8px 12px;
   font-size: 14px;
   font-weight: 600;
-  color: #8DBCD7;
+  color: #8dbcd7;
   cursor: pointer;
   background-color: transparent;
   text-align: left;
   border: none;
-  transition: 
-    color 0.25s ease,
-    background-color 0.25s ease,
-    transform 0.2s ease;
+  transition: color 0.25s ease, background-color 0.25s ease, transform 0.2s ease;
 }
 
 .menuItem:hover {
-  color: #2597D9;
+  color: #2597d9;
   background-color: rgba(37, 151, 217, 0.08);
   transform: translateX(2px);
 }
