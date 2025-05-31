@@ -1,14 +1,15 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Layout from "../components/Layout";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import HomePage from "../pages/HomePage/HomePage";
-import ProtectedRoute from "./ProtectedRoute";
-import PublicRoute from "./PublicRoute";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
-import ProfileView from "../pages/ProfilePage/ProfileView"; 
+import ProfileView from "../pages/ProfilePage/ProfileView";
 import ProfileEdit from "../pages/ProfilePage/ProfileEdit";
 import ProfilePassword from "../pages/ProfilePage/ProfilePassword";
+import LoginRouter from "./LoginRouter";
+import TeacherRouter from "./TeacherRouter";
+import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
 
 const router = createBrowserRouter([
   {
@@ -16,59 +17,47 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        index: true,
-        element: <Navigate to="/login" replace />,
-      },
-      {
         path: "login",
-        element: (
-          <PublicRoute>
-            <LoginPage />
-          </PublicRoute>
-        ),
+        element: <LoginPage />,
       },
       {
         path: "register",
-        element: (
-          <PublicRoute>
-            <RegisterPage />
-          </PublicRoute>
-        ),
+        element: <RegisterPage />,
       },
       {
-        path: "home",
-        element: (
-          <ProtectedRoute>
-            <HomePage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "profile",
+        // Protected routes
+        element: <LoginRouter />,
         children: [
           {
             index: true,
-            element: (
-              <ProtectedRoute>
-                <ProfileView />
-              </ProtectedRoute>
-            ),
+            element: <HomePage />,
           },
           {
-            path: "edit",
-            element: (
-              <ProtectedRoute>
-                <ProfileEdit />
-              </ProtectedRoute>
-            ),
+            path: "profile",
+            children: [
+              {
+                index: true,
+                element: <ProfileView />,
+              },
+              {
+                path: "edit",
+                element: <ProfileEdit />,
+              },
+              {
+                path: "password",
+                element: <ProfilePassword />,
+              },
+            ],
           },
           {
-            path: "password",
-            element: (
-              <ProtectedRoute>
-                <ProfilePassword />
-              </ProtectedRoute>
-            ),
+            // Protected Teacher routes
+            element: <TeacherRouter />,
+            children: [
+              {
+                path: "create-room",
+                element: <CreateRoomPage />,
+              },
+            ],
           },
         ],
       },

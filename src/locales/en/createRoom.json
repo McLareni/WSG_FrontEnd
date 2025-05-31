@@ -1,0 +1,56 @@
+{
+  "type": {
+    "informatyka": "Computer Science",
+    "fizyka": "Physics",
+    "chemia": "Chemistry",
+    "grafika": "Graphics",
+    "wychowanie fizyczne": "Physical Education",
+    "other": "Other"
+  },
+  "titles": {
+    "title": "Room Title",
+    "location": "Location",
+    "description": "Description",
+    "type": "Type",
+    "places": "Places",
+    "harmonoram": "Schedule"
+  },
+  "schedule": {
+    "from": "From",
+    "to": "To"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday"
+  },
+  "table": {
+    "addPlace": "Add place",
+    "number": "No.",
+    "description": "Description",
+    "count": "Count"
+  },
+  "blockDay": "Block day",
+
+  "validation": {
+    "title.required": "Title is required",
+    "title.minLength": "Title must be at least 3 characters",
+    "location.required": "Location is required",
+    "description.required": "Description is required",
+    "description.minLength": "Description must be at least 10 characters",
+    "type.required": "Type is required",
+    "places.required": "At least one place is required",
+    "places.desc.required": "Description is required for each place",
+    "schedule.required": "Schedule is required",
+    "schedule.from.required": "Start time is required",
+    "schedule.to.required": "End time is required",
+    "schedule.timeOrder": "Start time must be before end time",
+    "schedule.from.requiredDay": "Start time is required for day",
+    "schedule.to.requiredDay": "End time is required for day",
+    "schedule.timeOrderDay": "Start time must be before end time for day"
+  }
+}

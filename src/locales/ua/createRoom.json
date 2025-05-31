@@ -1,0 +1,56 @@
+{
+  "type": {
+    "informatyka": "Інформатика",
+    "fizyka": "Фізика",
+    "chemia": "Хімія",
+    "grafika": "Графіка",
+    "wychowanie fizyczne": "Фізичне виховання",
+    "other": "Інше"
+  },
+  "titles": {
+    "title": "Назва кімнати",
+    "location": "Місцезнаходження",
+    "description": "Опис",
+    "type": "Тип",
+    "places": "Місця",
+    "harmonoram": "Розклад"
+  },
+  "schedule": {
+    "from": "З",
+    "to": "По"
+  },
+  "days": {
+    "monday": "Понеділок",
+    "tuesday": "Вівторок",
+    "wednesday": "Середа",
+    "thursday": "Четвер",
+    "friday": "П’ятниця",
+    "saturday": "Субота",
+    "sunday": "Неділя"
+  },
+  "table": {
+    "addPlace": "Додати місце",
+    "number": "№",
+    "description": "Опис",
+    "count": "Кількість"
+  },
+  "blockDay": "Заблокувати день",
+
+  "validation": {
+    "title.required": "Потрібно вказати назву",
+    "title.minLength": "Назва повинна містити щонайменше 3 символи",
+    "location.required": "Потрібно вказати місце",
+    "description.required": "Потрібно вказати опис",
+    "description.minLength": "Опис повинен містити щонайменше 10 символів",
+    "type.required": "Потрібно вказати тип",
+    "places.required": "Потрібно щонайменше одне місце",
+    "places.desc.required": "Потрібно вказати опис для кожного місця",
+    "schedule.required": "Потрібно вказати розклад",
+    "schedule.from.required": "Потрібно вказати час початку",
+    "schedule.to.required": "Потрібно вказати час завершення",
+    "schedule.timeOrder": "Час початку має бути раніше часу завершення",
+    "schedule.from.requiredDay": "Потрібно вказати час початку для дня",
+    "schedule.to.requiredDay": "Потрібно вказати час завершення для дня",
+    "schedule.timeOrderDay": "Час початку має бути раніше часу завершення для дня"
+  }
+}

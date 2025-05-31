@@ -8,7 +8,7 @@
 
 /* Base styles */
 :root {
-  font-family: 'Montserrat', sans-serif, 'Darker Grotesque';
+  font-family: "Darker Grotesque", monospace;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -23,7 +23,6 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
   color: #242424;
 }
 
