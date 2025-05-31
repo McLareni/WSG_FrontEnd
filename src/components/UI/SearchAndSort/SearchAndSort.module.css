@@ -1,0 +1,33 @@
+/* src/components/UI/SearchAndSort/SearchAndSort.module.css */
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: nowrap;
+  margin-bottom: 55px;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdownsWrapper {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .dropdownsWrapper {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

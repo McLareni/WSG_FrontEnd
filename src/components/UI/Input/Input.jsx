@@ -1,3 +1,4 @@
+// src/components/UI/Input/Input.jsx
 import styles from "./Input.module.css";
 
 const Input = ({
@@ -14,10 +15,12 @@ const Input = ({
   hasSoftError = false,
   width = "100%",
   required = false,
+  className = "",
+  inputClassName = "",
   ...props
 }) => {
   return (
-    <div className={styles.container} style={{ width }}>
+    <div className={`${styles.container} ${className}`} style={{ width }}>
       <div className={styles.topRow}>
         {label && (
           <label
@@ -52,7 +55,7 @@ const Input = ({
           disabled={disabled}
           className={`${styles.input} ${
             error ? styles.error : hasSoftError ? styles.softError : ""
-          }`}
+          } ${inputClassName}`}
           {...props}
         />
       )}
@@ -61,3 +64,4 @@ const Input = ({
 };
 
 export default Input;
+
