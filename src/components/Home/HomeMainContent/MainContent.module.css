@@ -5,7 +5,6 @@
 }
 
 .filterSection {
-  max-width: 1200px;
   margin: 0 auto 32px;
   display: flex;
   flex-direction: column;
@@ -14,8 +13,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(396px, 396px));
+  justify-content: center;
   gap: 24px;
-  max-width: 1200px;
   margin: 0 auto;
 }
