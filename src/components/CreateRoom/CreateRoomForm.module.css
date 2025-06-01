@@ -2,10 +2,12 @@
   display: flex;
   flex-direction: row;
   gap: 24px;
+  justify-content: center;
 
   margin-top: 20px;
+  padding-bottom: 20px;
 
-  background: #D6ECF9;
+  background: #d6ecf9;
 }
 
 .lokalizacja {

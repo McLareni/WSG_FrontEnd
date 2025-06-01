@@ -8,6 +8,10 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { createRoomRequest } from "../../utils/roomRequest";
 import { validationForm } from "../../utils/createRoomValidation";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 
 const ROOM_TYPES = [
   "informatyka",
@@ -42,8 +46,10 @@ const CreateRoomForm = () => {
       closed: false,
     }))
   );
+  const [image, setImage] = useState("");
 
   const { t } = useTranslation("createRoom");
+  const navigate = useNavigate();
 
   const addPlaceHandler = () => {
     const newPlace = {
@@ -96,6 +102,28 @@ const CreateRoomForm = () => {
     );
   };
 
+  const handleFileChange = async () => {
+    const formData = new FormData();
+    formData.append("file", image);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+    try {
+      const res = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await res.json();
+      return data.url;
+    } catch (error) {
+      toast.error("Image upload failed.");
+    }
+  };
+
+  console.log(CLOUDINARY_CLOUD_NAME);
+
   const handleCreateRoom = async (e) => {
     e.preventDefault();
 
@@ -117,16 +145,34 @@ const CreateRoomForm = () => {
       );
     }
 
+    if (!image) {
+      return toast.error("Select image");
+    }
+
+    const url = await handleFileChange();
+
+    if (!url) {
+      return;
+    }
+
+    roomData.photo_url = url;
+
     const response = await createRoomRequest(roomData);
     if (response.id) {
       toast.success("Room created");
+      navigate("/");
     }
   };
 
   return (
     <form className={styles.form} onSubmit={(e) => handleCreateRoom(e)}>
       <div>
-        <ImagePicker />
+        <ImagePicker
+          setPhoto={(image) => {
+            console.log(image);
+            setImage(image);
+          }}
+        />
         <Input
           label={t("titles.title")}
           labelIsCentered
