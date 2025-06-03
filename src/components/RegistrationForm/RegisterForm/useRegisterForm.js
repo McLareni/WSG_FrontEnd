@@ -112,87 +112,87 @@ export const useRegisterForm = (t, navigate) => {
   }, [formData, errors]);
 
   const handleSubmit = useCallback(async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  setTouched({
-    firstName: true,
-    lastName: true,
-    studentId: true,
-    email: true,
-    password: true,
-    confirmPassword: true
-  });
-
-  const newErrors = validateRegisterForm(formData, t);
-  setErrors(newErrors);
-
-  const hasEmpty = [
-    !formData.firstName.trim(),
-    !formData.lastName.trim(),
-    !formData.email.trim(),
-    !formData.password.trim(),
-    !formData.confirmPassword.trim(),
-    !formData.isTeacher && !formData.studentId.trim()
-  ].some(Boolean);
-
-  if (hasEmpty) {
-    setSubmitError('errors.fillAllFields');
-    return;
-  }
-
-  if (Object.values(newErrors).some(Boolean)) {
-    setSubmitError('errors.formErrors');
-    return;
-  }
-
-  setIsSubmitting(true);
-  setSubmitError('');
-
-  try {
-    const response = await fetch(import.meta.env.VITE_REGISTER_FUNCTION_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': import.meta.env.VITE_SUPABASE_API_KEY,
-        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_API_KEY}`,
-      },
-      body: JSON.stringify({
-        email: formData.email,
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        album_number: formData.isTeacher ? "" : formData.studentId.trim(), 
-        password: formData.password,
-      }),
+    setTouched({
+      firstName: true,
+      lastName: true,
+      studentId: true,
+      email: true,
+      password: true,
+      confirmPassword: true
     });
 
-    const data = await response.json();
+    const newErrors = validateRegisterForm(formData, t);
+    setErrors(newErrors);
 
-    if (!response.ok) {
-      throw new Error(data?.error || 'Registration failed');
+    const hasEmpty = [
+      !formData.firstName.trim(),
+      !formData.lastName.trim(),
+      !formData.email.trim(),
+      !formData.password.trim(),
+      !formData.confirmPassword.trim(),
+      !formData.isTeacher && !formData.studentId.trim()
+    ].some(Boolean);
+
+    if (hasEmpty) {
+      setSubmitError('errors.fillAllFields');
+      return;
     }
 
-    navigate('/login');
-  } catch (error) {
-    console.error('Registration error:', error);
-    let message = error.message.toLowerCase();
-
-    if (message.includes('email already exists')) {
-      setSubmitError('emailExists');
-    } else if (message.includes('password must')) {
-      setSubmitError('errors.passwordRequirements');
-    } else if (message.includes('invalid email')) {
-      setSubmitError('validation:email.invalid');
-    } else if (message.includes('first name') || message.includes('last name')) {
-      setSubmitError('validation:firstName.invalidChars');
-    } else if (message.includes('album number')) {
-      setSubmitError('validation:albumNumber.invalid');
-    } else {
-      setSubmitError('errors.registrationFailed');
+    if (Object.values(newErrors).some(Boolean)) {
+      setSubmitError('errors.formErrors');
+      return;
     }
-  } finally {
-    setIsSubmitting(false);
-  }
-}, [formData, validateRegisterForm, t, navigate]);
+
+    setIsSubmitting(true);
+    setSubmitError('');
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_URL}registration`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': import.meta.env.VITE_SUPABASE_API_KEY,
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_API_KEY}`,
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          album_number: formData.isTeacher ? "" : formData.studentId.trim(), 
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.error || 'Registration failed');
+      }
+
+      navigate('/login');
+    } catch (error) {
+      console.error('Registration error:', error);
+      let message = error.message.toLowerCase();
+
+      if (message.includes('email already exists')) {
+        setSubmitError('emailExists');
+      } else if (message.includes('password must')) {
+        setSubmitError('errors.passwordRequirements');
+      } else if (message.includes('invalid email')) {
+        setSubmitError('validation:email.invalid');
+      } else if (message.includes('first name') || message.includes('last name')) {
+        setSubmitError('validation:firstName.invalidChars');
+      } else if (message.includes('album number')) {
+        setSubmitError('validation:albumNumber.invalid');
+      } else {
+        setSubmitError('errors.registrationFailed');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [formData, validateRegisterForm, t, navigate]);
 
   return {
     formData,

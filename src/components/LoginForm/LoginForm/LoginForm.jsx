@@ -28,7 +28,6 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Валідація на порожні поля
     if (!formData.email.trim() || !formData.password.trim()) {
       setError({
         type: 'fillAllFields',
