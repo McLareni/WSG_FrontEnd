@@ -1,4 +1,3 @@
-// useLoginForm.js
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useAuthStore from '../../../store/useAuthStore';
@@ -8,47 +7,34 @@ export const useLoginForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { login } = useAuthStore();
 
-  const validate = (email, password) => {
-    if (!email.trim() && !password.trim()) return { error: t("validation:errors.fillAllFields"), fieldErrors: { email: true, password: true } };
-    if (!email.trim()) return { error: t("validation:errors.emailRequired"), fieldErrors: { email: true, password: false } };
-    if (!password.trim()) return { error: t("validation:errors.passwordRequired"), fieldErrors: { email: false, password: true } };
-    return null;
-  };
-
   const handleLogin = async (email, password) => {
-  const validationResult = validate(email, password);
-  if (validationResult) return { success: false, ...validationResult };
-
-  setIsSubmitting(true);
-  
-  try {
-    const result = await login(email, password);
+    setIsSubmitting(true);
     
-    if (!result.success) {
-      const isInvalidCredentials = result.error.includes('Invalid');
+    try {
+      const result = await login(email, password);
+      
+      if (!result.success) {
+        const errorType = result.error?.toLowerCase().includes('invalid') 
+          ? 'invalidCredentials' 
+          : 'serverError';
+        return { 
+          success: false, 
+          errorType,
+          message: t(`validation:errors.${errorType}`)
+        };
+      }
+      
+      return { success: true };
+    } catch (error) {
       return { 
-        success: false, 
-        error: isInvalidCredentials 
-          ? t("validation:errors.invalidCredentials") 
-          : result.error || t("validation:errors.serverError"),
-        fieldErrors: {
-          email: isInvalidCredentials,
-          password: isInvalidCredentials
-        }
+        success: false,
+        errorType: 'serverError',
+        message: t("validation:errors.serverError")
       };
+    } finally {
+      setIsSubmitting(false);
     }
-    
-    return { success: true };
-  } catch (error) {
-    return { 
-      success: false,
-      error: error.message || t("validation:errors.serverError"),
-      fieldErrors: { email: false, password: false }
-    };
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   return {
     isSubmitting,
