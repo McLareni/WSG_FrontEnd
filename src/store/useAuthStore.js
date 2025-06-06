@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import { supabase } from "../supabaseClient";
 import * as api from "./api";
-import { ERROR_MESSAGES } from "./constants";
 
 const useAuthStore = create(
   devtools(
@@ -11,16 +10,89 @@ const useAuthStore = create(
         user: null,
         session: null,
         error: null,
+        isLoading: false,
 
-        // Новий метод для очищення помилок
+        // Очищення помилок
         clearErrors: () => set({ error: null }),
 
+        // Обробник помилок
         _handleError: (error) => {
-          const message = error.message || ERROR_MESSAGES.UNKNOWN_ERROR;
-          set({ error: message });
+          const message = error.message || 'errors.unknownError';
+          set({ error: message, isLoading: false });
           return { success: false, error: message };
         },
 
+        // Зміна пароля
+
+        changePassword: async (oldPassword, newPassword) => {
+  try {
+    set({ isLoading: true, error: null });
+    const result = await api.changePassword(oldPassword, newPassword);
+
+    // Опціонально: викинути користувача після зміни пароля
+    await supabase.auth.signOut();
+    set({ session: null, user: null, isLoading: false });
+
+    return { success: true, data: result };
+  } catch (error) {
+    return get()._handleError(error);
+  }
+},
+
+
+
+        // Оновлення профілю користувача
+        updateProfile: async (updates) => {
+          try {
+            set({ isLoading: true, error: null });
+            const { session } = get();
+
+            if (!session) {
+              throw new Error('errors.unauthorized');
+            }
+
+            const response = await fetch(`${import.meta.env.VITE_URL}UpdateUserInfo`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${session.access_token}`
+              },
+              body: JSON.stringify({
+                user_id: session.user.id,
+                first_name: updates.first_name,
+                last_name: updates.last_name,
+                email: updates.email,
+                ...(updates.album_number && { album_number: updates.album_number })
+              })
+            });
+
+            if (!response.ok) {
+              const errorData = await response.json().catch(() => ({}));
+              throw new Error(errorData.error || 'errors.updateFailed');
+            }
+
+            const result = await response.json();
+
+            // Оновлюємо дані користувача в стейті
+            set({
+              user: {
+                ...get().user,
+                first_name: updates.first_name,
+                last_name: updates.last_name,
+                email: updates.email,
+                ...(updates.album_number && { album_number: updates.album_number })
+              },
+              isLoading: false,
+              error: null
+            });
+
+            return { success: true, data: result };
+          } catch (error) {
+            return get()._handleError(error);
+          }
+        },
+
+        // Інші методи залишаються без змін
         checkSession: async () => {
           try {
             const { data: { session }, error } = await supabase.auth.getSession();
@@ -30,7 +102,6 @@ const useAuthStore = create(
               return null;
             }
 
-            // Якщо сесія вже є і не змінилася - не робимо зайвих запитів
             if (get().session?.access_token === session.access_token) {
               return session;
             }
@@ -58,7 +129,7 @@ const useAuthStore = create(
             });
 
             if (authError) throw authError;
-            if (!data?.session) throw new Error(ERROR_MESSAGES.SERVER_ERROR);
+            if (!data?.session) throw new Error('Server error occurred');
 
             const userDetails = await api.fetchUserDetails(data.session.user.id);
             
@@ -84,26 +155,6 @@ const useAuthStore = create(
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
             set({ user: null, session: null, error: null });
-          } catch (error) {
-            return get()._handleError(error);
-          }
-        },
-
-        updateProfile: async (updates) => {
-          try {
-            set({ error: null });
-            const { user } = get();
-
-            await api.updateUserProfile(user.id, updates);
-
-            set({
-              user: {
-                ...user,
-                ...updates,
-              },
-            });
-
-            return { success: true };
           } catch (error) {
             return get()._handleError(error);
           }
