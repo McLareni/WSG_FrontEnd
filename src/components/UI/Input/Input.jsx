@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import styles from "./Input.module.css";
 
 const Input = ({
@@ -17,10 +16,9 @@ const Input = ({
   required = false,
   className = "",
   inputClassName = "",
+  placeholder,
   ...props
 }) => {
-  const { t } = useTranslation("homePage");
-
   return (
     <div className={`${styles.container} ${className}`} style={{ width }}>
       <div className={styles.topRow}>
@@ -30,21 +28,22 @@ const Input = ({
               labelIsCentered ? styles.center : ""
             }`}
           >
-            {t(label)}
+            {label}
             {required && <span className={styles.required}>*</span>}
           </label>
         )}
         {error && <span className={styles.errorMessage}>{error}</span>}
       </div>
+
       {isTextarea ? (
         <textarea
-          className={styles.textarea}
-          type={type}
+          className={`${styles.textarea} ${inputClassName}`}
           name={name}
           value={value}
           onChange={onChange}
           onBlur={onBlur}
           disabled={disabled}
+          placeholder={placeholder}
           {...props}
         />
       ) : (
@@ -55,6 +54,7 @@ const Input = ({
           onChange={onChange}
           onBlur={onBlur}
           disabled={disabled}
+          placeholder={placeholder}
           className={`${styles.input} ${
             error ? styles.error : hasSoftError ? styles.softError : ""
           } ${inputClassName}`}

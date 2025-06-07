@@ -22,6 +22,7 @@ const SearchAndSort = () => {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder={t("placeholder")}
+          // label={t("searchAndSort.searchPlaceholder")}
           className={inputStyles.container}
           inputClassName={inputStyles.input}
           style={{ width: "690px", height: "55px" }}
