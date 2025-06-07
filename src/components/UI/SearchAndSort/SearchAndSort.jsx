@@ -1,17 +1,19 @@
-// src/components/UI/SearchAndSort/SearchAndSort.jsx
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./SearchAndSort.module.css";
 import Input from "../Input/Input";
 import inputStyles from "../Input/Input.projector.module.css";
 import Dropdown from "../Dropdown/Dropdown";
 
 const SearchAndSort = () => {
-  const [searchValue, setSearchValue] = useState("");
-  const [sortBy, setSortBy] = useState("Nazwa");
-  const [category, setCategory] = useState("Informatyka");
+  const { t } = useTranslation("homePage");
 
-  const sortOptions = ["Nazwa", "Data", "Popularność"];
-  const categories = ["Informatyka", "Matematyka", "Fizyka", "Chemia"];
+  const [searchValue, setSearchValue] = useState("");
+  const [sortBy, setSortBy] = useState("name");
+  const [category, setCategory] = useState("it");
+
+  const sortOptions = ["name", "teacher", "date"];
+  const categories = ["it", "physics", "chemistry", "graphics", "pe", "other"];
 
   return (
     <div className={styles.container}>
@@ -19,7 +21,7 @@ const SearchAndSort = () => {
         <Input
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
-          placeholder="Wpisz nazwę sali..."
+          placeholder={t("placeholder")}
           className={inputStyles.container}
           inputClassName={inputStyles.input}
           style={{ width: "690px", height: "55px" }}
@@ -28,18 +30,30 @@ const SearchAndSort = () => {
 
       <div className={styles.dropdownsWrapper}>
         <Dropdown
-          options={categories}
-          selected={category}
-          onSelect={setCategory}
+          options={categories.map((key) => t(`categories.${key}`))}
+          selected={t(`categories.${category}`)}
+          onSelect={(val) =>
+            setCategory(
+              categories[
+                categories.map((k) => t(`categories.${k}`)).indexOf(val)
+              ]
+            )
+          }
           width="242px"
           height="55px"
         />
 
         <Dropdown
-          label="Sort by:"
-          options={sortOptions}
-          selected={sortBy}
-          onSelect={setSortBy}
+          label={t("sortByLabel")}
+          options={sortOptions.map((key) => t(`sortOptions.${key}`))}
+          selected={t(`sortOptions.${sortBy}`)}
+          onSelect={(val) =>
+            setSortBy(
+              sortOptions[
+                sortOptions.map((k) => t(`sortOptions.${k}`)).indexOf(val)
+              ]
+            )
+          }
           width="242px"
           height="55px"
         />

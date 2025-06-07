@@ -1,4 +1,4 @@
-// src/components/UI/Input/Input.jsx
+import { useTranslation } from "react-i18next";
 import styles from "./Input.module.css";
 
 const Input = ({
@@ -19,6 +19,8 @@ const Input = ({
   inputClassName = "",
   ...props
 }) => {
+  const { t } = useTranslation("homePage");
+
   return (
     <div className={`${styles.container} ${className}`} style={{ width }}>
       <div className={styles.topRow}>
@@ -28,7 +30,7 @@ const Input = ({
               labelIsCentered ? styles.center : ""
             }`}
           >
-            {label}
+            {t(label)}
             {required && <span className={styles.required}>*</span>}
           </label>
         )}
@@ -64,4 +66,3 @@ const Input = ({
 };
 
 export default Input;
-
