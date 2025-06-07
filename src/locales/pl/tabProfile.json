@@ -1,26 +1,25 @@
 {
   "teacher": "Nauczyciel",
-  "student": "Student",
   "albumNumber": "Numer albumu",
+  "student": "Student",
   "email": "Email",
   "firstName": "Imię",
   "lastName": "Nazwisko",
   "createdRooms": "Utworzone pokoje",
-  "active": "Aktywna",
-  "inactive": "Nieaktywna",
+  "active": "Aktywny",
+  "inactive": "Nieaktywny",
   "edit": "Edytuj",
   "changePassword": "Zmień hasło",
   "currentPassword": "Aktualne hasło",
   "newPassword": "Nowe hasło",
-  "confirmPassword": "Potwierdź hasło",
-  "department": "Katedra",
+  "confirmPassword": "Potwierdź nowe hasło",
   "buttons": {
     "saveChanges": "Zapisz zmiany",
     "cancel": "Anuluj"
   },
-   "notFound": {
+  "notFound": {
     "title": "404",
-    "message": "Nie znaleziono strony",
+    "message": "Strona nie znaleziona",
     "goHome": "Powrót do strony głównej"
   }
 }
