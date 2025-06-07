@@ -1,5 +1,5 @@
-// src/components/Home/HomeMainContent/MainContent.jsx
 import React from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./MainContent.module.css";
 import RoomCard from "../../../components/UI/RoomCard/RoomCard";
 import SearchAndSort from "../../../components/UI/SearchAndSort/SearchAndSort";
@@ -9,21 +9,23 @@ const dummyRooms = Array.from({ length: 6 }, (_, i) => ({
   id: i + 1,
   name: `SALA #${["A", "B", "C", "D", "E", "F"][i]}${101 + i}`,
   imageSrc: roomImage,
-  category: "Informatyka",
+  category: "computerScience", // ключ категорії для перекладу
   schedule: {
-    Poniedziałek: "08:00 – 18:00",
-    Wtorek: "08:00 – 18:00",
-    Środa: "08:00 – 18:00",
-    Czwartek: "Dzień wolny",
-    Piątek: "10:00 – 15:00",
-    Sobota: "Dzień wolny",
-    Niedziela: "Dzień wolny",
+    Monday: "08:00 – 18:00",
+    Tuesday: "08:00 – 18:00",
+    Wednesday: "08:00 – 18:00",
+    Thursday: "Day off",
+    Friday: "10:00 – 15:00",
+    Saturday: "Day off",
+    Sunday: "Day off",
   },
 }));
 
 const MainContent = () => {
+  const { t } = useTranslation("homePage");
+
   const handleReserve = (roomName) => {
-    alert(`Резервую: ${roomName}`);
+    alert(t("room.reserveAlert", { roomName }));
   };
 
   return (
@@ -36,8 +38,18 @@ const MainContent = () => {
             key={room.id}
             name={room.name}
             imageSrc={room.imageSrc}
-            category={room.category}
-            schedule={room.schedule}
+            category={t(`room.category.${room.category}`)}
+            schedule={Object.entries(room.schedule).reduce(
+              (acc, [day, hours]) => {
+                const dayKey = day.toLowerCase();
+                acc[t(`days.${dayKey}`)] =
+                  hours === "Day off" || hours === "Dzień wolny"
+                    ? t("days.dayOff")
+                    : hours;
+                return acc;
+              },
+              {}
+            )}
             onReserve={handleReserve}
           />
         ))}

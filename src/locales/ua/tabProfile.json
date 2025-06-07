@@ -17,9 +17,31 @@
     "saveChanges": "Зберегти зміни",
     "cancel": "Скасувати"
   },
-   "notFound": {
+  "notFound": {
     "title": "404",
     "message": "Сторінку не знайдено",
     "goHome": "Повернутися на головну"
+  },
+
+  "header": {
+    "home": "Головна",
+    "profile": "Мій профіль",
+    "offices": "Офіси"
+  },
+  "rooms": {
+    "category": {
+      "computerScience": "Інформатика"
+    },
+    "reserveAlert": "Резервую: {{roomName}}"
+  },
+  "days": {
+    "monday": "Понеділок",
+    "tuesday": "Вівторок",
+    "wednesday": "Середа",
+    "thursday": "Четвер",
+    "friday": "П'ятниця",
+    "saturday": "Субота",
+    "sunday": "Неділя",
+    "dayOff": "Вихідний"
   }
 }

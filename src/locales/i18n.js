@@ -18,6 +18,10 @@ import createRoomEN from "./en/createRoom.json";
 import createRoomPL from "./pl/createRoom.json";
 import createRoomUK from "./ua/createRoom.json";
 
+import homePageUK from "./ua/homePage.json";
+import homePagePL from "./pl/homePage.json";
+import homePageEN from "./en/homePage.json";
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -28,22 +32,25 @@ i18n
         tabProfile: tabProfileEN,
         validation: validationEN,
         createRoom: createRoomEN,
+        homePage: homePageEN,
       },
       pl: {
         adminUser: adminUserPL,
         tabProfile: tabProfilePL,
         validation: validationPL,
         createRoom: createRoomPL,
+        homePage: homePagePL,
       },
       uk: {
         adminUser: adminUserUK,
         tabProfile: tabProfileUK,
         validation: validationUK,
         createRoom: createRoomUK,
+        homePage: homePageUK,
       },
     },
     fallbackLng: "en",
-    ns: ["adminUser", "tabProfile", "validation", "createRoom"],
+    ns: ["adminUser", "tabProfile", "validation", "createRoom", "homePage"],
     defaultNS: "adminUser",
     interpolation: {
       escapeValue: false,

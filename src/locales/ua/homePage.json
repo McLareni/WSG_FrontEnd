@@ -1,0 +1,44 @@
+{
+  "header": {
+    "home": "Головна",
+    "profile": "Профіль",
+    "room": "Кімнати"
+  },
+
+  "searchAndSort": {
+    "searchPlaceholder": "Пошук кімнат...",
+    "sortBy": "Сортувати за"
+  },
+  "room": {
+    "category": {
+      "computerScience": "Інформатика"
+    },
+    "reserveAlert": "Резервую: {{roomName}}"
+  },
+  "days": {
+    "monday": "Понеділок",
+    "tuesday": "Вівторок",
+    "wednesday": "Середа",
+    "thursday": "Четвер",
+    "friday": "П’ятниця",
+    "saturday": "Субота",
+    "sunday": "Неділя",
+    "dayOff": "Вихідний"
+  },
+
+  "placeholder": "Введіть назву аудиторії...",
+  "sortByLabel": "Сортувати за:",
+  "sortOptions": {
+    "name": "Назва",
+    "teacher": "Ім'я викладача",
+    "date": "Дата"
+  },
+  "categories": {
+    "it": "Інформатика",
+    "physics": "Фізика",
+    "chemistry": "Хімія",
+    "graphics": "Графіка",
+    "pe": "Фізичне виховання",
+    "other": "Інше"
+  }
+}
