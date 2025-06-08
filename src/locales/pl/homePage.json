@@ -2,7 +2,8 @@
   "header": {
     "home": "Strona główna",
     "profile": "Mój profil",
-    "room": "Biura"
+    "room": "Biura",
+    "newRoom": "Dodać nową sale"
   },
 
   "searchAndSort": {

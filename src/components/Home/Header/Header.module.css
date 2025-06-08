@@ -33,11 +33,16 @@
   text-decoration: none;
   padding: 28px 0 24px;
   transition: color 0.2s ease;
+  letter-spacing: 1px;
+}
+
+.navLink.active {
+  text-shadow: 0 0 0 #333, 0.3px 0 #333, -0.3px 0 #333;
+  text-decoration: underline;
 }
 
 .navLink:hover {
-  color: #2a9df4;
-  text-decoration: underline;
+  text-shadow: 0 0 0 #333, 0.3px 0 #333, -0.3px 0 #333;
 }
 
 .navLink + .navLink {

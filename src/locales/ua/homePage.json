@@ -2,7 +2,8 @@
   "header": {
     "home": "Головна",
     "profile": "Профіль",
-    "room": "Кімнати"
+    "room": "Кімнати",
+    "newRoom": "Створити нову кімнату"
   },
 
   "searchAndSort": {
