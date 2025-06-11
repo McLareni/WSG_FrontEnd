@@ -1,0 +1,238 @@
+/* RoomInfoComponents.module.css */
+/* Common styles */
+.header {
+  padding: 1rem 1.25rem 0;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, #e0e0e0, transparent);
+  margin-top: 0.75rem;
+}
+
+.scrollContent {
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d4 transparent;
+}
+
+.scrollContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollContent::-webkit-scrollbar-thumb {
+  background-color: #d4d4d4;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.scrollContent::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* InfoTable styles */
+.tableSection {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.tableSection:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.tableContainer {
+  overflow-y: auto;
+  max-height: 300px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 1rem,
+    black calc(100% - 1rem),
+    transparent 100%
+  );
+}
+
+.infoTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  table-layout: fixed;
+}
+
+/* Column styles */
+.nrColumn {
+  width: 7%;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+}
+
+.descColumn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  word-break: break-word;
+}
+
+/* Header cells */
+.infoTable th {
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  background-color: #f8fafc;
+  color: #4a5568;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.infoTable th.descColumn {
+  text-align: left;
+}
+
+/* Table cells */
+.infoTable td {
+  border-bottom: 1px solid #edf2f7;
+  color: #4a5568;
+  vertical-align: top;
+}
+
+.infoTable tr:last-child td {
+  border-bottom: none;
+}
+
+.infoTable tr:hover td {
+  background-color: #f8fafc;
+}
+
+.descContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.descPart {
+  line-height: 1.4;
+}
+
+/* Location styles */
+.locationBox {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  width: 100%;
+  height: 9rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.locationInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.locationIcon {
+  margin-right: 0.5rem;
+}
+
+.descriptionText {
+  color: #4a5568;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* RoomDescription styles */
+.descriptionBox {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  width: 100%;
+  height: 235px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.descriptionBox:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.contentWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.descriptionText {
+  margin: 0;
+  line-height: 1.7;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.featuresList {
+  padding-left: 1.25rem;
+  margin: 0.75rem 0;
+}
+
+.featuresList li {
+  margin-bottom: 0.5rem;
+  position: relative;
+  list-style-type: none;
+}
+
+.featuresList li::before {
+  content: '•';
+  color: #667eea;
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}

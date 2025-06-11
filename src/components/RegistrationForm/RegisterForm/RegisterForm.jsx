@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styles from './RegisterForm.module.css';
@@ -12,6 +12,8 @@ import { useRegisterForm } from './useRegisterForm';
 const RegisterForm = () => {
   const { t } = useTranslation(['validation', 'adminUser']);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
   const {
     formData,
@@ -38,6 +40,14 @@ const RegisterForm = () => {
       handleChange(e);
     }
   }, [handleChange]);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
 
   return (
     <div className={styles.pageContainer}>
@@ -118,7 +128,7 @@ const RegisterForm = () => {
 
               <Input
                 label={t('adminUser:form.password')}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -126,11 +136,14 @@ const RegisterForm = () => {
                 error={touched.password && errors.password}
                 hasSoftError={submitError === 'errors.fillAllFields' && !formData.password}
                 required
+                showPasswordToggle={true}
+                onTogglePassword={togglePasswordVisibility}
+                showPassword={showPassword}
               />
 
               <Input
                 label={t('adminUser:form.confirmPassword')}
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
@@ -138,6 +151,9 @@ const RegisterForm = () => {
                 error={touched.confirmPassword && errors.confirmPassword}
                 hasSoftError={submitError === 'errors.fillAllFields' && !formData.confirmPassword}
                 required
+                showPasswordToggle={true}
+                onTogglePassword={toggleConfirmPasswordVisibility}
+                showPassword={showConfirmPassword}
               />
             </div>
           </div>

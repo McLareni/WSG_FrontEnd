@@ -12,78 +12,53 @@ const useAuthStore = create(
         error: null,
         isLoading: false,
 
-        // Очищення помилок
         clearErrors: () => set({ error: null }),
 
-        // Обробник помилок
         _handleError: (error) => {
-          const message = error.message || 'errors.unknownError';
+          const message = error.message || "errors.unknownError";
           set({ error: message, isLoading: false });
           return { success: false, error: message };
         },
 
-        // Зміна пароля
-
         changePassword: async (oldPassword, newPassword) => {
-  try {
-    set({ isLoading: true, error: null });
-    const result = await api.changePassword(oldPassword, newPassword);
+          try {
+            set({ isLoading: true, error: null });
+            const result = await api.changePassword(oldPassword, newPassword);
 
-    // Опціонально: викинути користувача після зміни пароля
-    await supabase.auth.signOut();
-    set({ session: null, user: null, isLoading: false });
+            await supabase.auth.signOut();
+            set({ session: null, user: null, isLoading: false });
 
-    return { success: true, data: result };
-  } catch (error) {
-    return get()._handleError(error);
-  }
-},
+            return { success: true, data: result };
+          } catch (error) {
+            return get()._handleError(error);
+          }
+        },
 
-
-
-        // Оновлення профілю користувача
+        // *** ОНОВЛЕНА ФУНКЦІЯ updateProfile в useAuthStore.js ***
         updateProfile: async (updates) => {
           try {
             set({ isLoading: true, error: null });
             const { session } = get();
 
             if (!session) {
-              throw new Error('errors.unauthorized');
+              throw new Error("errors.unauthorized");
             }
 
-            const response = await fetch(`${import.meta.env.VITE_URL}UpdateUserInfo`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${session.access_token}`
-              },
-              body: JSON.stringify({
-                user_id: session.user.id,
-                first_name: updates.first_name,
-                last_name: updates.last_name,
-                email: updates.email,
-                ...(updates.album_number && { album_number: updates.album_number })
-              })
-            });
+            // Використовуємо нову функцію з api.js
+            const result = await api.updateUserProfile(session.user.id, updates);
 
-            if (!response.ok) {
-              const errorData = await response.json().catch(() => ({}));
-              throw new Error(errorData.error || 'errors.updateFailed');
-            }
-
-            const result = await response.json();
-
-            // Оновлюємо дані користувача в стейті
             set({
               user: {
                 ...get().user,
                 first_name: updates.first_name,
                 last_name: updates.last_name,
                 email: updates.email,
-                ...(updates.album_number && { album_number: updates.album_number })
+                ...(updates.album_number && {
+                  album_number: updates.album_number,
+                }),
               },
               isLoading: false,
-              error: null
+              error: null,
             });
 
             return { success: true, data: result };
@@ -92,10 +67,12 @@ const useAuthStore = create(
           }
         },
 
-        // Інші методи залишаються без змін
         checkSession: async () => {
           try {
-            const { data: { session }, error } = await supabase.auth.getSession();
+            const {
+              data: { session },
+              error,
+            } = await supabase.auth.getSession();
 
             if (error || !session) {
               set({ user: null, session: null });
@@ -120,19 +97,35 @@ const useAuthStore = create(
           }
         },
 
+        getTeacherRooms: async () => {
+          try {
+            const { user } = get();
+            if (!user?.id) throw new Error("User ID is missing");
+
+            const data = await api.fetchTeacherRooms(user.id);
+            return { success: true, data: data.rooms || [] };
+          } catch (error) {
+            console.error("Error fetching teacher rooms:", error);
+            return get()._handleError(error);
+          }
+        },
+
         login: async (email, password) => {
           try {
             set({ error: null });
-            const { data, error: authError } = await supabase.auth.signInWithPassword({
-              email,
-              password,
-            });
+            const { data, error: authError } =
+              await supabase.auth.signInWithPassword({
+                email,
+                password,
+              });
 
             if (authError) throw authError;
-            if (!data?.session) throw new Error('Server error occurred');
+            if (!data?.session) throw new Error("Server error occurred");
 
-            const userDetails = await api.fetchUserDetails(data.session.user.id);
-            
+            const userDetails = await api.fetchUserDetails(
+              data.session.user.id
+            );
+
             set({
               session: data.session,
               user: {
@@ -149,7 +142,7 @@ const useAuthStore = create(
             return get()._handleError(error);
           }
         },
-        
+
         logout: async () => {
           try {
             const { error } = await supabase.auth.signOut();

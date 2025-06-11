@@ -1,0 +1,41 @@
+{
+  "calendar": {
+    "selectDate": "Виберіть дату"
+  },
+  "infoTable": {
+    "places": "Місця",
+    "number": "№",
+    "placeDescription": "Опис місця"
+  },
+  "reservation": {
+    "conferenceRoom": "Конференц-зала #A101",
+    "capacity": "Вмістимість: {{count}} осіб",
+    "reserveNow": "Зарезервувати зараз",
+    "reservationConfirmed": "Зала A101 зарезервована на {{date}} о {{time}}"
+  },
+  "roomDescription": {
+    "title": "Опис зали",
+    "subtitle": "Сучасний простір для навчання",
+    "roomNumber": "Зала {{number}}"
+  },
+  "timeSlots": {
+    "availableHours": "Доступні години"
+  },
+  "placeSelection": {
+    "selectPlace": "Вибір місця",
+    "seat": "Місце",
+    "selected": "обрано",
+    "loading": "Завантаження доступних місць...",
+    "status": {
+      "available": "Доступно",
+      "selected": "Вибрано",
+      "occupied": "Зайнято",
+      "loading": "Завантаження..."
+    }
+  },
+ "location": { 
+  "title" : "Адреса",
+  "address" : "Знаходиться за адресою {{number}}"
+ }
+}
+

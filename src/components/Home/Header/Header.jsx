@@ -17,6 +17,9 @@ const Header = () => {
           <a href="/rooms" className={styles.navLink}>
             Biura
           </a>
+          <a href="/reservation" className={styles.navLink}>
+            Reservation
+          </a>
         </nav>
       </div>
     </header>

@@ -1,0 +1,20 @@
+{
+  "password": {
+    "required": "Password is required",
+    "requirements": {
+      "length": "Must contain at least 8 characters"
+    },
+    "confirmPassword": {
+      "notMatch": "Passwords do not match"
+    },
+    "change": {
+      "success": "Password successfully changed",
+      "failed": "Failed to change password",
+      "currentRequired": "Current password is required",
+      "invalidCurrent": "Invalid current password",
+      "sameAsOld": "New password must be different from the old one",
+      "updatesuccess": "Data successfully updated",
+      "missingFields": "Missing old or new password"
+    }
+  }
+}

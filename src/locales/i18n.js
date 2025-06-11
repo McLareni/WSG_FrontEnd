@@ -18,6 +18,14 @@ import createRoomEN from "./en/createRoom.json";
 import createRoomPL from "./pl/createRoom.json";
 import createRoomUK from "./ua/createRoom.json";
 
+import reservationRoomEN from "./en/reservationRoom.json";
+import reservationRoomPL from "./pl/reservationRoom.json";
+import reservationRoomUK from "./ua/reservationRoom.json";
+
+import validationNewPasswordEN from "./en/validationNewPasword.json"; 
+import validationNewPasswordPL from "./pl/validationNewPasword.json";
+import validationNewPasswordUK from "./ua/validationNewPasword.json"; 
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -28,22 +36,28 @@ i18n
         tabProfile: tabProfileEN,
         validation: validationEN,
         createRoom: createRoomEN,
+        reservationRoom: reservationRoomEN,
+        validationNewPassword: validationNewPasswordEN,
       },
       pl: {
         adminUser: adminUserPL,
         tabProfile: tabProfilePL,
         validation: validationPL,
         createRoom: createRoomPL,
+        reservationRoom: reservationRoomPL,
+        validationNewPassword: validationNewPasswordPL,
       },
       uk: {
         adminUser: adminUserUK,
         tabProfile: tabProfileUK,
         validation: validationUK,
         createRoom: createRoomUK,
+        reservationRoom: reservationRoomUK,
+        validationNewPassword: validationNewPasswordUK,
       },
     },
     fallbackLng: "en",
-    ns: ["adminUser", "tabProfile", "validation", "createRoom"],
+    ns: ["adminUser", "tabProfile", "validation", "createRoom" , "validationNewPassword", "reservationRoom" ],
     defaultNS: "adminUser",
     interpolation: {
       escapeValue: false,

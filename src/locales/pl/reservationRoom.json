@@ -1,0 +1,40 @@
+{
+  "calendar": {
+    "selectDate": "Wybierz datę"
+  },
+  "infoTable": {
+    "places": "Miejsca",
+    "number": "Nr",
+    "placeDescription": "Opis miejsca"
+  },
+  "reservation": {
+    "conferenceRoom": "Sala konferencyjna #A101",
+    "capacity": "Pojemność: {{count}} osób",
+    "reserveNow": "Zarezerwuj teraz",
+    "reservationConfirmed": "Sala A101 zarezerwowana na {{date}} o {{time}}"
+  },
+  "roomDescription": {
+    "title": "Opis sali",
+    "subtitle": "Nowoczesna przestrzeń do nauki",
+    "roomNumber": "Sala {{number}}"
+  },
+  "timeSlots": {
+    "availableHours": "Dostępne godziny"
+  },
+  "placeSelection": {
+    "selectPlace": "Wybór miejsca",
+    "seat": "Miejsce",
+    "selected": "wybrane",
+    "loading": "Ładowanie dostępnych miejsc...",
+    "status": {
+      "available": "Dostępne",
+      "selected": "Wybrane",
+      "occupied": "Zajęte",
+      "loading": "Ładowanie..."
+    }
+  },
+  "location": {
+    "title": "Adres",
+    "address": "Znajduje się pod adresem {{number}}"
+  }
+}

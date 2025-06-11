@@ -10,7 +10,8 @@ import useAuthStore from "../../store/useAuthStore";
 import { usePasswordValidation, usePasswordSubmit } from './useForm';
 
 const ProfilePassword = () => {
-  const { t } = useTranslation(["tabProfile", "validation", "errors"]);
+  // Включаємо обидва простори імен для валідації: 'validation' для загальних, 'validationNewPassword' для пароля
+  const { t } = useTranslation(["tabProfile", "validation", "errors", "validationNewPassword"]);
   const navigate = useNavigate();
   const { user, changePassword, error, clearErrors, isLoading: isAuthLoading } = useAuthStore();
   
@@ -64,11 +65,13 @@ const ProfilePassword = () => {
     if (error) {
       setErrors(prev => ({
         ...prev,
-        currentPassword: error.includes('current') ? t(error) : undefined
+        // Якщо помилка пов'язана з поточним паролем (іде від бекенда), використовуємо новий простір імен
+        currentPassword: error.includes('invalidCurrent') ? t('validationNewPassword:password.change.invalidCurrent') : undefined
       }));
       
+      // Повідомлення про мережеву помилку, ймовірно, буде в `errors.json`
       if (error.includes('network')) {
-        toast.error(t(error), { 
+        toast.error(t('errors.networkError'), { 
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -87,6 +90,13 @@ const ProfilePassword = () => {
     clearErrors();
   };
 
+  const togglePasswordVisibility = (field) => {
+    setShowPasswords(prev => ({
+      ...prev,
+      [field]: !prev[field]
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -99,7 +109,6 @@ const ProfilePassword = () => {
       confirmPassword: true
     });
 
-    // Швидка валідація перед відправкою
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -108,7 +117,7 @@ const ProfilePassword = () => {
 
     if (formData.newPassword === formData.currentPassword) {
       setErrors({
-        newPassword: t('validation:password.change.sameAsOld')
+        newPassword: t('validationNewPassword:password.change.sameAsOld') // Змінено
       });
       return;
     }
@@ -119,7 +128,7 @@ const ProfilePassword = () => {
       const result = await handleSubmitForm();
       
       if (result) {
-        toast.success(t("validation:password.change.success"), {
+        toast.success(t("validationNewPassword:password.change.success"), { // Змінено
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -133,7 +142,7 @@ const ProfilePassword = () => {
     } catch (error) {
       console.error('Password change error:', error);
       if (!error.message.includes('Validation failed')) {
-        toast.error(t('errors.serverError'), {
+        toast.error(t('errors.serverError'), { // Припускаємо, що "errors.serverError" є у файлі errors.json
           position: "top-right",
           autoClose: 5000
         });
@@ -159,7 +168,7 @@ const ProfilePassword = () => {
         <ProfileSection>
           {error && !errors.currentPassword && !error.includes('network') && (
             <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
-              {t(error)}
+              {t(error)} {/* Тут 'error' може бути ключем з useAuthStore, який може посилатися на errors.json або validationNewPassword.json */}
             </div>
           )}
           
@@ -173,16 +182,9 @@ const ProfilePassword = () => {
             disabled={isSubmitting || isAuthLoading}
             required
             autoComplete="current-password"
-            appendIcon={
-              <button 
-                type="button" 
-                onClick={() => setShowPasswords(prev => ({...prev, current: !prev.current}))}
-                className="text-gray-500 hover:text-gray-700"
-                aria-label={showPasswords.current ? t("common:hidePassword") : t("common:showPassword")}
-              >
-                
-              </button>
-            }
+            showPasswordToggle={true}
+            onTogglePassword={() => togglePasswordVisibility('current')}
+            showPassword={showPasswords.current}
           />
           
           <Input
@@ -195,16 +197,9 @@ const ProfilePassword = () => {
             disabled={isSubmitting || isAuthLoading}
             required
             autoComplete="new-password"
-            appendIcon={
-              <button 
-                type="button" 
-                onClick={() => setShowPasswords(prev => ({...prev, new: !prev.new}))}
-                className="text-gray-500 hover:text-gray-700"
-                aria-label={showPasswords.new ? t("common:hidePassword") : t("common:showPassword")}
-              >
-                
-              </button>
-            }
+            showPasswordToggle={true}
+            onTogglePassword={() => togglePasswordVisibility('new')}
+            showPassword={showPasswords.new}
           />
           
           <Input
@@ -217,16 +212,9 @@ const ProfilePassword = () => {
             disabled={isSubmitting || isAuthLoading}
             required
             autoComplete="new-password"
-            appendIcon={
-              <button 
-                type="button" 
-                onClick={() => setShowPasswords(prev => ({...prev, confirm: !prev.confirm}))}
-                className="text-gray-500 hover:text-gray-700"
-                aria-label={showPasswords.confirm ? t("common:hidePassword") : t("common:showPassword")}
-              >
-            
-              </button>
-            }
+            showPasswordToggle={true}
+            onTogglePassword={() => togglePasswordVisibility('confirm')}
+            showPassword={showPasswords.confirm}
           />
         </ProfileSection>
 

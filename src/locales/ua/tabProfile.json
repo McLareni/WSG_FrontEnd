@@ -12,6 +12,7 @@
   "changePassword": "Змінити пароль",
   "currentPassword": "Поточний пароль",
   "newPassword": "Новий пароль",
+  "noRooms" : "Немає створених кімнат",
   "confirmPassword": "Підтвердіть новий пароль",
   "buttons": {
     "saveChanges": "Зберегти зміни",
