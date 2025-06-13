@@ -30,7 +30,8 @@
       "available": "Доступно",
       "selected": "Вибрано",
       "occupied": "Зайнято",
-      "loading": "Завантаження..."
+      "loading": "Завантаження...",
+      "status": "Статус місця"
     }
   },
  "location": { 

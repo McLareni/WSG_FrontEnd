@@ -70,39 +70,34 @@ export const changePassword = async (oldPassword, newPassword) => {
 };
 
 export const fetchTeacherRooms = async (teacherNumericId) => {
-  const { data: teacher, error: teacherError } = await supabase
-    .from("user_details")
-    .select("user_id")
-    .eq("id", teacherNumericId)
-    .single();
-
-  if (teacherError || !teacher) {
-    throw new Error("Teacher not found");
-  }
-
-  const { data: rooms, error: roomsError } = await supabase
-    .from("Rooms")
-    .select("*")
-    .eq("teacher_id", teacher.user_id);
-
-  if (roomsError) throw roomsError;
-
-  return { rooms };
+  return fetchWithAuth(`getTeacherRooms?teacher_id=${teacherNumericId}`);
 };
 
 export const fetchRoomInfo = async (roomId) => {
-  return fetchWithAuth(`getRoomInfo/${roomId}`);
+  return fetchWithAuth(`getRoomInfo/${encodeURIComponent(roomId)}`);
 };
 
-export const fetchOpenHours = async (date, roomId) => {
-  const formattedDate = date.toLocaleDateString('en-US', {
+export const fetchOpenHours = async (date, roomId, seatDescription) => {
+  if (!date || !roomId || !seatDescription) {
+    throw new Error("Missing required parameters");
+  }
+
+  const formattedDate = formatDateForAPI(date);
+  const endpoint = `getOpenHour?desc=${encodeURIComponent(seatDescription)}&date=${encodeURIComponent(formattedDate)}&room_id=${roomId}`;
+  
+  try {
+    const data = await fetchWithAuth(endpoint);
+    return data.uniqueSortedTimes || [];
+  } catch (error) {
+    console.error("Error fetching open hours:", error);
+    return [];
+  }
+};
+
+const formatDateForAPI = (date) => {
+  return date.toLocaleDateString('en-US', {
     month: '2-digit',
     day: '2-digit',
     year: 'numeric',
   }).replace(/\//g, '-');
-
-  const endpoint = `getOpenHour?date="${formattedDate}"&room_id=${roomId}`;
-
-  const data = await fetchWithAuth(endpoint);
-  return data.uniqueSortedTimes;
 };

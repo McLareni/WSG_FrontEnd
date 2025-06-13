@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "./RoomInfoComponents.module.css";
 import PropTypes from "prop-types";
+import styles from "./RoomInfoComponents.module.css";
 
-// Location Component
 const Location = ({ address }) => {
   const { t } = useTranslation(["reservationRoom"]);
 
@@ -46,7 +45,6 @@ Location.propTypes = {
   address: PropTypes.string,
 };
 
-// RoomDescription.js
 const RoomDescription = ({ room }) => {
   const { t } = useTranslation(["reservationRoom"]);
 
@@ -73,58 +71,136 @@ RoomDescription.propTypes = {
   }),
 };
 
-// InfoTable.js
-const InfoTable = ({ seats = [] }) => {
+const InfoTable = ({ 
+  seats = [], 
+  onSeatSelect, 
+  reservedSeats = [], 
+  selectedSeats = [], 
+  isLoading = false 
+}) => {
   const { t } = useTranslation(["reservationRoom"]);
+  const [currentSelectedSeat, setCurrentSelectedSeat] = useState(
+    selectedSeats.length > 0 ? selectedSeats[0] : null
+  );
+
+  useEffect(() => {
+    setCurrentSelectedSeat(selectedSeats.length > 0 ? selectedSeats[0] : null);
+  }, [selectedSeats]);
+
+  const handleSeatClick = (seatNumber) => {
+    if (reservedSeats.includes(seatNumber)) return;
+    const newSelectedSeat = currentSelectedSeat === seatNumber ? null : seatNumber;
+    setCurrentSelectedSeat(newSelectedSeat);
+    
+    const seatObj = seats.find(s => s.seat_number === newSelectedSeat);
+    onSeatSelect(seatObj);
+  };
+
+  if (isLoading) {
+    return <LoadingState t={t} />;
+  }
 
   if (!seats || seats.length === 0) {
-    return (
-      <div className={styles.tableSection}>
-        <p>{t("infoTable.noSeatsAvailable")}</p>
-      </div>
-    );
+    return <NoSeatsState t={t} />;
   }
 
   return (
     <div className={styles.tableSection}>
+      <div className={styles.header}>
+        <h3 className={styles.title}>{t("placeSelection.selectPlace")}</h3>
+        <div className={styles.divider}></div>
+      </div>
+      
       <div className={styles.tableContainer}>
-        <table
-          className={styles.infoTable}
-          aria-label={t("infoTable.description")}
-        >
+        <table className={styles.infoTable}>
+          <colgroup>
+            <col style={{ width: '10%' }} />
+            <col style={{ width: '65%' }} />
+            <col style={{ width: '25%' }} />
+          </colgroup>
           <thead>
             <tr>
-              <th scope="col" className={styles.nrColumn}>
-                {t("infoTable.number")}
-              </th>
-              <th scope="col" className={styles.descColumn}>
-                {t("infoTable.placeDescription")}
-              </th>
+              <th className={styles.tableHeader}>№</th>
+              <th className={styles.tableHeader}>{t("placeSelection.seat")}</th>
+              <th className={styles.tableHeader}>{t("placeSelection.status.status")}</th>
             </tr>
           </thead>
           <tbody>
-            {seats.map((seat) => (
-              <tr key={seat.id}>
-                <td className={styles.nrColumn}>{seat.seat_number}</td>
-                <td className={styles.descColumn}>
-                  {seat.description ? (
-                    seat.description.split("; ").map((part, i) => (
-                      <div key={i} className={styles.descPart}>
-                        {part}
-                      </div>
-                    ))
-                  ) : (
-                    <div className={styles.descPart}>
-                      {t("infoTable.noDescription")}
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
+            {seats.map((seat) => {
+              const isSelected = currentSelectedSeat === seat.seat_number;
+              const isReserved = reservedSeats.includes(seat.seat_number);
+              
+              return (
+                <TableRow
+                  key={seat.id}
+                  seat={seat}
+                  isSelected={isSelected}
+                  isReserved={isReserved}
+                  onSeatClick={handleSeatClick}
+                  t={t}
+                />
+              );
+            })}
           </tbody>
         </table>
       </div>
     </div>
+  );
+};
+
+const LoadingState = ({ t }) => (
+  <div className={styles.tableSection}>
+    <div className={styles.header}>
+      <h3 className={styles.title}>{t("placeSelection.selectPlace")}</h3>
+      <div className={styles.divider}></div>
+    </div>
+    <div className={styles.loading}>{t("placeSelection.loading")}</div>
+  </div>
+);
+
+const NoSeatsState = ({ t }) => (
+  <div className={styles.tableSection}>
+    <div className={styles.header}>
+      <h3 className={styles.title}>{t("placeSelection.selectPlace")}</h3>
+      <div className={styles.divider}></div>
+    </div>
+    <div className={styles.noSeats}>{t("placeSelection.noSeatsAvailable")}</div>
+  </div>
+);
+
+const TableRow = ({ seat, isSelected, isReserved, onSeatClick, t }) => {
+  const status = isReserved ? 'occupied' : isSelected ? 'selected' : 'available';
+  const statusText = isReserved ? t("placeSelection.status.occupied") : 
+                    isSelected ? t("placeSelection.status.selected") : 
+                    t("placeSelection.status.available");
+
+  return (
+    <tr
+      className={`
+        ${styles.tableRow}
+        ${isSelected ? styles.selectedRow : ''}
+        ${isReserved ? styles.reservedRow : ''}
+      `}
+      onClick={() => !isReserved && onSeatClick(seat.seat_number)}
+      aria-disabled={isReserved}
+    >
+      <td className={styles.tableCell}>{seat.seat_number}</td>
+      <td className={styles.tableCell}>
+        {seat.description ? (
+          seat.description.split("; ").map((part, i) => (
+            <div key={i} className={styles.descPart}>{part}</div>
+          ))
+        ) : (
+          <div className={styles.descPart}>{t("placeSelection.seat")} {seat.seat_number}</div>
+        )}
+      </td>
+      <td className={styles.tableCell}>
+        <div className={styles.statusContainer}>
+          <div className={`${styles.statusIndicator} ${styles[status]}`} />
+          <span className={styles.statusText}>{statusText}</span>
+        </div>
+      </td>
+    </tr>
   );
 };
 
@@ -136,6 +212,10 @@ InfoTable.propTypes = {
       description: PropTypes.string,
     })
   ),
+  onSeatSelect: PropTypes.func.isRequired,
+  reservedSeats: PropTypes.arrayOf(PropTypes.number),
+  selectedSeats: PropTypes.arrayOf(PropTypes.number),
+  isLoading: PropTypes.bool,
 };
 
 export { InfoTable, Location, RoomDescription };

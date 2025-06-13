@@ -30,7 +30,8 @@
       "available": "Available",
       "selected": "Selected",
       "occupied": "Occupied",
-      "loading": "Loading..."
+      "loading": "Loading...",
+      "status": "Location status"
     }
   },
   "location": {

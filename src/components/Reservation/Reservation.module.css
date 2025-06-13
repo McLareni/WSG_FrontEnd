@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  max-width: 1400px;
+  max-width: 50%;
   margin: 0 auto;
   padding: 2rem;
   font-family: "Inter", sans-serif;
@@ -114,7 +114,8 @@
   align-items: center;
 }
 
-.loading, .error {
+.loading,
+.error {
   display: flex;
   justify-content: center;
   align-items: center;

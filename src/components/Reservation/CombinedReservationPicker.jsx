@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import styles from './CombinedReservationPicker.module.css';
 import { fetchOpenHours } from "../../store/api";
 
-// CalendarPicker Component (без змін)
 const CalendarPicker = ({ value, onChange }) => {
   const { t } = useTranslation(["reservationRoom"]);
 
@@ -51,147 +50,6 @@ CalendarPicker.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-// PlaceSelection Component
-const PlaceSelection = ({
-  onSeatSelect,
-  reservedSeats = [],
-  isLoading = false,
-  selectedSeats: propSelectedSeats = [],
-  availableSeats = []
-}) => {
-  const { t } = useTranslation(["reservationRoom"]);
-  const [selectedSeats, setSelectedSeats] = useState(propSelectedSeats);
-
-  useEffect(() => {
-    setSelectedSeats(propSelectedSeats);
-  }, [propSelectedSeats]);
-
-  const handleSeatClick = (seatNumber) => {
-
-    if (reservedSeats.includes(seatNumber)) return;
-
-    const updated = selectedSeats.includes(seatNumber)
-      ? selectedSeats.filter(num => num !== seatNumber)
-      : [...selectedSeats, seatNumber];
-
-    setSelectedSeats(updated);
-    onSeatSelect(updated);
-  };
-
-  if (isLoading) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h3 className={styles.title}>{t("placeSelection.selectPlace")}</h3>
-          <div className={styles.divider}></div>
-        </div>
-        <div className={styles.loading}>
-          {t("placeSelection.loading")}
-        </div>
-      </div>
-    );
-  }
-
-  if (!availableSeats || availableSeats.length === 0) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h3 className={styles.title}>{t("placeSelection.selectPlace")}</h3>
-          <div className={styles.divider}></div>
-        </div>
-        <div className={styles.noSeats}>
-          {t("placeSelection.noSeatsAvailable")}
-        </div>
-      </div>
-    );
-  }
-
-  // Оптимізація створення рядів:
-  const seatsPerRow = 5;
-  const rows = [];
-  for (let i = 0; i < availableSeats.length; i += seatsPerRow) {
-    rows.push(
-      <div key={`row-${Math.floor(i / seatsPerRow)}`} className={styles.row}>
-        {availableSeats.slice(i, i + seatsPerRow).map((seat) => {
-          const seatNumber = seat.seat_number;
-          const isSelected = selectedSeats.includes(seatNumber);
-          const isReserved = reservedSeats.includes(seatNumber);
-
-          return (
-            <button
-              key={`seat-${seat.id}`}
-              className={`
-                ${styles.seat}
-                ${isSelected ? styles.selected : ''}
-                ${isReserved ? styles.reserved : ''}
-              `}
-              onClick={() => handleSeatClick(seatNumber)}
-              disabled={isReserved}
-              aria-label={`${t("placeSelection.seat")} ${seatNumber} ${seat.description ? `(${seat.description})` : ''}`}
-              aria-pressed={isSelected}
-              title={isReserved
-                ? t("placeSelection.status.occupied")
-                : isSelected
-                  ? t("placeSelection.status.selected")
-                  : t("placeSelection.status.available")}
-            >
-              {seatNumber}
-            </button>
-          );
-        })}
-      </div>
-    );
-  }
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>{t("placeSelection.selectPlace")}</h3>
-        <div className={styles.divider}></div>
-      </div>
-
-      <div className={styles.classroom}>
-        <div className={styles.seatsGrid}>
-          {rows} 
-        </div>
-      </div>
-
-      <div className={styles.legend}>
-        <div className={styles.legendItem}>
-          <div className={`${styles.legendColor} ${styles.available}`}></div>
-          <span>{t("placeSelection.status.available")}</span>
-        </div>
-        <div className={styles.legendItem}>
-          <div className={`${styles.legendColor} ${styles.selected}`}></div>
-          <span>{t("placeSelection.status.selected")}</span>
-        </div>
-        <div className={styles.legendItem}>
-          <div className={`${styles.legendColor} ${styles.occupied}`}></div>
-          <span>{t("placeSelection.status.occupied")}</span>
-        </div>
-      </div>
-
-      {selectedSeats.length > 0 && (
-        <div className={styles.selectionInfo}>
-          {t("placeSelection.selected")}: {selectedSeats.sort((a, b) => a - b).join(', ')}
-        </div>
-      )}
-    </div>
-  );
-};
-
-PlaceSelection.propTypes = {
-  onSeatSelect: PropTypes.func.isRequired,
-  reservedSeats: PropTypes.arrayOf(PropTypes.number),
-  isLoading: PropTypes.bool,
-  selectedSeats: PropTypes.arrayOf(PropTypes.number),
-  availableSeats: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    seat_number: PropTypes.number.isRequired,
-    description: PropTypes.string
-  })).isRequired
-};
-
 const allTimeSlots = [
   '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
   '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
@@ -202,7 +60,8 @@ const TimeSlotPicker = ({
   selectedTime,
   setSelectedTime,
   selectedDate,
-  roomId
+  roomId,
+  selectedSeatDescription
 }) => {
   const { t } = useTranslation(["reservationRoom"]);
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -211,7 +70,7 @@ const TimeSlotPicker = ({
 
   useEffect(() => {
     const getHours = async () => {
-      if (!selectedDate || !roomId) {
+      if (!selectedDate || !roomId || !selectedSeatDescription) {
         setAvailableTimes([]);
         return;
       }
@@ -219,7 +78,7 @@ const TimeSlotPicker = ({
       setLoadingHours(true);
       setErrorHours(null);
       try {
-        const openHours = await fetchOpenHours(selectedDate, roomId);
+        const openHours = await fetchOpenHours(selectedDate, roomId, selectedSeatDescription);
         setAvailableTimes(openHours);
       } catch (err) {
         console.error("Failed to fetch open hours:", err);
@@ -230,8 +89,9 @@ const TimeSlotPicker = ({
       }
     };
 
-    getHours();
-  }, [selectedDate, roomId, t]);
+    const timer = setTimeout(getHours, 800);
+    return () => clearTimeout(timer);
+  }, [selectedDate, roomId, selectedSeatDescription, t]);
 
   const isTimeDisabled = (time) => {
     return !availableTimes.includes(time);
@@ -299,6 +159,7 @@ TimeSlotPicker.propTypes = {
   setSelectedTime: PropTypes.func.isRequired,
   selectedDate: PropTypes.instanceOf(Date),
   roomId: PropTypes.string.isRequired,
+  selectedSeatDescription: PropTypes.string.isRequired,
 };
 
-export { CalendarPicker, PlaceSelection, TimeSlotPicker };
+export { CalendarPicker, TimeSlotPicker };

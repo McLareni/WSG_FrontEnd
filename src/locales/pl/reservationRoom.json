@@ -30,7 +30,8 @@
       "available": "Dostępne",
       "selected": "Wybrane",
       "occupied": "Zajęte",
-      "loading": "Ładowanie..."
+      "loading": "Ładowanie...",
+      "status": "Status miejsca"
     }
   },
   "location": {

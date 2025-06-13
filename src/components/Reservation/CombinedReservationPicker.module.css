@@ -1,4 +1,5 @@
-/* ReservationComponents.module.css */
+/* CombinedReservationPicker.module.css */
+
 /* CalendarPicker styles */
 .calendarWrapper {
   background: white;
@@ -50,129 +51,13 @@
   justify-content: flex-start;
 }
 
-/* PlaceSelection styles */
-.container {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1.5rem;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #f0f0f0;
-  padding: 1.25rem;
-}
-
-.loading {
-  padding: 2rem;
-  text-align: center;
-  color: #4a5568;
-  font-size: 0.95rem;
-}
-
-.classroom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.seatsGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  width: 100%;
-  max-width: 600px;
-}
-
-.row {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-
-.seat {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  background: #f7fafc;
-  font-weight: 500;
-  font-size: 0.85rem;
-  color: #2d3748;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.seat.selected {
-  background: #1eadff;
-  color: white;
-  border-color: transparent;
-}
-
-.seat.reserved {
-  background: #f56565;
-  color: white;
-  cursor: not-allowed;
-  border-color: transparent;
-  opacity: 0.7;
-}
-
-.legend {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.legendItem {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: #4a5568;
-}
-
-.legendColor {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-}
-
-.legendColor.available {
-  background: #f7fafc;
-  border: 1px solid #e2e8f0;
-}
-
-.legendColor.selected {
-  background: #1eadff;
-}
-
-.legendColor.occupied {
-  background: #f56565;
-}
-
-.selectionInfo {
-  margin-top: 1.5rem;
-  padding: 0.75rem 1rem;
-  background: #ebf8ff;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 0.95rem;
-  color: #2b6cb0;
-}
-
 /* TimeSlotPicker styles */
 .timeSection {
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   width: 100%;
-  height: 245px;
+  height: 245px; /* Залишаємо фіксовану висоту для передбачуваного макету */
   display: flex;
   flex-direction: column;
   border: 1px solid #f0f0f0;
@@ -197,6 +82,8 @@
 
 .tableContainer {
   padding: 1rem 1.25rem;
+  /* Додаємо overflow-y для скролу, якщо вміст перевищує висоту */
+  overflow-y: hidden; 
 }
 
 .timeGrid {
@@ -258,23 +145,38 @@
 }
 
 .timeSlot.disabled {
-  /* Оновлені стилі для вимкнених слотів */
-  background-color: #f0f0f0; /* Світло-сірий фон */
-  color: #a0a0a0; /* Темніший сірий текст */
-  border-color: #e0e0e0; /* Сіра рамка */
-  cursor: not-allowed; /* Курсор "не дозволено" */
-  opacity: 0.8; /* Трохи прозорості */
-  transform: none; /* Забороняємо hover-трансформації */
-  box-shadow: none; /* Прибираємо тінь при наведенні */
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+  opacity: 0.8;
+  transform: none;
+  box-shadow: none;
 }
 
 .timeSlot.disabled:hover {
-  background-color: #f0f0f0; /* Залишаємо той самий фон при наведенні */
+  background-color: #f0f0f0;
   color: #a0a0a0;
   border-color: #e0e0e0;
 }
 
-/* Scrollbar styles */
+/* Common styles for loading and error messages */
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.error {
+  padding: 2rem;
+  text-align: center;
+  color: #e53e3e; /* Червоний колір для помилок */
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Scrollbar styles (apply to .tableContainer as it's the scrollable part) */
 .tableContainer::-webkit-scrollbar {
   width: 6px;
 }
