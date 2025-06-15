@@ -1,0 +1,41 @@
+{
+  "calendar": {
+    "selectDate": "Select date"
+  },
+  "infoTable": {
+    "places": "Seats",
+    "number": "No.",
+    "placeDescription": "Seat description"
+  },
+  "reservation": {
+    "conferenceRoom": "Conference room #A101",
+    "capacity": "Capacity: {{count}} people",
+    "reserveNow": "Reserve now",
+    "reservationConfirmed": "Room A101 reserved for {{date}} at {{time}}"
+  },
+  "roomDescription": {
+    "title": "Room description",
+    "subtitle": "Modern learning space",
+    "roomNumber": "Room {{number}}"
+  },
+  "timeSlots": {
+    "availableHours": "Available hours"
+  },
+  "placeSelection": {
+    "selectPlace": "Seat selection",
+    "seat": "Seat",
+    "selected": "selected",
+    "loading": "Loading available seats...",
+    "status": {
+      "available": "Available",
+      "selected": "Selected",
+      "occupied": "Occupied",
+      "loading": "Loading...",
+      "status": "Location status"
+    }
+  },
+  "location": {
+    "title": "Address",
+    "address": "Located at {{number}}"
+  }
+}

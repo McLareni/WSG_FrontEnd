@@ -13,9 +13,9 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState({ type: null, message: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const { isSubmitting, handleLogin } = useLoginForm();
 
-  // Оновлюємо текст помилки при зміні мови
   useEffect(() => {
     if (error.type) {
       setError(prev => ({
@@ -48,6 +48,10 @@ const LoginForm = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.formContainer}>
@@ -74,11 +78,14 @@ const LoginForm = () => {
 
           <Input
             label={t("adminUser:form.password")}
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
             onChange={(e) => setFormData({...formData, password: e.target.value})}
             error={error.type === 'fillAllFields' && !formData.password}
+            showPasswordToggle={true}
+            onTogglePassword={togglePasswordVisibility}
+            showPassword={showPassword}
           />
 
           <div className={styles.buttonWrapper}>

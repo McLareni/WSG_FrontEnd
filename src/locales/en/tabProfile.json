@@ -12,6 +12,7 @@
   "changePassword": "Change Password",
   "currentPassword": "Current Password",
   "newPassword": "New Password",
+  "noRooms" : "No rooms created",
   "confirmPassword": "Confirm New Password",
   "buttons": {
     "saveChanges": "Save Changes",

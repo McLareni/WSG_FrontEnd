@@ -1,0 +1,267 @@
+/* CombinedReservationPicker.module.css */
+
+/* CalendarPicker styles */
+.calendarWrapper {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.calendarWrapper:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  padding: 0 0 0.5rem 0;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #2d3748;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, #e0e0e0, transparent);
+  margin-top: 0.75rem;
+}
+
+.customCalendar {
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+}
+
+.customCalendar .rmdp-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* TimeSlotPicker styles */
+.timeSection {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  height: 245px; /* Залишаємо фіксовану висоту для передбачуваного макету */
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.timeSection:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  padding: 1rem 1.25rem 0;
+}
+
+.tableContainer {
+  padding: 1rem 1.25rem;
+  /* Додаємо overflow-y для скролу, якщо вміст перевищує висоту */
+  overflow-y: hidden; 
+}
+
+.timeGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.timeRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.timeSlot {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #4a5568;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.timeSlot:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e0;
+}
+
+.timeSlot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(1200deg, #aeddf8, #1eadff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.timeSlot.selected {
+  color: white;
+  border-color: transparent;
+}
+
+.timeSlot.selected::before {
+  opacity: 1;
+}
+
+.timeSlot.disabled {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  border-color: #e0e0e0;
+  cursor: not-allowed;
+  opacity: 0.8;
+  transform: none;
+  box-shadow: none;
+}
+
+.timeSlot.disabled:hover {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  border-color: #e0e0e0;
+}
+
+/* Common styles for loading and error messages */
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: #4a5568;
+  font-size: 0.95rem;
+}
+
+.error {
+  padding: 2rem;
+  text-align: center;
+  color: #e53e3e; /* Червоний колір для помилок */
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Scrollbar styles (apply to .tableContainer as it's the scrollable part) */
+.tableContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background-color: #d4d4d4;
+  border-radius: 3px;
+  transition: background-color 0.3s;
+}
+
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #b3b3b3;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Time slot animations */
+.timeSlot {
+  animation: fadeIn 0.4s ease forwards;
+  opacity: 0;
+}
+
+.timeRow:nth-child(1) .timeSlot {
+  animation-delay: 0.1s;
+}
+.timeRow:nth-child(1) .timeSlot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.timeRow:nth-child(1) .timeSlot:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.timeRow:nth-child(1) .timeSlot:nth-child(4) {
+  animation-delay: 0.25s;
+}
+.timeRow:nth-child(1) .timeSlot:nth-child(5) {
+  animation-delay: 0.3s;
+}
+.timeRow:nth-child(1) .timeSlot:nth-child(6) {
+  animation-delay: 0.35s;
+}
+
+.timeRow:nth-child(2) .timeSlot {
+  animation-delay: 0.4s;
+}
+.timeRow:nth-child(2) .timeSlot:nth-child(2) {
+  animation-delay: 0.45s;
+}
+.timeRow:nth-child(2) .timeSlot:nth-child(3) {
+  animation-delay: 0.5s;
+}
+.timeRow:nth-child(2) .timeSlot:nth-child(4) {
+  animation-delay: 0.55s;
+}
+.timeRow:nth-child(2) .timeSlot:nth-child(5) {
+  animation-delay: 0.6s;
+}
+.timeRow:nth-child(2) .timeSlot:nth-child(6) {
+  animation-delay: 0.65s;
+}
+
+.timeRow:nth-child(3) .timeSlot {
+  animation-delay: 0.7s;
+}
+.timeRow:nth-child(3) .timeSlot:nth-child(2) {
+  animation-delay: 0.75s;
+}
+.timeRow:nth-child(3) .timeSlot:nth-child(3) {
+  animation-delay: 0.8s;
+}
+.timeRow:nth-child(3) .timeSlot:nth-child(4) {
+  animation-delay: 0.85s;
+}
+.timeRow:nth-child(3) .timeSlot:nth-child(5) {
+  animation-delay: 0.9s;
+}
+.timeRow:nth-child(3) .timeSlot:nth-child(6) {
+  animation-delay: 0.95s;
+}
