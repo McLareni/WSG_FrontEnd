@@ -20,6 +20,7 @@ const Input = ({
   showPasswordToggle = false,
   onTogglePassword,
   showPassword,
+  placeholder,
   ...props
 }) => {
   return (
@@ -37,15 +38,16 @@ const Input = ({
         )}
         {error && <span className={styles.errorMessage}>{error}</span>}
       </div>
+
       {isTextarea ? (
         <textarea
-          className={styles.textarea}
-          type={type}
+          className={`${styles.textarea} ${inputClassName}`}
           name={name}
           value={value}
           onChange={onChange}
           onBlur={onBlur}
           disabled={disabled}
+          placeholder={placeholder}
           {...props}
         />
       ) : (
@@ -57,6 +59,7 @@ const Input = ({
             onChange={onChange}
             onBlur={onBlur}
             disabled={disabled}
+            placeholder={placeholder}
             className={`${styles.input} ${
               error ? styles.error : hasSoftError ? styles.softError : ""
             } ${inputClassName} ${
@@ -86,3 +89,4 @@ const Input = ({
 };
 
 export default Input;
+

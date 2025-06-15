@@ -25,7 +25,6 @@ const Layout = () => {
       <main
         style={{
           width: "100%",
-          height: "calc(100% - 92px)"
         }}
       >
         {isLoading || !authChecked ? <Loader /> : <Outlet />}

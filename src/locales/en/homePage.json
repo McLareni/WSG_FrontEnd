@@ -1,0 +1,43 @@
+{
+  "header": {
+    "home": "Home",
+    "profile": "My Profile",
+    "room": "Offices"
+  },
+  "searchAndSort": {
+    "searchPlaceholder": "Search rooms...",
+    "sortBy": "Sort by"
+  },
+  "room": {
+    "category": {
+      "computerScience": "Computer Science"
+    },
+    "reserveAlert": "Reserving: {{roomName}}"
+  },
+  "days": {
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "dayOff": "Day off"
+  },
+
+  "placeholder": "Enter room name...",
+  "sortByLabel": "Sort by:",
+  "sortOptions": {
+    "name": "Name",
+    "teacher": "Teacher name",
+    "date": "Date"
+  },
+  "categories": {
+    "it": "Computer Science",
+    "physics": "Physics",
+    "chemistry": "Chemistry",
+    "graphics": "Graphics",
+    "pe": "Physical Education",
+    "other": "Other"
+  }
+}

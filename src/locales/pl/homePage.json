@@ -1,0 +1,44 @@
+{
+  "header": {
+    "home": "Strona główna",
+    "profile": "Mój profil",
+    "room": "Biura"
+  },
+
+  "searchAndSort": {
+    "searchPlaceholder": "Szukaj sal...",
+    "sortBy": "Sortuj według"
+  },
+  "room": {
+    "category": {
+      "computerScience": "Informatyka"
+    },
+    "reserveAlert": "Rezerwuję: {{roomName}}"
+  },
+  "days": {
+    "monday": "Poniedziałek",
+    "tuesday": "Wtorek",
+    "wednesday": "Środa",
+    "thursday": "Czwartek",
+    "friday": "Piątek",
+    "saturday": "Sobota",
+    "sunday": "Niedziela",
+    "dayOff": "Dzień wolny"
+  },
+
+  "placeholder": "Wpisz nazwę sali...",
+  "sortByLabel": "Sortuj wg:",
+  "sortOptions": {
+    "name": "Nazwa",
+    "teacher": "Imię nauczyciela",
+    "date": "Data"
+  },
+  "categories": {
+    "it": "Informatyka",
+    "physics": "Fizyka",
+    "chemistry": "Chemia",
+    "graphics": "Grafika",
+    "pe": "Wychowanie fizyczne",
+    "other": "Inne"
+  }
+}

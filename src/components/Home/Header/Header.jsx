@@ -1,7 +1,9 @@
 import React from "react";
 import styles from "./Header.module.css";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+  const { t } = useTranslation("homePage");
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
@@ -9,13 +11,13 @@ const Header = () => {
 
         <nav className={styles.centerSection}>
           <a href="/" className={styles.navLink}>
-            Strona główna
+            {t("header.home")}
           </a>
           <a href="/profile" className={styles.navLink}>
-            Mój profil
+            {t("header.profile")}
           </a>
           <a href="/rooms" className={styles.navLink}>
-            Biura
+            {t("header.room")}
           </a>
           <a href="/reservation" className={styles.navLink}>
             Reservation
