@@ -10,6 +10,7 @@ import ProfilePassword from "../pages/ProfilePage/ProfilePassword";
 import LoginRouter from "./LoginRouter";
 import TeacherRouter from "./TeacherRouter";
 import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
+import AddNotePage from "../pages/AddNotePage/AddNotePage";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <HomePage />,
+          },
+          {
+            path: "add-note/:roomId/:reservationId",
+            element: <AddNotePage />,
           },
           {
             path: "profile",

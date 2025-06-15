@@ -1,0 +1,181 @@
+.container {
+  max-width: 75%;
+  margin: auto;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form label {
+  display: block;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+}
+
+textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.tableWrapper h3 {
+  font-weight: 700;
+  font-size: 24px;
+  font-family: Darker Grotesque, monospace;
+  color: #000000;
+  margin: 0 0 10px 0;
+}
+
+.tableWrapper > button {
+  display: block;
+  margin: 8px 0 0 auto;
+  padding: 0.5rem 1rem;
+  background-color: #1eadff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  border: 1px solid #aeddf8;
+
+  background: #ffffff;
+
+  font-family: "Roboto";
+}
+
+.table th,
+.table td {
+  border: 1px solid #aeddf8;
+  padding: 4px;
+  text-align: center;
+}
+
+.table th:first-child,
+.table td:first-child {
+  width: 400px; /* Фіксована ширина першої колонки */
+  max-width: 400px;
+  min-width: 400px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Для інших колонок можна задати фіксовану ширину або відсотки */
+.table th:not(:first-child),
+.table td:not(:first-child) {
+  width: auto; /* або конкретна ширина, наприклад 150px */
+  /* або можна не вказувати, щоб вони ділилися простором */
+}
+
+.table input {
+  border: none;
+  outline: none;
+  text-align: center;
+
+  width: 100%;
+
+  font-weight: 300;
+}
+
+.table input::placeholder {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.table input[type="number"]::-webkit-outer-spin-button,
+.table input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  margin: 0;
+}
+
+.table select {
+  width: 150px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  padding: 6px 10px;
+  text-align: center;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.table select:focus-visible {
+  outline: none;
+  border: 1px solid #153041;
+}
+
+.table select optgroup,
+.table select option {
+  text-align: start;
+}
+
+button[type="submit"] {
+  background: #1eadff;
+  color: #ffffff;
+  border-radius: 99px;
+  padding: 0 16px;
+  margin-top: 16px;
+  height: 33px;
+
+  font-family: "Roboto";
+  font-size: 16px;
+}
+
+.status {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.suggestionsList {
+  position: absolute;
+  top: 100%;
+  left: 16px;
+  right: 16px;
+  max-height: 150px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.suggestionItem {
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.suggestionItem:hover {
+  background-color: #1eadff;
+  color: white;
+}
+
+.typeCell {
+  position: relative;
+}

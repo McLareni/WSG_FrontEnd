@@ -30,7 +30,7 @@ const Header = () => {
           >
             {t("header.profile")}
           </NavLink>
-          {user.role === "teacher" && (
+          {user?.role === "teacher" && (
             <NavLink
               to={"/create-room"}
               className={({ isActive }) =>
