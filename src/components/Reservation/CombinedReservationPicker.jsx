@@ -93,8 +93,50 @@ const TimeSlotPicker = ({
     return () => clearTimeout(timer);
   }, [selectedDate, roomId, selectedSeatDescription, t]);
 
-  const isTimeDisabled = (time) => {
-    return !availableTimes.includes(time);
+  // Функція для розподілу часових слотів по рядках по 6 слотів
+  const getTimeRows = () => {
+    const rows = [];
+    const slotsPerRow = 6;
+    const totalRows = Math.ceil(availableTimes.length / slotsPerRow);
+
+    for (let row = 0; row < totalRows; row++) {
+      const startIdx = row * slotsPerRow;
+      const endIdx = startIdx + slotsPerRow;
+      const rowSlots = availableTimes.slice(startIdx, endIdx);
+      
+      // Додаємо порожні слоти, якщо в рядку менше 6 слотів
+      while (rowSlots.length < slotsPerRow) {
+        rowSlots.push(null);
+      }
+
+      rows.push(
+        <div key={`row-${row}`} className={styles.timeRow}>
+          {rowSlots.map((time, index) => (
+            time ? (
+              <button
+                key={time}
+                className={`${styles.timeSlot} ${
+                  selectedTime === time ? styles.selected : ''
+                }`}
+                onClick={() => setSelectedTime(time)}
+                aria-label={`${t("timeSlots.timeSlot")} ${time}`}
+                aria-pressed={selectedTime === time}
+              >
+                {time}
+              </button>
+            ) : (
+              <div 
+                key={`empty-${row}-${index}`} 
+                className={`${styles.timeSlot} ${styles.emptySlot}`}
+                aria-hidden="true"
+              />
+            )
+          ))}
+        </div>
+      );
+    }
+
+    return rows;
   };
 
   if (!selectedDate) return null;
@@ -118,35 +160,7 @@ const TimeSlotPicker = ({
       {!loadingHours && !errorHours && (
         <div className={styles.tableContainer}>
           <div className={styles.timeGrid}>
-            {Array.from({ length: Math.ceil(allTimeSlots.length / 6) }, (_, rowIndex) => (
-              <div key={`row-${rowIndex}`} className={styles.timeRow}>
-                {allTimeSlots.slice(rowIndex * 6, rowIndex * 6 + 6).map((time) => {
-                  const isDisabled = isTimeDisabled(time);
-                  return (
-                    <button
-                      key={time}
-                      className={`${styles.timeSlot} ${
-                        selectedTime === time ? styles.selected : ''
-                      } ${
-                        isDisabled ? styles.disabled : ''
-                      }`}
-                      onClick={() => !isDisabled && setSelectedTime(time)}
-                      disabled={isDisabled}
-                      aria-label={`${t("timeSlots.timeSlot")} ${time}`}
-                      aria-pressed={selectedTime === time}
-                      title={isDisabled ? t("timeSlots.status.unavailable") : ''}
-                    >
-                      {time}
-                      {isDisabled && (
-                        <span className="visually-hidden">
-                          ({t("timeSlots.status.unavailable")})
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            ))}
+            {getTimeRows()}
           </div>
         </div>
       )}

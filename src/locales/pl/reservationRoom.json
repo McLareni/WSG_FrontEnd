@@ -19,13 +19,16 @@
     "roomNumber": "Sala {{number}}"
   },
   "timeSlots": {
-    "availableHours": "Dostępne godziny"
+    "availableHours": "Dostępne godziny",
+    "noAvailableHours" : "Brak dostępnych godzin",
+    "loadingHours" : "Ładowanie godzin"
   },
   "placeSelection": {
     "selectPlace": "Wybór miejsca",
     "seat": "Miejsce",
     "selected": "wybrane",
     "loading": "Ładowanie dostępnych miejsc...",
+    "noSeatsAvailable": "Brak wolnych miejsc",
     "status": {
       "available": "Dostępne",
       "selected": "Wybrane",

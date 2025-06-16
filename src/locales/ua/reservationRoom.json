@@ -19,13 +19,16 @@
     "roomNumber": "Зала {{number}}"
   },
   "timeSlots": {
-    "availableHours": "Доступні години"
+    "availableHours": "Доступні години",
+    "noAvailableHours" : "Немає вільних годин",
+    "loadingHours" : "Завантаження годин"
   },
   "placeSelection": {
     "selectPlace": "Вибір місця",
     "seat": "Місце",
     "selected": "обрано",
     "loading": "Завантаження доступних місць...",
+    "noSeatsAvailable": "Немає вільних місць",
     "status": {
       "available": "Доступно",
       "selected": "Вибрано",
