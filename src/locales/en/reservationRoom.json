@@ -19,13 +19,16 @@
     "roomNumber": "Room {{number}}"
   },
   "timeSlots": {
-    "availableHours": "Available hours"
+    "availableHours": "Available hours",
+    "noAvailableHours" : "No available hours",
+    "loadingHours" : "Loading hours"
   },
   "placeSelection": {
     "selectPlace": "Seat selection",
     "seat": "Seat",
     "selected": "selected",
     "loading": "Loading available seats...",
+    "noSeatsAvailable": "No seats available",
     "status": {
       "available": "Available",
       "selected": "Selected",

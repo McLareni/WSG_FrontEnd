@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import styles from "./RoomInfoComponents.module.css";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const Location = ({ address }) => {
   const { t } = useTranslation(["reservationRoom"]);
@@ -15,22 +16,7 @@ const Location = ({ address }) => {
       <div className={styles.scrollContent}>
         <div className={styles.contentWrapper}>
           <div className={styles.locationInfo}>
-            <svg
-              className={styles.locationIcon}
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M12 12.5C13.1046 12.5 14 11.6046 14 10.5C14 9.39543 13.1046 8.5 12 8.5C10.8954 8.5 10 9.39543 10 10.5C10 11.6046 10.8954 12.5 12 12.5Z"
-                fill="#4A5568"
-              />
-              <path
-                d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 13.5C10.8954 13.5 10 12.6046 10 11.5C10 10.3954 10.8954 9.5 12 9.5C13.1046 9.5 14 10.3954 14 11.5C14 12.6046 13.1046 13.5 12 13.5Z"
-                fill="#4A5568"
-              />
-            </svg>
+            <FaMapMarkerAlt className={styles.locationIcon} />
             <span>
               {address || t("location.address", { number: "Garbary2" })}
             </span>
@@ -154,7 +140,7 @@ const LoadingState = ({ t }) => (
       <h3 className={styles.title}>{t("placeSelection.selectPlace")}</h3>
       <div className={styles.divider}></div>
     </div>
-    <div className={styles.loading}>{t("placeSelection.loading")}</div>
+    <div className={styles.loading}>{t("placeSelection.status.loading")}</div>
   </div>
 );
 

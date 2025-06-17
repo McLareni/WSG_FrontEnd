@@ -1,10 +1,18 @@
 .container {
   display: flex;
-  max-width: 50%;
+  flex-direction: column; 
+  max-width: 75%;
   margin: 0 auto;
   padding: 2rem;
   font-family: "Inter", sans-serif;
-  gap: 40px;
+  gap: 20px; 
+}
+
+
+.contentWrapper {
+  display: flex; 
+  gap: 40px; 
+  width: 100%;
 }
 
 .leftPanel {
@@ -12,7 +20,7 @@
   flex-direction: column;
   gap: 30px;
   flex: 1;
-  min-width: 400px;
+  min-width: 400px; 
 }
 
 .rightPanel {
@@ -106,12 +114,43 @@
 }
 
 .actionSection {
-  width: 100%;
-  height: auto;
+  width: 100%; 
   padding: 1rem 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; 
+  align-items: center; 
+}
+
+.reservationButton {
+   background: #1EADFF;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  outline: none;
+  min-width: 200px;
+}
+
+.reservationButton:hover {
+  background: #0D8BFF;
+  transform: translateY(-2px);
+}
+
+.reservationButton:active {
+  background-color: black;
+  transform: translateY(0);
+
+}
+
+.reservationButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .loading,
@@ -123,7 +162,6 @@
   font-size: 1.5rem;
 }
 
-/* Анімації */
 @keyframes fadeIn {
   from {
     opacity: 0;

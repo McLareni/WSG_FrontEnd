@@ -67,7 +67,7 @@ const Reservation = () => {
       setSelectedSeatDescription('');
       return;
     }
-    
+
     setSelectedSeats([seat.seat_number]);
     setSelectedSeatDescription(seat.description || '');
   };
@@ -98,7 +98,7 @@ const Reservation = () => {
   };
 
   if (isLoading && !roomData) {
-    return <div className={styles.loading}>{t("loading")}</div>;
+    return <div className={styles.loading}>{t("placeSelection.status.loading")}</div>;
   }
 
   if (!roomData) {
@@ -107,89 +107,92 @@ const Reservation = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftPanel}>
-        <div className={styles.imagePlaceholder}>
-          {roomData.photo_url ? (
-            <img
-              src={roomData.photo_url}
-              alt={roomData.name}
-              className={styles.roomImage}
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = 'https://via.placeholder.com/600x350?text=Room+Image';
-              }}
-            />
-          ) : (
-            <div className={styles.defaultImage}>
-              <span>{t("roomDescription.noImageAvailable")}</span>
+      {/* Новий div для об'єднання лівої та правої панелей */}
+      <div className={styles.contentWrapper}>
+        <div className={styles.leftPanel}>
+          <div className={styles.imagePlaceholder}>
+            {roomData.photo_url ? (
+              <img
+                src={roomData.photo_url}
+                alt={roomData.name}
+                className={styles.roomImage}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://via.placeholder.com/600x350?text=Room+Image';
+                }}
+              />
+            ) : (
+              <div className={styles.defaultImage}>
+                <span>{t("roomDescription.noImageAvailable")}</span>
+              </div>
+            )}
+            <div className={styles.imageOverlay}>
+              <h2 className={styles.imageTitle}>
+                {t("roomDescription.roomNumber", { number: `#${roomData.name}` })}
+              </h2>
+              <p className={styles.imageSubtitle}>
+                {roomData.location}
+              </p>
             </div>
-          )}
-          <div className={styles.imageOverlay}>
-            <h2 className={styles.imageTitle}>
-              {t("roomDescription.roomNumber", { number: `#${roomData.name}` })}
-            </h2>
-            <p className={styles.imageSubtitle}>
-              {roomData.location}
-            </p>
           </div>
-        </div>
 
           <Location address={roomData.location} />
 
-        <CalendarPicker
-          value={selectedDate}
-          onChange={setSelectedDate}
-        />
-
-        {selectedDate && selectedSeats.length > 0 && selectedTime && (
-          <div className={styles.actionSection}>
-            <Button
-              variant="primary"
-              loading={isLoading}
-              onClick={handleReservation}
-              disabled={isLoading}
-              showTextSpan
-            >
-              {t("reservation.reserveNow")}
-            </Button>
-          </div>
-        )}
-      </div>
-
-      <div className={styles.rightPanel}>
-        <div className={styles.headerSection}>
-          <h1 className={styles.roomTitle}>
-            {roomData.name}
-          </h1>
-          <div className={styles.roomMeta}>
-            <span className={styles.metaItem}>
-              {t("reservation.capacity", { count: roomData.seats?.length || 0 })}
-            </span>
-          </div>
+          <CalendarPicker
+            value={selectedDate}
+            onChange={setSelectedDate}
+          />
         </div>
 
-        
-        <RoomDescription room={roomData} />
+        <div className={styles.rightPanel}>
+          <div className={styles.headerSection}>
+            <h1 className={styles.roomTitle}>
+              {roomData.name}
+            </h1>
+            <div className={styles.roomMeta}>
+              <span className={styles.metaItem}>
+                {t("reservation.capacity", { count: roomData.seats?.length || 0 })}
+              </span>
+            </div>
+          </div>
 
-        {selectedDate && (
-          <RoomInfoTable 
-            seats={roomData.seats || []}
-            onSeatSelect={handleSeatSelect}
-            reservedSeats={reservedSeats}
-            selectedSeats={selectedSeats}
-            isLoading={isLoading}
-          />
-        )}
-        {showTimeSlots && (
-          <TimeSlotPicker
-            selectedTime={selectedTime}
-            setSelectedTime={setSelectedTime}
-            selectedDate={selectedDate}
-            roomId={roomData.id}
-            selectedSeatDescription={selectedSeatDescription}
-          />
-        )}
+          <RoomDescription room={roomData} />
+
+          {selectedDate && (
+            <RoomInfoTable
+              seats={roomData.seats || []}
+              onSeatSelect={handleSeatSelect}
+              reservedSeats={reservedSeats}
+              selectedSeats={selectedSeats}
+              isLoading={isLoading}
+            />
+          )}
+          {showTimeSlots && (
+            <TimeSlotPicker
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+              selectedDate={selectedDate}
+              roomId={roomData.id}
+              selectedSeatDescription={selectedSeatDescription}
+            />
+          )}
+        </div>
       </div>
+
+      {selectedDate && selectedSeats.length > 0 && selectedTime && (
+        <div className={styles.actionSection}>
+          <Button
+            variant="primary"
+            loading={isLoading}
+            onClick={handleReservation}
+            disabled={isLoading}
+            showTextSpan
+            className={styles.reservationButton}
+          >
+            {t("reservation.reserveNow")}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,3 @@
-/* CombinedReservationPicker.module.css */
-
 /* CalendarPicker styles */
 .calendarWrapper {
   background: white;
@@ -57,13 +55,13 @@
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   width: 100%;
-  height: 245px; /* Залишаємо фіксовану висоту для передбачуваного макету */
+  min-height: 245px;
   display: flex;
   flex-direction: column;
   border: 1px solid #f0f0f0;
   transition: all 0.3s ease;
   overflow: hidden;
-  animation: fadeIn 0.5s ease-out forwards;
+  padding: 0 1.25rem 1.25rem;
 }
 
 .timeSection:hover {
@@ -77,30 +75,29 @@
   margin: 0;
   position: relative;
   display: inline-block;
-  padding: 1rem 1.25rem 0;
+  padding: 1rem 0 0;
 }
 
 .tableContainer {
-  padding: 1rem 1.25rem;
-  /* Додаємо overflow-y для скролу, якщо вміст перевищує висоту */
-  overflow-y: hidden; 
+  width: 100%;
+  margin-top: 0.5rem;
 }
 
 .timeGrid {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  width: 100%;
 }
 
 .timeRow {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.75rem;
+  width: 100%;
 }
 
 .timeSlot {
-  flex: 1;
-  min-width: 0;
   padding: 0.75rem 0.5rem;
   border-radius: 8px;
   border: 1px solid #e2e8f0;
@@ -114,9 +111,12 @@
   position: relative;
   overflow: hidden;
   z-index: 1;
+  animation: fadeIn 0.4s ease forwards;
+  opacity: 0;
+  min-width: 0;
 }
 
-.timeSlot:hover {
+.timeSlot:hover:not(.emptySlot) {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   border-color: #cbd5e0;
@@ -129,7 +129,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(1200deg, #aeddf8, #1eadff);
+  background: linear-gradient(120deg, #aeddf8, #1eadff);
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
@@ -144,54 +144,41 @@
   opacity: 1;
 }
 
-.timeSlot.disabled {
-  background-color: #f0f0f0;
-  color: #a0a0a0;
-  border-color: #e0e0e0;
-  cursor: not-allowed;
-  opacity: 0.8;
-  transform: none;
-  box-shadow: none;
+.emptySlot {
+  visibility: hidden;
+  pointer-events: none;
+  background: transparent;
+  border: none;
+  padding: 0;
 }
 
-.timeSlot.disabled:hover {
-  background-color: #f0f0f0;
-  color: #a0a0a0;
-  border-color: #e0e0e0;
-}
-
-/* Common styles for loading and error messages */
+/* Стилі для станів завантаження та помилок */
 .loading {
   padding: 2rem;
   text-align: center;
   color: #4a5568;
   font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .error {
   padding: 2rem;
   text-align: center;
-  color: #e53e3e; /* Червоний колір для помилок */
+  color: #e53e3e;
   font-size: 0.95rem;
   font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
 }
 
-/* Scrollbar styles (apply to .tableContainer as it's the scrollable part) */
-.tableContainer::-webkit-scrollbar {
-  width: 6px;
-}
-
-.tableContainer::-webkit-scrollbar-thumb {
-  background-color: #d4d4d4;
-  border-radius: 3px;
-  transition: background-color 0.3s;
-}
-
-.tableContainer::-webkit-scrollbar-thumb:hover {
-  background-color: #b3b3b3;
-}
-
-/* Animation */
+/* Анімації */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -203,65 +190,25 @@
   }
 }
 
-/* Time slot animations */
-.timeSlot {
-  animation: fadeIn 0.4s ease forwards;
-  opacity: 0;
+/* Адаптація для мобільних пристроїв */
+@media (max-width: 768px) {
+  .timeRow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .timeSlot {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .timeSection {
+    min-height: 200px;
+    padding: 0 1rem 1rem;
+  }
 }
 
-.timeRow:nth-child(1) .timeSlot {
-  animation-delay: 0.1s;
-}
-.timeRow:nth-child(1) .timeSlot:nth-child(2) {
-  animation-delay: 0.15s;
-}
-.timeRow:nth-child(1) .timeSlot:nth-child(3) {
-  animation-delay: 0.2s;
-}
-.timeRow:nth-child(1) .timeSlot:nth-child(4) {
-  animation-delay: 0.25s;
-}
-.timeRow:nth-child(1) .timeSlot:nth-child(5) {
-  animation-delay: 0.3s;
-}
-.timeRow:nth-child(1) .timeSlot:nth-child(6) {
-  animation-delay: 0.35s;
-}
-
-.timeRow:nth-child(2) .timeSlot {
-  animation-delay: 0.4s;
-}
-.timeRow:nth-child(2) .timeSlot:nth-child(2) {
-  animation-delay: 0.45s;
-}
-.timeRow:nth-child(2) .timeSlot:nth-child(3) {
-  animation-delay: 0.5s;
-}
-.timeRow:nth-child(2) .timeSlot:nth-child(4) {
-  animation-delay: 0.55s;
-}
-.timeRow:nth-child(2) .timeSlot:nth-child(5) {
-  animation-delay: 0.6s;
-}
-.timeRow:nth-child(2) .timeSlot:nth-child(6) {
-  animation-delay: 0.65s;
-}
-
-.timeRow:nth-child(3) .timeSlot {
-  animation-delay: 0.7s;
-}
-.timeRow:nth-child(3) .timeSlot:nth-child(2) {
-  animation-delay: 0.75s;
-}
-.timeRow:nth-child(3) .timeSlot:nth-child(3) {
-  animation-delay: 0.8s;
-}
-.timeRow:nth-child(3) .timeSlot:nth-child(4) {
-  animation-delay: 0.85s;
-}
-.timeRow:nth-child(3) .timeSlot:nth-child(5) {
-  animation-delay: 0.9s;
-}
-.timeRow:nth-child(3) .timeSlot:nth-child(6) {
-  animation-delay: 0.95s;
+@media (max-width: 480px) {
+  .timeRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
