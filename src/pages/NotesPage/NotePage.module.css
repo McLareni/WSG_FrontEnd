@@ -1,0 +1,17 @@
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+
+  margin-top: 24px;
+
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.chart-container{
+    width: 700px;
+    margin: 0 auto;
+}

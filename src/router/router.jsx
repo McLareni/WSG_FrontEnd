@@ -11,6 +11,7 @@ import LoginRouter from "./LoginRouter";
 import TeacherRouter from "./TeacherRouter";
 import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
 import AddNotePage from "../pages/AddNotePage/AddNotePage";
+import NotesPage from "../pages/NotesPage/NotesPage";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
             index: true,
             element: <HomePage />,
           },
+          { path: "notes", element: <NotesPage /> },
           {
             path: "add-note/:roomId/:reservationId",
             element: <AddNotePage />,
