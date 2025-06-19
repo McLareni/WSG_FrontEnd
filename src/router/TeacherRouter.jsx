@@ -1,6 +1,5 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore";
-import { Navigate } from "react-router-dom";
 
 const TeacherRouter = () => {
   const { user } = useAuthStore();

@@ -13,9 +13,7 @@ const RoomCard = ({
     <div className={styles.card}>
       <div className={styles.front}>
         <img src={imageSrc} alt={name} className={styles.image} />
-        <div className={styles.footer}>
-          <h3 className={styles.title}>{name}</h3>
-        </div>
+        <div className={styles.footer}></div>
         <span className={styles.categoryBadge}>{category}</span>
       </div>
 
@@ -28,11 +26,7 @@ const RoomCard = ({
               <li key={day} className={styles.scheduleItem}>
                 <span className={styles.scheduleDay}>{day}:</span>
                 <span className={styles.scheduleHours}>
-                  {hours.includes("Dzień wolny") ? (
-                    <strong>Dzień wolny</strong>
-                  ) : (
-                    hours
-                  )}
+                  {isNaN(hours[0]) ? <strong>Dzień wolny</strong> : hours}
                 </span>
               </li>
             ))}

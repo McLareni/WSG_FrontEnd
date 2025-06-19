@@ -1,0 +1,76 @@
+.filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+
+  margin-top: 24px;
+
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.chart-container{
+    width: 700px;
+    margin: 0 auto;
+}
+.measurements {
+  margin-top: 32px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 24px 32px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.measurements h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #222;
+}
+
+.measurementsTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fafbfc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.measurementsTable th,
+.measurementsTable td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.measurementsTable th {
+  background: #f0f2f5;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.measurementsTable tr:nth-child(even) {
+  background: #f7f9fa;
+}
+
+.measurementsTable tr:hover {
+  background: #eaf3fb;
+}
+
+.measurementsTable td {
+  color: #444;
+  font-size: 16px;
+}
+
+.measurements p {
+  color: #888;
+  font-size: 18px;
+  margin: 16px 0 0 0;
+  text-align: center;
+}

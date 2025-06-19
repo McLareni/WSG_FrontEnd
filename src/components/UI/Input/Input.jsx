@@ -25,7 +25,7 @@ const Input = ({
 }) => {
   return (
     <div className={`${styles.container} ${className}`} style={{ width }}>
-      <div className={styles.topRow}>
+      {label && <div className={styles.topRow}>
         {label && (
           <label
             className={`${styles.label} ${
@@ -37,7 +37,7 @@ const Input = ({
           </label>
         )}
         {error && <span className={styles.errorMessage}>{error}</span>}
-      </div>
+      </div>}
 
       {isTextarea ? (
         <textarea

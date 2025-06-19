@@ -10,7 +10,10 @@ import ProfilePassword from "../pages/ProfilePage/ProfilePassword";
 import LoginRouter from "./LoginRouter";
 import TeacherRouter from "./TeacherRouter";
 import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
+import AddNotePage from "../pages/AddNotePage/AddNotePage";
+import NotesPage from "../pages/NotesPage/NotesPage";
 import Reservation from "../pages/Resetvation/Reservation";
+
 
 const router = createBrowserRouter(
   [
@@ -33,6 +36,11 @@ const router = createBrowserRouter(
             {
               index: true,
               element: <HomePage />,
+            },
+            { path: "notes", element: <NotesPage /> },
+            {
+              path: "add-note/:roomId/:reservationId",
+              element: <AddNotePage />,
             },
             {
               path: "reservation/:roomId",
@@ -73,12 +81,7 @@ const router = createBrowserRouter(
         },
       ],
     },
-  ],
-  {
-    future: {
-    v7_relativeSplatPath: true, // Вмикає нову поведінку splat-шляхів
-    },
-  }
-);
+  ]);
+
 
 export default router;
