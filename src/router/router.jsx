@@ -10,6 +10,7 @@ import ProfilePassword from "../pages/ProfilePage/ProfilePassword";
 import LoginRouter from "./LoginRouter";
 import TeacherRouter from "./TeacherRouter";
 import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
+import ReservationsPage from "../pages/ReservationsPage/ReservationsPage";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
                 element: <ProfilePassword />,
               },
             ],
+          },
+          {
+            path: "reservations",
+            element: <ReservationsPage />,
           },
           {
             // Protected Teacher routes
