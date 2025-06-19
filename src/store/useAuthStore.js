@@ -2,7 +2,6 @@ import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 import { supabase } from "../supabaseClient";
 import * as api from "./api";
-import { ERROR_MESSAGES } from "./constants";
 
 const useAuthStore = create(
   devtools(
@@ -10,18 +9,66 @@ const useAuthStore = create(
       (set, get) => ({
         user: null,
         session: null,
-        isLoading: false,
         error: null,
+        isLoading: false,
+
+        clearErrors: () => set({ error: null }),
 
         _handleError: (error) => {
-          const message = error.message || ERROR_MESSAGES.UNKNOWN_ERROR;
-          set({ error: message });
+          const message = error.message || "errors.unknownError";
+          set({ error: message, isLoading: false });
           return { success: false, error: message };
+        },
+
+        changePassword: async (oldPassword, newPassword) => {
+          try {
+            set({ isLoading: true, error: null });
+            const result = await api.changePassword(oldPassword, newPassword);
+
+            await supabase.auth.signOut();
+            set({ session: null, user: null, isLoading: false });
+
+            return { success: true, data: result };
+          } catch (error) {
+            return get()._handleError(error);
+          }
+        },
+
+        // *** ОНОВЛЕНА ФУНКЦІЯ updateProfile в useAuthStore.js ***
+        updateProfile: async (updates) => {
+          try {
+            set({ isLoading: true, error: null });
+            const { session } = get();
+
+            if (!session) {
+              throw new Error("errors.unauthorized");
+            }
+
+            // Використовуємо нову функцію з api.js
+            const result = await api.updateUserProfile(session.user.id, updates);
+
+            set({
+              user: {
+                ...get().user,
+                first_name: updates.first_name,
+                last_name: updates.last_name,
+                email: updates.email,
+                ...(updates.album_number && {
+                  album_number: updates.album_number,
+                }),
+              },
+              isLoading: false,
+              error: null,
+            });
+
+            return { success: true, data: result };
+          } catch (error) {
+            return get()._handleError(error);
+          }
         },
 
         checkSession: async () => {
           try {
-            set({ isLoading: true });
             const {
               data: { session },
               error,
@@ -30,6 +77,10 @@ const useAuthStore = create(
             if (error || !session) {
               set({ user: null, session: null });
               return null;
+            }
+
+            if (get().session?.access_token === session.access_token) {
+              return session;
             }
 
             const userDetails = await api.fetchUserDetails(session.user.id);
@@ -43,14 +94,25 @@ const useAuthStore = create(
           } catch (error) {
             set({ error: error.message });
             return null;
-          } finally {
-            set({ isLoading: false });
+          }
+        },
+
+        getTeacherRooms: async () => {
+          try {
+            const { user } = get();
+            if (!user?.id) throw new Error("User ID is missing");
+
+            const data = await api.fetchTeacherRooms(user.id);
+            return { success: true, data: data.rooms || [] };
+          } catch (error) {
+            console.error("Error fetching teacher rooms:", error);
+            return get()._handleError(error);
           }
         },
 
         login: async (email, password) => {
           try {
-            set({ isLoading: true, error: null });
+            set({ error: null });
             const { data, error: authError } =
               await supabase.auth.signInWithPassword({
                 email,
@@ -58,13 +120,11 @@ const useAuthStore = create(
               });
 
             if (authError) throw authError;
-            if (!data?.session) throw new Error(ERROR_MESSAGES.SERVER_ERROR);
+            if (!data?.session) throw new Error("Server error occurred");
 
             const userDetails = await api.fetchUserDetails(
               data.session.user.id
             );
-
-            console.log(userDetails);
 
             set({
               session: data.session,
@@ -80,43 +140,16 @@ const useAuthStore = create(
             return { success: true };
           } catch (error) {
             return get()._handleError(error);
-          } finally {
-            set({ isLoading: false });
           }
         },
 
         logout: async () => {
           try {
-            set({ isLoading: true });
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
             set({ user: null, session: null, error: null });
           } catch (error) {
             return get()._handleError(error);
-          } finally {
-            set({ isLoading: false });
-          }
-        },
-
-        updateProfile: async (updates) => {
-          try {
-            set({ isLoading: true, error: null });
-            const { user } = get();
-
-            await api.updateUserProfile(user.id, updates);
-
-            set({
-              user: {
-                ...user,
-                ...updates,
-              },
-            });
-
-            return { success: true };
-          } catch (error) {
-            return get()._handleError(error);
-          } finally {
-            set({ isLoading: false });
           }
         },
 

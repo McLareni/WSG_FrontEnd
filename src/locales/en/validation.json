@@ -10,7 +10,7 @@
     "invalidChars": "Only letters are allowed"
   },
   "albumNumber": {
-    "required": "ID number is required",
+    "required": "Number is required",
     "invalid": "Must contain 6 digits"
   },
   "email": {
@@ -19,45 +19,55 @@
   },
   "password": {
     "required": "Password is required",
-    "weak": "Password is too weak",
     "requirements": {
-      "length": "Contains at least 8 characters",
-      "uppercase": "Contains uppercase letters (A-Z)",
-      "lowercase": "Contains lowercase letters (a-z)",
-      "digit": "Contains at least one digit (0-9)",
-      "special": "Contains a special character"
+      "length": "At least 8 characters",
+      "uppercase": "Must contain uppercase letters (A-Z)",
+      "lowercase": "Must contain lowercase letters (a-z)",
+      "digit": "Must contain at least one digit (0-9)",
+      "special": "Must contain a special character"
     },
     "confirmPassword": {
-      "notMatch": "Passwords do not match"
+      "notMatch": "Passwords don't match"
+    },
+    "change": {
+      "success": "Password changed successfully",
+      "failed": "Failed to change password",
+      "currentRequired": "Current password is required",
+      "invalidCurrent": "Incorrect current password",
+      "sameAsOld": "New password must be different from old one",
+      "updatesuccess": "Data updated successfully"
     }
   },
   "server": {
-    "noResponse": "No response from the server. Try again later.",
+    "noResponse": "No response from server. Please try again later.",
     "error": "An error occurred while sending the request.",
-    "timeout": "Request timed out. Try again."
+    "timeout": "Timeout occurred. Please try again."
   },
   "registration": {
     "success": "Registration successful! Welcome, {{firstName}} {{lastName}}!",
     "failed": "Registration failed: {{error}}",
-    "profileExists": "A profile for this user already exists."
+    "profileExists": "Profile for this user already exists."
   },
   "errors": {
     "requiredField": "Required field",
     "invalidEmail": "Invalid email format",
-    "passwordTooShort": "Password must contain at least 8 characters",
-    "formErrors": "Please correct the errors in the form",
-    "serverError": "A server error occurred",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "formErrors": "Please correct errors in the form",
+    "serverError": "Server error occurred",
+    "emailExists": "Email address is already taken",
     "invalidCredentials": "Invalid email or password",
-    "fillRequiredFields": "Please fill in the required fields",
-    "emailNotVerified": "Please verify your email before logging in",
-    "tooManyRequests": "Too many requests, try again later",
-    "logoutFailed": "Logout failed",
-    "unknownError": "An unknown error occurred. Try again.",
-    "fillAllFields": "Fields are not filled in",
-    "passwordRequired": "Enter your password",
-    "passwordsNotMatch": "Passwords do not match",
+    "fillRequiredFields": "Please fill all required fields",
+    "emailNotVerified": "Verify your email before logging in",
+    "tooManyRequests": "Too many requests, please try again later",
+    "logoutFailed": "Failed to log out",
+    "unknownError": "Unknown error occurred. Please try again.",
+    "fillAllFields": "Fields are not filled",
+    "passwordRequired": "Enter password",
+    "passwordsNotMatch": "Passwords don't match",
     "registrationFailed": "Registration failed",
-    "currentPassword": "Current password"
+    "currentPassword": "Current password",
+    "required": "New password is required",
+    "unauthorized": "Authorization required"
   },
   "login": {
     "success": "Login successful. Welcome!"

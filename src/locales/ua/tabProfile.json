@@ -12,8 +12,8 @@
   "changePassword": "Змінити пароль",
   "currentPassword": "Поточний пароль",
   "newPassword": "Новий пароль",
+  "noRooms" : "Немає створених кімнат",
   "confirmPassword": "Підтвердіть новий пароль",
-  "department": "Кафедра",
   "buttons": {
     "saveChanges": "Зберегти зміни",
     "cancel": "Скасувати"

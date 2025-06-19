@@ -10,7 +10,10 @@ import ProfilePassword from "../pages/ProfilePage/ProfilePassword";
 import LoginRouter from "./LoginRouter";
 import TeacherRouter from "./TeacherRouter";
 import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
-import ReservationsPage from "../pages/ReservationsPage/ReservationsPage";
+import AddNotePage from "../pages/AddNotePage/AddNotePage";
+import NotesPage from "../pages/NotesPage/NotesPage";
+import Reservation from "../pages/Resetvation/Reservation";
+import MyReservationPage from "../pages/MyReservationPage/MyReservationPage";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +36,19 @@ const router = createBrowserRouter([
             index: true,
             element: <HomePage />,
           },
+          { path: "notes", element: <NotesPage /> },
+          {
+            path: "add-note/:roomId/:reservationId",
+            element: <AddNotePage />,
+          },
+          {
+            path: "reservation/:roomId",
+            element: <Reservation />,
+          },
+          {
+            path: "my-reservations",
+            element: <MyReservationPage />,
+          },
           {
             path: "profile",
             children: [
@@ -49,10 +65,6 @@ const router = createBrowserRouter([
                 element: <ProfilePassword />,
               },
             ],
-          },
-          {
-            path: "reservations",
-            element: <ReservationsPage />,
           },
           {
             // Protected Teacher routes

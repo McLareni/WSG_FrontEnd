@@ -1,24 +1,45 @@
 import React from "react";
 import styles from "./Header.module.css";
 import { useTranslation } from "react-i18next";
+import { NavLink } from "react-router-dom";
+import useAuthStore from "../../../store/useAuthStore";
 
 const Header = () => {
   const { t } = useTranslation("homePage");
+  const { user } = useAuthStore();
+
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
         <h1 className={styles.logo}>WorkRoom</h1>
 
         <nav className={styles.centerSection}>
-          <a href="/" className={styles.navLink}>
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive && styles.active}`
+            }
+          >
             {t("header.home")}
-          </a>
-          <a href="/profile" className={styles.navLink}>
+          </NavLink>
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive && styles.active}`
+            }
+          >
             {t("header.profile")}
-          </a>
-          <a href="/rooms" className={styles.navLink}>
-            {t("header.room")}
-          </a>
+          </NavLink>
+          {user?.role === "teacher" && (
+            <NavLink
+              to={"/create-room"}
+              className={({ isActive }) =>
+                `${styles.navLink} ${isActive && styles.active}`
+              }
+            >
+              {t("header.newRoom")}
+            </NavLink>
+          )}
         </nav>
       </div>
     </header>

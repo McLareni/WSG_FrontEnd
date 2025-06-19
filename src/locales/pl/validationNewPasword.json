@@ -1,0 +1,20 @@
+{
+  "password": {
+    "required": "Hasło jest wymagane",
+    "requirements": {
+      "length": "Musi zawierać co najmniej 8 znaków"
+    },
+    "confirmPassword": {
+      "notMatch": "Hasła nie pasują do siebie"
+    },
+    "change": {
+      "success": "Hasło zostało pomyślnie zmienione",
+      "failed": "Nie udało się zmienić hasła",
+      "currentRequired": "Obecne hasło jest wymagane",
+      "invalidCurrent": "Nieprawidłowe obecne hasło",
+      "sameAsOld": "Nowe hasło musi różnić się od starego",
+      "updatesuccess": "Dane zostały pomyślnie zaktualizowane",
+      "missingFields": "Brak starego lub nowego hasła"
+    }
+  }
+}

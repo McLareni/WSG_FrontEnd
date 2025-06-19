@@ -2,12 +2,12 @@
   "firstName": {
     "required": "Imię jest wymagane",
     "tooShort": "Minimum 2 znaki",
-    "invalidChars": "Dozwolone są tylko litery"
+    "invalidChars": "Dozwolone tylko litery"
   },
   "lastName": {
     "required": "Nazwisko jest wymagane",
     "tooShort": "Minimum 2 znaki",
-    "invalidChars": "Dozwolone są tylko litery"
+    "invalidChars": "Dozwolone tylko litery"
   },
   "albumNumber": {
     "required": "Numer jest wymagany",
@@ -15,52 +15,61 @@
   },
   "email": {
     "required": "Email jest wymagany",
-    "invalid": "Nieprawidłowy format adresu email"
+    "invalid": "Nieprawidłowy format email"
   },
   "password": {
     "required": "Hasło jest wymagane",
-    "tooShort": "Minimum 8 znaków",
-    "weak": "Hasło jest zbyt słabe",
     "requirements": {
-      "length": "Zawiera co najmniej 8 znaków",
-      "uppercase": "Zawiera wielkie litery (A-Z)",
-      "lowercase": "Zawiera małe litery (a-z)",
-      "digit": "Zawiera co najmniej jedną cyfrę (0-9)",
-      "special": "Zawiera znak specjalny"
+      "length": "Co najmniej 8 znaków",
+      "uppercase": "Musi zawierać wielkie litery (A-Z)",
+      "lowercase": "Musi zawierać małe litery (a-z)",
+      "digit": "Musi zawierać co najmniej jedną cyfrę (0-9)",
+      "special": "Musi zawierać znak specjalny"
     },
     "confirmPassword": {
-      "notMatch": "Hasła nie są zgodne"
+      "notMatch": "Hasła nie pasują do siebie"
+    },
+    "change": {
+      "success": "Hasło zostało zmienione pomyślnie",
+      "failed": "Nie udało się zmienić hasła",
+      "currentRequired": "Aktualne hasło jest wymagane",
+      "invalidCurrent": "Nieprawidłowe aktualne hasło",
+      "sameAsOld": "Nowe hasło musi różnić się od starego",
+      "updatesuccess": "Dane zostały pomyślnie zaktualizowane"
     }
   },
   "server": {
-    "noResponse": "Brak odpowiedzi z serwera. Spróbuj później.",
+    "noResponse": "Brak odpowiedzi z serwera. Spróbuj ponownie później.",
     "error": "Wystąpił błąd podczas wysyłania żądania.",
-    "timeout": "Przekroczono limit czasu. Spróbuj ponownie."
+    "timeout": "Przekroczono czas oczekiwania. Spróbuj ponownie."
   },
   "registration": {
     "success": "Rejestracja zakończona sukcesem! Witaj, {{firstName}} {{lastName}}!",
-    "failed": "Nie udało się zarejestrować: {{error}}",
+    "failed": "Rejestracja nie powiodła się: {{error}}",
     "profileExists": "Profil dla tego użytkownika już istnieje."
   },
   "errors": {
-    "requiredField": "Pole wymagane",
-    "invalidEmail": "Nieprawidłowy format adresu email",
-    "passwordTooShort": "Hasło musi zawierać co najmniej 8 znaków",
-    "formErrors": "Popraw błędy w formularzu",
+    "requiredField": "Wymagane pole",
+    "invalidEmail": "Nieprawidłowy format email",
+    "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków",
+    "formErrors": "Proszę poprawić błędy w formularzu",
     "serverError": "Wystąpił błąd serwera",
+    "emailExists": "Adres email jest już zajęty",
     "invalidCredentials": "Nieprawidłowy email lub hasło",
-    "fillRequiredFields": "Proszę wypełnić wymagane pola",
-    "emailNotVerified": "Potwierdź swój email przed zalogowaniem się",
-    "tooManyRequests": "Zbyt wiele żądań, spróbuj później",
+    "fillRequiredFields": "Proszę wypełnić wszystkie wymagane pola",
+    "emailNotVerified": "Zweryfikuj swój email przed zalogowaniem",
+    "tooManyRequests": "Zbyt wiele prób, spróbuj ponownie później",
     "logoutFailed": "Wylogowanie nie powiodło się",
     "unknownError": "Wystąpił nieznany błąd. Spróbuj ponownie.",
     "fillAllFields": "Pola nie są wypełnione",
     "passwordRequired": "Wprowadź hasło",
-    "passwordsNotMatch": "Hasła nie są zgodne",
-    "registrationFailed": "Nie udało się zarejestrować",
-    "currentPassword": "Aktualne hasło"
+    "passwordsNotMatch": "Hasła nie pasują do siebie",
+    "registrationFailed": "Rejestracja nie powiodła się",
+    "currentPassword": "Aktualne hasło",
+    "required": "Nowe hasło jest wymagane",
+    "unauthorized": "Wymagana autoryzacja"
   },
   "login": {
-    "success": "Logowanie zakończone sukcesem. Witamy!"
+    "success": "Logowanie zakończone sukcesem. Witaj!"
   }
 }

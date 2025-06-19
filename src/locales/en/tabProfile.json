@@ -1,7 +1,7 @@
 {
   "teacher": "Teacher",
+  "albumNumber": "Student ID",
   "student": "Student",
-  "albumNumber": "Album number",
   "email": "Email",
   "firstName": "First Name",
   "lastName": "Last Name",
@@ -12,15 +12,15 @@
   "changePassword": "Change Password",
   "currentPassword": "Current Password",
   "newPassword": "New Password",
-  "confirmPassword": "Confirm Password",
-  "department": "Department",
+  "noRooms" : "No rooms created",
+  "confirmPassword": "Confirm New Password",
   "buttons": {
     "saveChanges": "Save Changes",
     "cancel": "Cancel"
   },
   "notFound": {
     "title": "404",
-    "message": "Page not found",
-    "goHome": "Back to home"
+    "message": "Page Not Found",
+    "goHome": "Return to Home"
   }
 }

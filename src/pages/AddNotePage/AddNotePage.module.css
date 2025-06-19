@@ -1,0 +1,76 @@
+.container {
+  max-width: 75%;
+  margin: auto;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 20px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form label {
+  display: block;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+}
+
+textarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+
+.tableWrapper h3 {
+  font-weight: 700;
+  font-size: 24px;
+  font-family: Darker Grotesque, monospace;
+  color: #000000;
+  margin: 0 0 10px 0;
+}
+
+.tableWrapper > button {
+  display: block;
+  margin: 8px 0 0 auto;
+  padding: 0.5rem 1rem;
+  background-color: #1eadff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tableWrapper > button[type="submit"] {
+  background: #1eadff;
+  color: #ffffff;
+  border-radius: 99px;
+  padding: 0 16px;
+  margin-top: 16px;
+  height: 33px;
+
+  font-family: "Roboto";
+  font-size: 16px;
+}
+
+.status {
+  margin-top: 1rem;
+  font-weight: bold;
+}

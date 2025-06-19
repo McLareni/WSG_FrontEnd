@@ -1,185 +1,172 @@
-import { useState } from "react";
+// components/Profile/ProfileEdit.jsx
+
+import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import ProfileLayout from "../../components/Profile/ProfileLayout";
 import ProfileSection from "../../components/Profile/ProfileSection";
 import Input from "../../components/UI/Input/Input";
 import ProfileActions from "../../components/Profile/ProfileActions";
 import useAuthStore from "../../store/useAuthStore";
-import { ERROR_MESSAGES, VALIDATION_RULES } from "../../store/constants";
+import { validateProfileData } from "../../store/validators"; // *** ЗМІНА: Оновлений імпорт ***
 import styles from "../../components/Profile/ProfileLayout.module.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProfileEdit = () => {
-  const { t } = useTranslation(["tabProfile", "validation", "errors", "server"]);
+  const { t } = useTranslation([ "validation", "tabProfile", "errors"]);
   const navigate = useNavigate();
-  const { user, updateProfile } = useAuthStore();
+  const { user, updateProfile, isLoading: isAuthLoading } = useAuthStore();
 
-  const isTeacher = user?.role === "teacher";
   const isStudent = user?.role === "student";
 
   const [formData, setFormData] = useState({
-    firstName: user?.first_name || "",
-    lastName: user?.last_name || "",
-    email: user?.email || "",
-    albumNumber: isStudent ? user?.album_number || "" : "",
-  });
-
-  const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
     email: "",
     albumNumber: "",
-    form: "",
   });
 
-  const handleChange = (e) => {
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.first_name || "",
+        lastName: user.last_name || "",
+        email: user.email || "",
+        albumNumber: isStudent ? user.album_number || "" : "",
+      });
+    }
+  }, [user, isStudent]);
+
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validateForm = useCallback(() => {
+    const validationErrors = validateProfileData({
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      album_number: formData.albumNumber,
+      isStudent: isStudent, 
+    }, t);
+
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
+  }, [formData, t, isStudent]); 
+
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
+    setErrors((prev) => ({ ...prev, [name]: undefined })); 
+  }, []);
 
-  const validateForm = () => {
-    const newErrors = {};
-    let isValid = true;
-
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = t("validation:firstName.required");
-      isValid = false;
-    } else if (formData.firstName.trim().length < VALIDATION_RULES.NAME_MIN_LENGTH) {
-      newErrors.firstName = t("validation:firstName.tooShort");
-      isValid = false;
-    } else if (!/^[A-Za-zА-Яа-яЁёІіЇїЄєҐґ]+$/.test(formData.firstName.trim())) {
-      newErrors.firstName = t("validation:firstName.invalidChars");
-      isValid = false;
-    }
-
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = t("validation:lastName.required");
-      isValid = false;
-    } else if (formData.lastName.trim().length < VALIDATION_RULES.NAME_MIN_LENGTH) {
-      newErrors.lastName = t("validation:lastName.tooShort");
-      isValid = false;
-    } else if (!/^[A-Za-zА-Яа-яЁёІіЇїЄєҐґ]+$/.test(formData.lastName.trim())) {
-      newErrors.lastName = t("validation:lastName.invalidChars");
-      isValid = false;
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = t("validation:email.required");
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      newErrors.email = t("validation:email.invalid");
-      isValid = false;
-    }
-
-    if (isStudent) {
-      if (!formData.albumNumber.trim()) {
-        newErrors.albumNumber = t("validation:albumNumber.required");
-        isValid = false;
-      } else if (!/^\d{6}$/.test(formData.albumNumber.trim())) {
-        newErrors.albumNumber = t("validation:albumNumber.invalid");
-        isValid = false;
-      }
-    }
-
-    setErrors({ ...errors, ...newErrors });
-    return isValid;
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
+
     if (!validateForm()) return;
+
+    setIsSubmitting(true);
 
     try {
       const payload = {
-        firstName: formData.firstName.trim(),
-        lastName: formData.lastName.trim(),
+        first_name: formData.firstName.trim(),
+        last_name: formData.lastName.trim(),
         email: formData.email.trim(),
-        ...(isStudent && { albumNumber: formData.albumNumber.trim() }),
+        ...(isStudent && { album_number: formData.albumNumber.trim() }),
       };
 
       const result = await updateProfile(payload);
+
       if (result?.success) {
+        toast.success(t("validation:password.change.updatesuccess"), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+          icon: "✅"
+        });
         navigate("/profile");
       } else {
-        setErrors((prev) => ({
-          ...prev,
-          form: result?.error || t(ERROR_MESSAGES.PROFILE_UPDATE_FAILED),
-        }));
+        const errorMessage = t(result?.error || "errors.updateFailed");
+        toast.error(errorMessage, {
+          position: "top-right",
+          autoClose: 5000
+        });
       }
     } catch (err) {
       console.error("Profile update error:", err);
-      setErrors((prev) => ({
-        ...prev,
-        form: t(ERROR_MESSAGES.SERVER_ERROR),
-      }));
+      toast.error(t("errors.serverError"), {
+        position: "top-right",
+        autoClose: 5000
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-  };
+  }, [formData, navigate, t, validateForm, updateProfile, isStudent]);
+
+  if (!user) {
+    return null;
+  }
 
   return (
-    <ProfileLayout title={t(user?.role)}>
-      {errors.form && (
-        <div className={styles.errorMessage}>
-          {errors.form}
-        </div>
-      )}
-
+    <ProfileLayout title={t(`tabProfile:${user?.role}`)}>
       <form onSubmit={handleSubmit}>
         <ProfileSection>
           <Input
-            label={t("email")}
+            label={t("tabProfile:email")}
             name="email"
             type="email"
             value={formData.email}
             onChange={handleChange}
             error={errors.email}
             required
+            disabled={isSubmitting || isAuthLoading}
           />
         </ProfileSection>
 
         <ProfileSection>
           <div className={styles.inputRow}>
             <Input
-              label={t("firstName")}
+              label={t("tabProfile:firstName")}
               name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               error={errors.firstName}
               required
+              disabled={isSubmitting || isAuthLoading}
             />
             <Input
-              label={t("lastName")}
+              label={t("tabProfile:lastName")}
               name="lastName"
               value={formData.lastName}
               onChange={handleChange}
               error={errors.lastName}
               required
+              disabled={isSubmitting || isAuthLoading}
             />
           </div>
+          {isStudent && (
+            <Input
+              label={t("tabProfile:albumNumber")}
+              name="albumNumber"
+              value={formData.albumNumber}
+              onChange={handleChange}
+              error={errors.albumNumber}
+              required={isStudent}
+              disabled={isSubmitting || isAuthLoading}
+            />
+          )}
         </ProfileSection>
-
-        {isStudent && (
-          <ProfileSection className={styles.albumNumberSection}>
-            <div className={styles.inputRow}>
-              <div className={styles.albumNumberInput}>
-                <Input
-                  label={t("albumNumber")}
-                  name="albumNumber"
-                  value={formData.albumNumber}
-                  onChange={handleChange}
-                  error={errors.albumNumber}
-                  maxLength={6}
-                  required
-                />
-              </div>
-            </div>
-          </ProfileSection>
-        )}
 
         <ProfileActions
           mode="edit"
           onCancel={() => navigate("/profile")}
           onSave={handleSubmit}
+          isSaveLoading={isSubmitting || isAuthLoading}
+          cancelDisabled={isSubmitting || isAuthLoading}
         />
       </form>
     </ProfileLayout>

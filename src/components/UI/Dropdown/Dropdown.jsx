@@ -1,5 +1,5 @@
 // src/components/UI/Dropdown/Dropdown.jsx
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { VscChevronDown } from "react-icons/vsc";
 import styles from "./Dropdown.module.css";
 
@@ -14,9 +14,20 @@ const Dropdown = ({
   textStyle = {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div className={styles.dropdownContainer}>
+    <div className={styles.dropdownContainer} ref={wrapperRef}>
       {label && <span className={styles.label}>{label}</span>}
       <div className={styles.dropdown}>
         <button

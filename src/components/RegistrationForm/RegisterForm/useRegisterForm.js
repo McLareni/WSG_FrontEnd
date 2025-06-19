@@ -1,6 +1,4 @@
 import { useState, useCallback, useEffect } from 'react';
-import { supabase } from '../../../supabaseClient';
-import { useAuthToast } from '../../UI/ToastAuth/ToastAuth';
 
 export const useRegisterForm = (t, navigate) => {
   const [formData, setFormData] = useState({
@@ -17,13 +15,11 @@ export const useRegisterForm = (t, navigate) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [touched, setTouched] = useState({});
   const [submitError, setSubmitError] = useState('');
-  const authToast = useAuthToast();
 
   const validateRegisterForm = useCallback((formData, t) => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
-    // First name validation
+
     if (!formData.firstName.trim()) {
       errors.firstName = t('validation:firstName.required');
     } else if (formData.firstName.length < 2 || formData.firstName.length > 50) {
@@ -32,7 +28,6 @@ export const useRegisterForm = (t, navigate) => {
       errors.firstName = t('validation:firstName.invalidChars');
     }
 
-    // Last name validation
     if (!formData.lastName.trim()) {
       errors.lastName = t('validation:lastName.required');
     } else if (formData.lastName.length < 2 || formData.lastName.length > 50) {
@@ -41,7 +36,6 @@ export const useRegisterForm = (t, navigate) => {
       errors.lastName = t('validation:lastName.invalidChars');
     }
 
-    // Album number validation (only when not teacher)
     if (!formData.isTeacher) {
       if (!formData.studentId.trim()) {
         errors.studentId = t('validation:albumNumber.required');
@@ -50,14 +44,12 @@ export const useRegisterForm = (t, navigate) => {
       }
     }
 
-    // Email validation
     if (!formData.email.trim()) {
       errors.email = t('validation:email.required');
     } else if (!emailRegex.test(formData.email)) {
       errors.email = t('validation:email.invalid');
     }
 
-    // Password validation
     if (!formData.password) {
       errors.password = t('validation:password.required');
     } else if (formData.password.length < 8) {
@@ -72,7 +64,6 @@ export const useRegisterForm = (t, navigate) => {
       errors.password = t('validation:password.requirements.special');
     }
 
-    // Confirm password validation
     if (!formData.confirmPassword) {
       errors.confirmPassword = t('validation:password.confirmPassword.notMatch');
     } else if (formData.password !== formData.confirmPassword) {
@@ -83,8 +74,7 @@ export const useRegisterForm = (t, navigate) => {
   }, [t]);
 
   useEffect(() => {
-    const newErrors = validateRegisterForm(formData, t);
-    setErrors(newErrors);
+    setErrors(validateRegisterForm(formData, t));
   }, [formData, t, validateRegisterForm]);
 
   const handleChange = useCallback((e) => {
@@ -113,17 +103,17 @@ export const useRegisterForm = (t, navigate) => {
 
   const isFormValid = useCallback(() => {
     return Object.values(errors).every(err => !err) &&
-      formData.firstName.trim() !== '' &&
-      formData.lastName.trim() !== '' &&
-      formData.email.trim() !== '' &&
-      formData.password.trim() !== '' &&
-      formData.confirmPassword.trim() !== '' &&
-      (formData.isTeacher || formData.studentId.trim() !== '');
+      formData.firstName.trim() &&
+      formData.lastName.trim() &&
+      formData.email.trim() &&
+      formData.password.trim() &&
+      formData.confirmPassword.trim() &&
+      (formData.isTeacher || formData.studentId.trim());
   }, [formData, errors]);
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    
+
     setTouched({
       firstName: true,
       lastName: true,
@@ -133,21 +123,24 @@ export const useRegisterForm = (t, navigate) => {
       confirmPassword: true
     });
 
-    const emptyFields = [
-      !formData.firstName.trim() && 'firstName',
-      !formData.lastName.trim() && 'lastName',
-      !formData.email.trim() && 'email',
-      !formData.password.trim() && 'password',
-      !formData.confirmPassword.trim() && 'confirmPassword',
-      !formData.isTeacher && !formData.studentId.trim() && 'studentId'
-    ].filter(Boolean);
+    const newErrors = validateRegisterForm(formData, t);
+    setErrors(newErrors);
 
-    if (emptyFields.length > 0) {
+    const hasEmpty = [
+      !formData.firstName.trim(),
+      !formData.lastName.trim(),
+      !formData.email.trim(),
+      !formData.password.trim(),
+      !formData.confirmPassword.trim(),
+      !formData.isTeacher && !formData.studentId.trim()
+    ].some(Boolean);
+
+    if (hasEmpty) {
       setSubmitError('errors.fillAllFields');
       return;
     }
 
-    if (Object.values(errors).some(err => err)) {
+    if (Object.values(newErrors).some(Boolean)) {
       setSubmitError('errors.formErrors');
       return;
     }
@@ -156,58 +149,50 @@ export const useRegisterForm = (t, navigate) => {
     setSubmitError('');
 
     try {
-      // 1. Реєстрація в Auth
-      const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            first_name: formData.firstName,
-            last_name: formData.lastName
-          }
-        }
-      });
-
-      if (authError) throw authError;
-
-      // 2. Додавання даних в таблицю user_details
-      const { error: profileError } = await supabase
-        .from('user_details')
-        .insert([{
-          user_id: authData.user.id,
+      const response = await fetch(`${import.meta.env.VITE_URL}registration`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': import.meta.env.VITE_SUPABASE_API_KEY,
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_API_KEY}`,
+        },
+        body: JSON.stringify({
+          email: formData.email,
           first_name: formData.firstName,
           last_name: formData.lastName,
-          album_number: formData.isTeacher ? null : formData.studentId,
-          role: formData.isTeacher ? 'teacher' : 'student',
-          confirmed: false
-        }]);
+          album_number: formData.isTeacher ? "" : formData.studentId.trim(), 
+          password: formData.password,
+        }),
+      });
 
-      if (profileError) throw profileError;
+      const data = await response.json();
 
-      authToast.success(t('registration.success', { 
-        firstName: formData.firstName,
-        lastName: formData.lastName
-      }));
+      if (!response.ok) {
+        throw new Error(data?.error || 'Registration failed');
+      }
 
       navigate('/login');
     } catch (error) {
       console.error('Registration error:', error);
-      
-      let errorKey = 'errors.registrationFailed';
-      if (error.message.includes('User already registered')) {
-        errorKey = 'errors.emailExists';
-      } else if (error.message.includes('password')) {
-        errorKey = 'errors.passwordRequirements';
-      } else if (error.code === 'PGRST204') {
-        errorKey = 'errors.databaseConfiguration';
-      }
+      let message = error.message.toLowerCase();
 
-      setSubmitError(errorKey);
-      authToast.error(t(errorKey));
+      if (message.includes('email already exists')) {
+        setSubmitError('emailExists');
+      } else if (message.includes('password must')) {
+        setSubmitError('errors.passwordRequirements');
+      } else if (message.includes('invalid email')) {
+        setSubmitError('validation:email.invalid');
+      } else if (message.includes('first name') || message.includes('last name')) {
+        setSubmitError('validation:firstName.invalidChars');
+      } else if (message.includes('album number')) {
+        setSubmitError('validation:albumNumber.invalid');
+      } else {
+        setSubmitError('errors.registrationFailed');
+      }
     } finally {
       setIsSubmitting(false);
     }
-  }, [formData, authToast, navigate, t, errors]);
+  }, [formData, validateRegisterForm, t, navigate]);
 
   return {
     formData,

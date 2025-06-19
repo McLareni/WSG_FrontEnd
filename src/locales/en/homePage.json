@@ -2,7 +2,8 @@
   "header": {
     "home": "Home",
     "profile": "My Profile",
-    "room": "Offices"
+    "room": "Offices",
+    "newRoom": "Add new room"
   },
   "searchAndSort": {
     "searchPlaceholder": "Search rooms...",

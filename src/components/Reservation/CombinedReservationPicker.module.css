@@ -1,0 +1,214 @@
+/* CalendarPicker styles */
+.calendarWrapper {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.calendarWrapper:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  padding: 0 0 0.5rem 0;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #2d3748;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, #e0e0e0, transparent);
+  margin-top: 0.75rem;
+}
+
+.customCalendar {
+  width: 100% !important;
+  max-width: 100% !important;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+}
+
+.customCalendar .rmdp-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* TimeSlotPicker styles */
+.timeSection {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  min-height: 245px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.timeSection:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+  position: relative;
+  display: inline-block;
+  padding: 1rem 0 0;
+}
+
+.tableContainer {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.timeGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.timeRow {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.timeSlot {
+  padding: 0.75rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #4a5568;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  animation: fadeIn 0.4s ease forwards;
+  opacity: 0;
+  min-width: 0;
+}
+
+.timeSlot:hover:not(.emptySlot) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e0;
+}
+
+.timeSlot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, #aeddf8, #1eadff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.timeSlot.selected {
+  color: white;
+  border-color: transparent;
+}
+
+.timeSlot.selected::before {
+  opacity: 1;
+}
+
+.emptySlot {
+  visibility: hidden;
+  pointer-events: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Стилі для станів завантаження та помилок */
+.loading {
+  padding: 2rem;
+  text-align: center;
+  color: #4a5568;
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.error {
+  padding: 2rem;
+  text-align: center;
+  color: #e53e3e;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+/* Анімації */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Адаптація для мобільних пристроїв */
+@media (max-width: 768px) {
+  .timeRow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .timeSlot {
+    font-size: 0.85rem;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .timeSection {
+    min-height: 200px;
+    padding: 0 1rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
