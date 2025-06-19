@@ -10,6 +10,8 @@ const Dropdown = ({
   onSelect,
   width = "242px",
   height = "55px",
+  className = "",
+  textStyle = {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef(null);
@@ -29,15 +31,16 @@ const Dropdown = ({
       {label && <span className={styles.label}>{label}</span>}
       <div className={styles.dropdown}>
         <button
-          className={styles.dropdownButton}
+          className={`${styles.dropdownButton} ${className}`}
           style={{ width, height }}
           onClick={() => setIsOpen(!isOpen)}
         >
-          {selected}
+          <span style={textStyle}>{selected}</span>
           <span className={styles.arrow}>
             <VscChevronDown />
           </span>
         </button>
+
         {isOpen && (
           <div className={styles.dropdownMenu}>
             {options.map((option) => (

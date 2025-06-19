@@ -13,75 +13,77 @@ import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
 import AddNotePage from "../pages/AddNotePage/AddNotePage";
 import NotesPage from "../pages/NotesPage/NotesPage";
 import Reservation from "../pages/Resetvation/Reservation";
+import MyReservationPage from "../pages/MyReservationPage/MyReservationPage";
 
-
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "login",
-          element: <LoginPage />,
-        },
-        {
-          path: "register",
-          element: <RegisterPage />,
-        },
-        {
-          // Protected routes
-          element: <LoginRouter />,
-          children: [
-            {
-              index: true,
-              element: <HomePage />,
-            },
-            { path: "notes", element: <NotesPage /> },
-            {
-              path: "add-note/:roomId/:reservationId",
-              element: <AddNotePage />,
-            },
-            {
-              path: "reservation/:roomId",
-              element: <Reservation />,
-            },
-            {
-              path: "profile",
-              children: [
-                {
-                  index: true,
-                  element: <ProfileView />,
-                },
-                {
-                  path: "edit",
-                  element: <ProfileEdit />,
-                },
-                {
-                  path: "password",
-                  element: <ProfilePassword />,
-                },
-              ],
-            },
-            {
-              // Protected Teacher routes
-              element: <TeacherRouter />,
-              children: [
-                {
-                  path: "create-room",
-                  element: <CreateRoomPage />,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          path: "*",
-          element: <NotFoundPage />,
-        },
-      ],
-    },
-  ]);
-
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
+      {
+        path: "register",
+        element: <RegisterPage />,
+      },
+      {
+        // Protected routes
+        element: <LoginRouter />,
+        children: [
+          {
+            index: true,
+            element: <HomePage />,
+          },
+          { path: "notes", element: <NotesPage /> },
+          {
+            path: "add-note/:roomId/:reservationId",
+            element: <AddNotePage />,
+          },
+          {
+            path: "reservation/:roomId",
+            element: <Reservation />,
+          },
+          {
+            path: "my-reservations",
+            element: <MyReservationPage />,
+          },
+          {
+            path: "profile",
+            children: [
+              {
+                index: true,
+                element: <ProfileView />,
+              },
+              {
+                path: "edit",
+                element: <ProfileEdit />,
+              },
+              {
+                path: "password",
+                element: <ProfilePassword />,
+              },
+            ],
+          },
+          {
+            // Protected Teacher routes
+            element: <TeacherRouter />,
+            children: [
+              {
+                path: "create-room",
+                element: <CreateRoomPage />,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />,
+      },
+    ],
+  },
+]);
 
 export default router;
