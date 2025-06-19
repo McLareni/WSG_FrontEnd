@@ -6,6 +6,7 @@ import SearchableDropdown from "../../components/UI/SearchableDropdown/Searchabl
 import axios from "axios";
 import useAuthStore from "../../store/useAuthStore";
 import useDebounce from "../../hooks/useDebounce";
+import { unitsConverter } from "../../utils/units";
 
 const CHART_TYPES = ["Line Chart", "Bar Chart", "Pie Chart", "Radar Chart"];
 const URL = import.meta.env.VITE_URL;
@@ -14,21 +15,24 @@ const NotesPage = () => {
   const { session } = useAuthStore();
 
   const [rooms, setRooms] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
   const [selectedChartType, setSelectedChartType] = useState("");
   const [typeQuery, setTypeQuery] = useState("");
+  const [roomQuery, setRoomQuery] = useState("");
+
   const [data, setData] = useState([]);
 
-  const debouncedQuery = useDebounce(typeQuery, 400);
+  const debouncedQueryType = useDebounce(typeQuery, 400);
+  const debouncedQueryRoom = useDebounce(roomQuery, 400);
 
   const listRoomNames = rooms.map((room) => room.name);
 
   async function fetchTypes(search) {
     try {
       const res = await axios.get(URL + "getTypeForMeasurements", {
-        params: { search },
+        params: { search, room_id: selectedRoom.id },
         headers: {
           Authorization: "Bearer " + session.access_token,
         },
@@ -57,7 +61,6 @@ const NotesPage = () => {
   }
 
   useEffect(() => {
-    fetchTypes("");
     fetchRooms("");
 
     if (CHART_TYPES.length > 0) {
@@ -66,10 +69,14 @@ const NotesPage = () => {
   }, []);
 
   useEffect(() => {
-    if (debouncedQuery !== "") {
-      fetchTypes(debouncedQuery);
+    if (debouncedQueryType !== "") {
+      fetchTypes(debouncedQueryType);
     }
-  }, [debouncedQuery]);
+
+    if (debouncedQueryRoom !== "") {
+      fetchRooms(debouncedQueryRoom);
+    }
+  }, [debouncedQueryRoom, debouncedQueryType]);
 
   useEffect(() => {
     async function fetchMeasurements() {
@@ -87,17 +94,18 @@ const NotesPage = () => {
         }
       );
       if (response.status === 200) {
-        setData(
-          response.data.measurements.map((measurement) => measurement.value) ||
-            []
-        );
+        setData(unitsConverter(response.data.measurements));
       }
     }
 
-    if ((selectedType.length > 0, selectedRoom)) {
+    if (selectedType?.length > 0 && selectedRoom) {
       fetchMeasurements();
     }
+
+    console.log(selectedType, selectedRoom);
   }, [selectedType, selectedRoom]);
+
+  console.log(data);
 
   return (
     <main className="">
@@ -105,13 +113,16 @@ const NotesPage = () => {
         Select a room
         <SearchableDropdown
           options={listRoomNames}
-          onSelect={(name) =>
-            setSelectedRoom(rooms.find((room) => room.name === name))
-          }
+          option={selectedRoom?.name || ""}
+          onChangeText={(text) => setRoomQuery(text)}
+          onSelect={(name) => {
+            setSelectedRoom(rooms.find((room) => room.name === name));
+          }}
         />
         Select type
         <SearchableDropdown
           options={types}
+          option={selectedType}
           onSelect={setSelectedType}
           onChangeText={setTypeQuery}
         />
@@ -126,8 +137,43 @@ const NotesPage = () => {
       <section className={styles["chart-container"]}>
         {selectedChartType === "Line Chart" && (
           <VictoryChart theme={VictoryTheme.clean}>
-            <VictoryLine data={data} />
+            <VictoryLine
+              data={data
+                .filter((measurement) => measurement.active)
+                .map((measurement) => measurement.value)}
+            />
           </VictoryChart>
+        )}
+      </section>
+      <section className={styles.measurements}>
+        <h3>Measurements</h3>
+        {Array.isArray(data) && data.length > 0 ? (
+          <table className={styles.measurementsTable}>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Value</th>
+                <th>Unit</th>
+                <th>Active</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((measurement, idx) => (
+                <tr key={measurement.id || idx}>
+                  <td>
+                    {measurement.created_at
+                      ? new Date(measurement.created_at).toLocaleString()
+                      : "-"}
+                  </td>
+                  <td>{measurement.value}</td>
+                  <td>{measurement.unit}</td>
+                  <td>{measurement.active ? "Valid" : "Invalid"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No measurements to display.</p>
         )}
       </section>
     </main>

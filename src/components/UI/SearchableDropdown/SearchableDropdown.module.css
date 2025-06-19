@@ -21,6 +21,11 @@
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
 }
 
+.input:disabled {
+  background-color: #5c5b5b;
+  cursor: not-allowed;
+}
+
 .dropdown {
   position: absolute;
   z-index: 10;

@@ -3,22 +3,35 @@ import styles from "./SearchableDropdown.module.css";
 
 export default function SearchableDropdown({
   options = [],
+  option = "",
   onSelect,
   onChangeText,
   placeholder = "Select...",
+  disabled = false,
 }) {
-  const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState(option);
   const dropdownRef = useRef(null);
 
+  useEffect(() => {
+    setInputValue(option);
+  }, [option]);
+
   const filteredOptions = options.filter((opt) =>
-    opt.toLowerCase().includes(query.toLowerCase())
+    opt.toLowerCase().includes(inputValue.toLowerCase())
   );
 
   const handleSelect = (value) => {
     onSelect(value);
-    setQuery(value);
     setIsOpen(false);
+  };
+
+  const handleChange = (e) => {
+    if (disabled) return;
+    const value = e.target.value;
+    setInputValue(value);
+    onChangeText(value);
+    setIsOpen(true);
   };
 
   useEffect(() => {
@@ -35,15 +48,14 @@ export default function SearchableDropdown({
     <div className={styles.container} ref={dropdownRef}>
       <input
         type="text"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          onChangeText(e.target.value);
-          setIsOpen(true);
+        value={inputValue || ""}
+        onChange={handleChange}
+        onFocus={() => {
+          if (!disabled) setIsOpen(true);
         }}
-        onFocus={() => setIsOpen(true)}
         placeholder={placeholder}
         className={styles.input}
+        disabled={disabled}
       />
       {isOpen && (
         <ul className={styles.dropdown}>

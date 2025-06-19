@@ -1,3 +1,92 @@
+import {
+  length,
+  area,
+  mass,
+  volume,
+  volumeFlowRate,
+  temperature,
+  time,
+  frequency,
+  speed,
+  pace,
+  pressure,
+  digital,
+  illuminance,
+  partsPer,
+  voltage,
+  current,
+  power,
+  apparentPower,
+  reactivePower,
+  energy,
+  reactiveEnergy,
+  angle,
+} from "units-converter";
+
+const convertersMap = {
+  Length: length,
+  Area: area,
+  Mass: mass,
+  Volume: volume,
+  "Volume Flow Rate": volumeFlowRate,
+  Temperature: temperature,
+  Time: time,
+  Frequency: frequency,
+  Speed: speed,
+  Pace: pace,
+  Pressure: pressure,
+  Digital: digital,
+  Illuminance: illuminance,
+  "Parts-Per": partsPer,
+  Voltage: voltage,
+  Current: current,
+  Power: power,
+  "Apparent Power": apparentPower,
+  "Reactive Power": reactivePower,
+  Energy: energy,
+  "Reactive Energy": reactiveEnergy,
+  Angle: angle,
+};
+
+export const unitsConverter = (measurements) => {
+  const convertedList = measurements.map((measurement) => ({
+    ...measurement,
+    ...unitConverter(measurement.unit, measurement.value),
+  }));
+
+  const unit = convertedList[convertedList.length - 1].unit;
+
+  return convertedList.map((measurement) => ({
+    ...measurement,
+    active: measurement.unit === unit,
+  }));
+};
+
+const unitConverter = (unit, value) => {
+  const category = findCategoryByUnit(unit);
+
+  if (!category) {
+    throw new Error(`Category not found for unit: ${unit}`);
+  }
+
+  const converter = convertersMap[category];
+
+  if (!converter) {
+    throw new Error(`Converter not found for category: ${category}`);
+  }
+
+  return converter(value).from(unit).toBest();
+};
+
+function findCategoryByUnit(unit) {
+  for (const [category, units] of Object.entries(unitsByCategory)) {
+    if (units.includes(unit)) {
+      return category;
+    }
+  }
+  return null; // якщо не знайдено категорію
+}
+
 export const unitsByCategory = {
   Length: ["mm", "cm", "m", "in", "ft-us", "ft", "mi"],
   Area: ["mm2", "cm2", "m2", "ha", "km2", "in2", "ft2", "ac", "mi2"],

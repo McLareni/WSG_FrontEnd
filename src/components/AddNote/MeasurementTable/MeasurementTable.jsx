@@ -3,11 +3,13 @@ import styles from "./MeasurementTable.module.css";
 import { getUnitCategory, unitsByCategory } from "../../../utils/units";
 import axios from "axios";
 import useAuthStore from "../../../store/useAuthStore";
+import { useParams } from "react-router-dom";
 
 const URL = import.meta.env.VITE_URL;
 
 const MeasurementTable = ({ measurements, updateMeasuremets }) => {
   const { session } = useAuthStore();
+  const params = useParams();
 
   const [suggestions, setSuggestions] = useState([]);
   const [activeInputIndex, setActiveInputIndex] = useState(null);
@@ -41,7 +43,7 @@ const MeasurementTable = ({ measurements, updateMeasuremets }) => {
     }
     try {
       const res = await axios.get(URL + "getTypeForMeasurements", {
-        params: { search },
+        params: { search, room_id: params.roomId },
         headers: {
           Authorization: "Bearer " + session.access_token,
         },
