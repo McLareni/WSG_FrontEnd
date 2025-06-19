@@ -1,4 +1,5 @@
 import styles from "./Input.module.css";
+import { MdOutlineVisibility, MdOutlineVisibilityOff } from 'react-icons/md'; // Матеріал-дизайн
 
 const Input = ({
   label,
@@ -16,6 +17,9 @@ const Input = ({
   required = false,
   className = "",
   inputClassName = "",
+  showPasswordToggle = false,
+  onTogglePassword,
+  showPassword,
   placeholder,
   ...props
 }) => {
@@ -47,22 +51,42 @@ const Input = ({
           {...props}
         />
       ) : (
-        <input
-          type={type}
-          name={name}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
-          disabled={disabled}
-          placeholder={placeholder}
-          className={`${styles.input} ${
-            error ? styles.error : hasSoftError ? styles.softError : ""
-          } ${inputClassName}`}
-          {...props}
-        />
+        <div className={styles.passwordInputWrapper}>
+          <input
+            type={type}
+            name={name}
+            value={value}
+            onChange={onChange}
+            onBlur={onBlur}
+            disabled={disabled}
+            placeholder={placeholder}
+            className={`${styles.input} ${
+              error ? styles.error : hasSoftError ? styles.softError : ""
+            } ${inputClassName} ${
+              showPasswordToggle ? styles['input-with-toggle'] : ''
+            }`}
+            {...props}
+          />
+          {showPasswordToggle && (
+            <button
+              type="button"
+              className={styles.passwordToggle}
+              onClick={onTogglePassword}
+              tabIndex="-1"
+              aria-label={
+                showPassword 
+                  ? "Приховати пароль" 
+                  : "Показати пароль"
+              }
+            >
+              {showPassword ? <MdOutlineVisibility />  : <MdOutlineVisibilityOff  /> }
+            </button>
+          )}
+        </div>
       )}
     </div>
   );
 };
 
 export default Input;
+

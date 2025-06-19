@@ -12,6 +12,7 @@
   "changePassword": "Zmień hasło",
   "currentPassword": "Aktualne hasło",
   "newPassword": "Nowe hasło",
+  "noRooms" : "Nie ma utworzonych pokoi",
   "confirmPassword": "Potwierdź nowe hasło",
   "buttons": {
     "saveChanges": "Zapisz zmiany",

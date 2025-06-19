@@ -1,11 +1,14 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+
 import ProfileLayout from "../../components/Profile/ProfileLayout";
 import ProfileSection from "../../components/Profile/ProfileSection";
-import Input from "../../components/UI/Input/Input";
 import ProfileActions from "../../components/Profile/ProfileActions";
-import useAuthStore from "../../store/useAuthStore";
+import Input from "../../components/UI/Input/Input";
 import TeacherRooms from "../../components/Profile/TeacherRooms";
+
+import useAuthStore from "../../store/useAuthStore";
 import styles from "../../components/Profile/ProfileLayout.module.css";
 
 const ProfileView = () => {
@@ -16,8 +19,43 @@ const ProfileView = () => {
   const isTeacher = user?.role === "teacher";
   const isStudent = user?.role === "student";
 
+  const [rooms, setRooms] = useState([]);
+  const [loadingRooms, setLoadingRooms] = useState(false);
+  const [roomsError, setRoomsError] = useState(null);
+
+ useEffect(() => {
+    const fetchRooms = async () => {
+      const checkAuth = async () => {
+    const session = await useAuthStore.getState().checkSession();
+    console.log('Session check:', session);
+  };
+  checkAuth();
+      try {
+        setLoadingRooms(true);
+        const result = await useAuthStore.getState().getTeacherRooms();
+        if (result.success) {
+          setRooms(result.data);
+        } else {
+          setRoomsError(result.error);
+        }
+      } catch (err) {
+        console.error("Помилка завантаження кімнат:", err);
+        setRoomsError(t("errors.fetchRoomsFailed"));
+      } finally {
+        setLoadingRooms(false);
+      }
+    };
+
+     console.log('Current user ID:', user?.id, 'Type:', typeof user?.id);
+  
+  if (isTeacher && user?.id) {
+    fetchRooms();
+  }
+    
+  }, [isTeacher, user?.id, t]);
+
   return (
-    <ProfileLayout title={t(user?.role)}>
+    <ProfileLayout title={t(user?.role || "profile")}>
       <ProfileSection>
         <Input
           label={t("email")}
@@ -46,43 +84,29 @@ const ProfileView = () => {
       </ProfileSection>
 
       {isStudent && (
-        <ProfileSection className={styles.albumNumberSection}>
-          <div className={styles.inputRow}>
-            <div className={styles.albumNumberInput}>
-              <Input
-                label={t("albumNumber")}
-                name="albumNumber"
-                value={user?.album_number || ""}
-                readOnly
-              />
-            </div>
-          </div>
+        <ProfileSection>
+          <Input
+            label={t("albumNumber")}
+            name="albumNumber"
+            value={user?.album_number || ""}
+            readOnly
+          />
         </ProfileSection>
       )}
 
       {isTeacher && (
-        <>
-          <div className={styles.divider} />
-          <TeacherRooms
-            rooms={[
-              { id: 1, name: "#101", active: true },
-              { id: 2, name: "B202", active: false },
-              { id: 4, name: "F303", active: true },
-              { id: 5, name: "F303", active: true },
-              { id: 6, name: "B202", active: false },
-              { id: 7, name: "B202", active: false },
-              { id: 8, name: "B202", active: false },
-
-            ]}
-          />
-        </>
+        <TeacherRooms
+          rooms={rooms}
+          loading={loadingRooms}
+          error={roomsError}
+        />
       )}
 
       <ProfileActions
-        mode="view"
-        onEdit={() => navigate("/profile/edit")}
-        onChangePassword={() => navigate("/profile/password")}
-      />
+  mode="view"
+  onEdit={() => navigate("/profile/edit")}
+  onChangePassword={() => navigate("/profile/password")}
+/>
     </ProfileLayout>
   );
 };
