@@ -1,6 +1,7 @@
 // src/components/Reservations/ReservationTable.jsx
 import React, { useState } from "react";
 import Dropdown from "../UI/Dropdown/Dropdown";
+import { useNavigate } from "react-router-dom";
 import styles from "./ReservationTable.module.css";
 
 const reservationData = [
@@ -72,6 +73,7 @@ const reservationData = [
 
 const ReservationTable = () => {
   const [filter, setFilter] = useState("Wszystkie");
+  const navigate = useNavigate();
 
   const filteredData =
     filter === "Wszystkie"
@@ -135,6 +137,7 @@ const ReservationTable = () => {
                     ) : res.status === "Zrealizowana" ? (
                       <button
                         className={`${styles.actionButton} ${styles.note}`}
+                        onClick={() => navigate("/notes")}
                       >
                         Dodaj notatkę
                       </button>
