@@ -1,0 +1,22 @@
+{
+  "title": "My Reservations",
+  "sortBy": "Sort by status:",
+  "listTitle": "Reservation List",
+  "number": "No.",
+  "date": "Date",
+  "time": "Time",
+  "room": "Room",
+  "seat": "Seat",
+  "status": "Status",
+  "action": "Action",
+  "cancel": "Cancel reservation",
+  "note": "Add note",
+  "none": "—",
+  "addReservation": "Add reservation +",
+  "statuses": {
+    "all": "All",
+    "realized": "Realized",
+    "pending": "Pending",
+    "canceled": "Canceled"
+  }
+}

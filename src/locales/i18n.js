@@ -18,19 +18,21 @@ import createRoomEN from "./en/createRoom.json";
 import createRoomPL from "./pl/createRoom.json";
 import createRoomUK from "./ua/createRoom.json";
 
-
 import reservationRoomEN from "./en/reservationRoom.json";
 import reservationRoomPL from "./pl/reservationRoom.json";
 import reservationRoomUK from "./ua/reservationRoom.json";
 
-import validationNewPasswordEN from "./en/validationNewPasword.json"; 
+import validationNewPasswordEN from "./en/validationNewPasword.json";
 import validationNewPasswordPL from "./pl/validationNewPasword.json";
-import validationNewPasswordUK from "./ua/validationNewPasword.json"; 
+import validationNewPasswordUK from "./ua/validationNewPasword.json";
 
 import homePageUK from "./ua/homePage.json";
 import homePagePL from "./pl/homePage.json";
 import homePageEN from "./en/homePage.json";
 
+import reservationTableEN from "./en/reservationTable.json";
+import reservationTablePL from "./pl/reservationTable.json";
+import reservationTableUK from "./ua/reservationTable.json";
 
 i18n
   .use(LanguageDetector)
@@ -45,6 +47,7 @@ i18n
         reservationRoom: reservationRoomEN,
         validationNewPassword: validationNewPasswordEN,
         homePage: homePageEN,
+        reservationTable: reservationTableEN,
       },
       pl: {
         adminUser: adminUserPL,
@@ -54,6 +57,7 @@ i18n
         reservationRoom: reservationRoomPL,
         validationNewPassword: validationNewPasswordPL,
         homePage: homePagePL,
+        reservationTable: reservationTablePL,
       },
       uk: {
         adminUser: adminUserUK,
@@ -63,10 +67,18 @@ i18n
         reservationRoom: reservationRoomUK,
         validationNewPassword: validationNewPasswordUK,
         homePage: homePageUK,
+        reservationTable: reservationTableUK,
       },
     },
     fallbackLng: "en",
-    ns: ["adminUser", "tabProfile", "validation", "createRoom", "homePage"],
+    ns: [
+      "adminUser",
+      "tabProfile",
+      "validation",
+      "createRoom",
+      "homePage",
+      "reservationTable",
+    ],
     defaultNS: "adminUser",
     interpolation: {
       escapeValue: false,

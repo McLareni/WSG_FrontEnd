@@ -1,0 +1,22 @@
+{
+  "title": "Moje rezerwacje",
+  "sortBy": "Sortuj według statusu:",
+  "listTitle": "Lista rezerwacji",
+  "number": "Numer",
+  "date": "Data",
+  "time": "Godzina",
+  "room": "Pokój",
+  "seat": "Miejsce",
+  "status": "Status",
+  "action": "Akcja",
+  "cancel": "Anuluj rezerwację",
+  "note": "Dodaj notatkę",
+  "none": "—",
+  "addReservation": "Dodaj rezerwację +",
+  "statuses": {
+    "all": "Wszystkie",
+    "realized": "Zrealizowana",
+    "pending": "Oczekująca",
+    "canceled": "Anulowana"
+  }
+}
