@@ -28,7 +28,7 @@ const Reservation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showTimeSlots, setShowTimeSlots] = useState(false);
   const [roomData, setRoomData] = useState(null);
-  const [nonWorkingDates, setNonWorkingDates] = useState([]);
+  const [closedDays, setClosedDays] = useState([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
   useEffect(() => {
@@ -41,7 +41,14 @@ const Reservation = () => {
         setRoomData({
           ...data.room,
           seats: data.seats,
+          schedule: data.schedule,
+          days: data.days
         });
+
+        // Set closed days from API response
+        const closed = data.days.filter(day => !day.isOpen).map(day => day.day.toLowerCase());
+        setClosedDays(closed);
+        
         setReservedSeats([]);
       } catch (error) {
         console.error("Error loading room info:", error);
@@ -73,8 +80,16 @@ const Reservation = () => {
     }
   }, [selectedSeats, selectedDate, roomData]);
 
+  const isDateClosed = (date) => {
+    if (!closedDays.length) return false;
+    
+    const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const dayOfWeek = dayNames[date.getDay()];
+    return closedDays.includes(dayOfWeek);
+  };
+
   const checkDateAvailability = async (date) => {
-    if (!roomData || !roomData.seats?.[0]) return false;
+    if (!roomData || !roomData.seats?.[0] || isDateClosed(date)) return false;
     
     try {
       const openHours = await fetchOpenHours(
@@ -89,37 +104,13 @@ const Reservation = () => {
     }
   };
 
-  const handleMonthChange = async (month) => {
-    setCurrentMonth(month);
-    setIsLoading(true);
-    
-    try {
-      const daysInMonth = new Date(
-        month.getFullYear(), 
-        month.getMonth() + 1, 
-        0
-      ).getDate();
-      
-      const nonWorking = [];
-      
-      for (let day = 1; day <= Math.min(daysInMonth, 10); day++) {
-        const date = new Date(month.getFullYear(), month.getMonth(), day);
-        const isAvailable = await checkDateAvailability(date);
-        if (!isAvailable) {
-          nonWorking.push(date);
-        }
-      }
-      
-      setNonWorkingDates(nonWorking);
-    } catch (error) {
-      console.error("Error loading non-working dates:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleDateChange = async (date) => {
     if (!date) return;
+    
+    if (isDateClosed(date)) {
+      authToast.warn(t("timeSlots.cabinetClosed"));
+      return;
+    }
     
     const isAvailable = await checkDateAvailability(date);
     if (isAvailable) {
@@ -200,16 +191,11 @@ const Reservation = () => {
     const [hours, minutes] = time.split(":").map(Number);
     const nextHour = hours + (minutes + 30 >= 60 ? 1 : 0);
     const nextMinute = (minutes + 30) % 60;
-    return `${String(nextHour).padStart(2, "0")}:${String(nextMinute).padStart(
-      2,
-      "0"
-    )}`;
+    return `${String(nextHour).padStart(2, "0")}:${String(nextMinute).padStart(2, "0")}`;
   };
 
   if (isLoading && !roomData) {
-    return (
-      <div className={styles.loading}>{t("placeSelection.status.loading")}</div>
-    );
+    return <div className={styles.loading}>{t("placeSelection.status.loading")}</div>;
   }
 
   if (!roomData) {
@@ -228,8 +214,7 @@ const Reservation = () => {
                 className={styles.roomImage}
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src =
-                    "https://via.placeholder.com/600x350?text=Room+Image";
+                  e.target.src = "https://via.placeholder.com/600x350?text=Room+Image";
                 }}
               />
             ) : (
@@ -239,9 +224,7 @@ const Reservation = () => {
             )}
             <div className={styles.imageOverlay}>
               <h2 className={styles.imageTitle}>
-                {t("roomDescription.roomNumber", {
-                  number: `#${roomData.name}`,
-                })}
+                {t("roomDescription.roomNumber", { number: `#${roomData.name}` })}
               </h2>
               <p className={styles.imageSubtitle}>{roomData.location}</p>
             </div>
@@ -253,8 +236,12 @@ const Reservation = () => {
             <CalendarPicker 
               value={selectedDate} 
               onChange={handleDateChange}
-              nonWorkingDates={nonWorkingDates}
-              onMonthChange={handleMonthChange}
+              disabledDates={(date) => {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                return date < today || isDateClosed(date);
+              }}
+              onMonthChange={(month) => setCurrentMonth(month)}
             />
           </div>
         </div>
@@ -264,9 +251,7 @@ const Reservation = () => {
             <h1 className={styles.roomTitle}>{roomData.name}</h1>
             <div className={styles.roomMeta}>
               <span className={styles.metaItem}>
-                {t("reservation.capacity", {
-                  count: roomData.seats?.length || 0,
-                })}
+                {t("reservation.capacity", { count: roomData.seats?.length || 0 })}
               </span>
             </div>
           </div>

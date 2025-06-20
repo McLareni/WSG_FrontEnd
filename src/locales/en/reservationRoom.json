@@ -1,6 +1,17 @@
 {
   "calendar": {
-    "selectDate": "Select a date"
+    "selectDate": "Select Date",
+    "weekdays": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    },
+    "monthFormat": "{{month}} {{year}}",
+    "locale": "en-US"
   },
   "infoTable": {
     "places": "Places",

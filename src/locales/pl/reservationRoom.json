@@ -1,6 +1,17 @@
 {
   "calendar": {
-    "selectDate": "Wybierz datę"
+    "selectDate": "Wybierz datę",
+    "weekdays": {
+      "sun": "Ndz",
+      "mon": "Pon",
+      "tue": "Wt",
+      "wed": "Śr",
+      "thu": "Czw",
+      "fri": "Pt",
+      "sat": "Sob"
+    },
+    "monthFormat": "{{month}} {{year}}",
+    "locale": "pl-PL"
   },
   "infoTable": {
     "places": "Miejsca",

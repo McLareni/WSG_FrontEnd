@@ -1,6 +1,17 @@
 {
   "calendar": {
-    "selectDate": "Виберіть дату"
+    "selectDate": "Виберіть дату",
+    "weekdays": {
+      "sun": "Нд",
+      "mon": "Пн",
+      "tue": "Вт",
+      "wed": "Ср",
+      "thu": "Чт",
+      "fri": "Пт",
+      "sat": "Сб"
+    },
+    "monthFormat": "{{month}} {{year}}",
+    "locale": "uk-UA"
   },
   "infoTable": {
     "places": "Місця",

@@ -116,3 +116,6 @@ export const reserveSeat = async (reservationData) => {
   });
 };
 
+export const fetchClosedDays = async (roomId, month, year) => {
+  return fetchWithAuth(`getClosedDays?room_id=${roomId}&month=${month}&year=${year}`);
+};

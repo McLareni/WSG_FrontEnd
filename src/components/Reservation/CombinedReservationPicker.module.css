@@ -1,3 +1,5 @@
+/* CombinedReservationPicker.module.css */
+
 /* CalendarPicker styles */
 .calendarWrapper {
   background: white;
@@ -41,6 +43,7 @@
   max-width: 300px;
 }
 
+/* React Day Picker styles */
 .rdp {
   --rdp-cell-size: 40px;
   --rdp-accent-color: #1eadff;
@@ -124,25 +127,7 @@
   cursor: not-allowed;
 }
 
-.firstSelected {
-  border-top-left-radius: 12px;
-  border-bottom-left-radius: 12px;
-}
-
-.lastSelected {
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-}
-
-.nonWorkingDay::after {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #e53e3e;
-  font-size: 1.2em;
-}
-
+/* TimeSlotPicker styles */
 .timeSection {
   background: white;
   border-radius: 16px;
@@ -281,6 +266,7 @@
   }
 }
 
+/* Responsive styles */
 @media (max-width: 768px) {
   .timeRow {
     grid-template-columns: repeat(3, 1fr);

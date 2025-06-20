@@ -1,65 +1,60 @@
 import React, { useState, useEffect } from "react";
 import { DayPicker } from 'react-day-picker';
-import { format } from 'date-fns';
 import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import styles from "./CombinedReservationPicker.module.css";
 import 'react-day-picker/dist/style.css';
 import { fetchOpenHours } from "../../store/api";
 
-const CalendarPicker = ({ value, onChange, nonWorkingDates = [] }) => {
+const CalendarPicker = ({ value, onChange, disabledDates, onMonthChange }) => {
   const { t } = useTranslation(["reservationRoom"]);
 
+  // Функції для форматування з перекладами
+  const formatWeekdayName = (date) => {
+    const weekdays = [
+      t("calendar.weekdays.sun"),
+      t("calendar.weekdays.mon"),
+      t("calendar.weekdays.tue"),
+      t("calendar.weekdays.wed"),
+      t("calendar.weekdays.thu"),
+      t("calendar.weekdays.fri"),
+      t("calendar.weekdays.sat")
+    ];
+    return weekdays[date.getDay()];
+  };
 
-  const isNonWorkingDate = (date) => {
-    return nonWorkingDates.some(d => 
-      d.getDate() === date.getDate() && 
-      d.getMonth() === date.getMonth() && 
-      d.getFullYear() === date.getFullYear()
-    );
+  const formatMonthCaption = (date) => {
+    return t("calendar.monthFormat", {
+      month: date.toLocaleString(t("calendar.locale"), { month: "long" }),
+      year: date.getFullYear()
+    });
   };
 
   return (
-    <div className={styles.calendarWrapper} aria-labelledby="calendar-title">
+    <div className={styles.calendarWrapper}>
       <div className={styles.header}>
-        <h3 id="calendar-title" className={styles.title}>
-          {t("calendar.selectDate")}
-        </h3>
-        <div className={styles.divider} aria-hidden="true"></div>
+        <h3 className={styles.title}>{t("calendar.selectDate")}</h3>
+        <div className={styles.divider}></div>
       </div>
       <DayPicker
         mode="single"
         selected={value}
-        onSelect={(date) => {
-          if (!isNonWorkingDate(date)) {
-            onChange(date);
-          }
-        }}
-        disabled={(date) => {
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          return date < today || isNonWorkingDate(date);
+        onSelect={onChange}
+        onMonthChange={onMonthChange}
+        disabled={disabledDates}
+        formatters={{
+          formatWeekdayName,
+          formatCaption: formatMonthCaption
         }}
         modifiersClassNames={{
           selected: styles.selectedDay,
           today: styles.today,
-          disabled: styles.nonWorkingDay
+          disabled: styles.disabledDay
         }}
         styles={{
-          root: {
-            margin: 0
-          },
-          caption: {
-            color: '#2d3748',
-            fontWeight: 500
-          },
-          day: {
-            margin: '0.2rem',
-            borderRadius: '8px'
-          }
-        }}
-        formatters={{
-          formatCaption: (date) => format(date, 'MMMM yyyy')
+          root: { margin: 0 },
+          caption: { color: '#2d3748', fontWeight: 500 },
+          day: { margin: '0.2rem', borderRadius: '8px' }
         }}
       />
     </div>
