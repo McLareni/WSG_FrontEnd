@@ -1,27 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar } from 'react-modern-calendar-datepicker';
-import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+import React, { useState, useEffect } from "react";
+import { DayPicker } from 'react-day-picker';
+import { format } from 'date-fns';
 import { useTranslation } from "react-i18next";
-import PropTypes from 'prop-types';
-import styles from './CombinedReservationPicker.module.css';
+import PropTypes from "prop-types";
+import styles from "./CombinedReservationPicker.module.css";
+import 'react-day-picker/dist/style.css';
 import { fetchOpenHours } from "../../store/api";
 
-const CalendarPicker = ({ value, onChange }) => {
+const CalendarPicker = ({ value, onChange, nonWorkingDates = [] }) => {
   const { t } = useTranslation(["reservationRoom"]);
 
-  const defaultValue = value
-    ? {
-        year: value.getFullYear(),
-        month: value.getMonth() + 1,
-        day: value.getDate(),
-      }
-    : null;
 
-  const today = new Date();
-  const minimumDate = {
-    year: today.getFullYear(),
-    month: today.getMonth() + 1,
-    day: today.getDate(),
+  const isNonWorkingDate = (date) => {
+    return nonWorkingDates.some(d => 
+      d.getDate() === date.getDate() && 
+      d.getMonth() === date.getMonth() && 
+      d.getFullYear() === date.getFullYear()
+    );
   };
 
   return (
@@ -32,14 +27,40 @@ const CalendarPicker = ({ value, onChange }) => {
         </h3>
         <div className={styles.divider} aria-hidden="true"></div>
       </div>
-      <Calendar
-        value={defaultValue}
-        onChange={(d) => onChange(new Date(d.year, d.month - 1, d.day))}
-        minimumDate={minimumDate}
-        calendarClassName={styles.customCalendar}
-        shouldHighlightWeekends
-        colorPrimary="#1EADFF"
-        colorPrimaryLight="#EBF8FF"
+      <DayPicker
+        mode="single"
+        selected={value}
+        onSelect={(date) => {
+          if (!isNonWorkingDate(date)) {
+            onChange(date);
+          }
+        }}
+        disabled={(date) => {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          return date < today || isNonWorkingDate(date);
+        }}
+        modifiersClassNames={{
+          selected: styles.selectedDay,
+          today: styles.today,
+          disabled: styles.nonWorkingDay
+        }}
+        styles={{
+          root: {
+            margin: 0
+          },
+          caption: {
+            color: '#2d3748',
+            fontWeight: 500
+          },
+          day: {
+            margin: '0.2rem',
+            borderRadius: '8px'
+          }
+        }}
+        formatters={{
+          formatCaption: (date) => format(date, 'MMMM yyyy')
+        }}
       />
     </div>
   );
@@ -48,20 +69,15 @@ const CalendarPicker = ({ value, onChange }) => {
 CalendarPicker.propTypes = {
   value: PropTypes.instanceOf(Date),
   onChange: PropTypes.func.isRequired,
+  nonWorkingDates: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
 };
 
-const allTimeSlots = [
-  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-  '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-  '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'
-];
-
 const TimeSlotPicker = ({
-  selectedTime,
-  setSelectedTime,
+  selectedTimes,
+  setSelectedTimes,
   selectedDate,
   roomId,
-  selectedSeatDescription
+  selectedSeatDescription,
 }) => {
   const { t } = useTranslation(["reservationRoom"]);
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -78,7 +94,11 @@ const TimeSlotPicker = ({
       setLoadingHours(true);
       setErrorHours(null);
       try {
-        const openHours = await fetchOpenHours(selectedDate, roomId, selectedSeatDescription);
+        const openHours = await fetchOpenHours(
+          selectedDate,
+          roomId,
+          selectedSeatDescription
+        );
         setAvailableTimes(openHours);
       } catch (err) {
         console.error("Failed to fetch open hours:", err);
@@ -93,7 +113,56 @@ const TimeSlotPicker = ({
     return () => clearTimeout(timer);
   }, [selectedDate, roomId, selectedSeatDescription, t]);
 
-  // Функція для розподілу часових слотів по рядках по 6 слотів
+  const handleTimeClick = (time) => {
+    const index = availableTimes.indexOf(time);
+    if (index === -1) return;
+
+    if (selectedTimes.includes(time)) {
+      setSelectedTimes(selectedTimes.filter(t => t !== time));
+      return;
+    }
+
+    if (selectedTimes.length === 0 || 
+        time === getNextTime(selectedTimes[selectedTimes.length - 1])) {
+      setSelectedTimes([...selectedTimes, time]);
+    } 
+    else if (time === getPrevTime(selectedTimes[0])) {
+      setSelectedTimes([time, ...selectedTimes]);
+    }
+    else if (isBetweenSelected(time)) {
+      return;
+    }
+    else {
+      setSelectedTimes([time]);
+    }
+  };
+
+  const getNextTime = (time) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    const nextHour = hours + (minutes + 30 >= 60 ? 1 : 0);
+    const nextMinute = (minutes + 30) % 60;
+    return `${String(nextHour).padStart(2, '0')}:${String(nextMinute).padStart(2, '0')}`;
+  };
+
+  const getPrevTime = (time) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    const prevHour = hours - (minutes - 30 < 0 ? 1 : 0);
+    const prevMinute = (minutes - 30 + 60) % 60;
+    return `${String(prevHour).padStart(2, '0')}:${String(prevMinute).padStart(2, '0')}`;
+  };
+
+  const isBetweenSelected = (time) => {
+    if (selectedTimes.length < 2) return false;
+    const firstIndex = availableTimes.indexOf(selectedTimes[0]);
+    const lastIndex = availableTimes.indexOf(selectedTimes[selectedTimes.length - 1]);
+    const currentIndex = availableTimes.indexOf(time);
+    return currentIndex > firstIndex && currentIndex < lastIndex;
+  };
+
+  const isTimeSelected = (time) => selectedTimes.includes(time);
+  const isTimeFirstSelected = (time) => selectedTimes[0] === time;
+  const isTimeLastSelected = (time) => selectedTimes[selectedTimes.length - 1] === time;
+
   const getTimeRows = () => {
     const rows = [];
     const slotsPerRow = 6;
@@ -103,35 +172,36 @@ const TimeSlotPicker = ({
       const startIdx = row * slotsPerRow;
       const endIdx = startIdx + slotsPerRow;
       const rowSlots = availableTimes.slice(startIdx, endIdx);
-      
-      // Додаємо порожні слоти, якщо в рядку менше 6 слотів
+
       while (rowSlots.length < slotsPerRow) {
         rowSlots.push(null);
       }
 
       rows.push(
         <div key={`row-${row}`} className={styles.timeRow}>
-          {rowSlots.map((time, index) => (
+          {rowSlots.map((time, index) =>
             time ? (
               <button
                 key={time}
                 className={`${styles.timeSlot} ${
-                  selectedTime === time ? styles.selected : ''
+                  isTimeSelected(time) ? styles.selected : ""
+                } ${isTimeFirstSelected(time) ? styles.firstSelected : ""} ${
+                  isTimeLastSelected(time) ? styles.lastSelected : ""
                 }`}
-                onClick={() => setSelectedTime(time)}
+                onClick={() => handleTimeClick(time)}
                 aria-label={`${t("timeSlots.timeSlot")} ${time}`}
-                aria-pressed={selectedTime === time}
+                aria-pressed={isTimeSelected(time)}
               >
                 {time}
               </button>
             ) : (
-              <div 
-                key={`empty-${row}-${index}`} 
+              <div
+                key={`empty-${row}-${index}`}
                 className={`${styles.timeSlot} ${styles.emptySlot}`}
                 aria-hidden="true"
               />
             )
-          ))}
+          )}
         </div>
       );
     }
@@ -148,20 +218,12 @@ const TimeSlotPicker = ({
         <div className={styles.divider}></div>
       </div>
       {loadingHours && (
-        <div className={styles.loading}>
-          {t("timeSlots.loadingHours")}
-        </div>
+        <div className={styles.loading}>{t("timeSlots.loadingHours")}</div>
       )}
-      {errorHours && (
-        <div className={styles.error}>
-          {errorHours}
-        </div>
-      )}
+      {errorHours && <div className={styles.error}>{errorHours}</div>}
       {!loadingHours && !errorHours && (
         <div className={styles.tableContainer}>
-          <div className={styles.timeGrid}>
-            {getTimeRows()}
-          </div>
+          <div className={styles.timeGrid}>{getTimeRows()}</div>
         </div>
       )}
     </div>
@@ -169,8 +231,8 @@ const TimeSlotPicker = ({
 };
 
 TimeSlotPicker.propTypes = {
-  selectedTime: PropTypes.string,
-  setSelectedTime: PropTypes.func.isRequired,
+  selectedTimes: PropTypes.arrayOf(PropTypes.string),
+  setSelectedTimes: PropTypes.func.isRequired,
   selectedDate: PropTypes.instanceOf(Date),
   roomId: PropTypes.string.isRequired,
   selectedSeatDescription: PropTypes.string.isRequired,

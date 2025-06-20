@@ -8,27 +8,35 @@
     "placeDescription": "Opis miejsca"
   },
   "reservation": {
+    "success": "Pomyślnie zarezerwowano miejsce {{seat}}. W sali {{room}} na {{date}} od {{startTime}} do {{endTime}}",
+    "reserveNow": "Zarezerwuj",
+    "for": "na",
+    "at": "o",
     "conferenceRoom": "Sala konferencyjna #A101",
-    "capacity": "Pojemność: {{count}} osób",
-    "reserveNow": "Zarezerwuj teraz",
-    "reservationConfirmed": "Sala A101 zarezerwowana na {{date}} o {{time}}"
+    "capacity": "Pojemność: {{count}} miejsc",
+    "missingFields": "Proszę wypełnić wszystkie wymagane pola",
+    "reservationConfirmed": "Sala A101 została zarezerwowana na {{date}} o {{time}}"
   },
   "roomDescription": {
     "title": "Opis sali",
-    "subtitle": "Nowoczesna przestrzeń do nauki",
-    "roomNumber": "Sala {{number}}"
+    "subtitle": "Nowoczesna przestrzeń edukacyjna",
+    "roomNumber": "Sala {{number}}",
+    "noImageAvailable": "Brak dostępnego obrazu",
+    "defaultDescription": "Standardowa sala edukacyjna z nowoczesnym wyposażeniem"
   },
   "timeSlots": {
     "availableHours": "Dostępne godziny",
-    "noAvailableHours" : "Brak dostępnych godzin",
-    "loadingHours" : "Ładowanie godzin"
+    "noAvailableHours": "W tym dniu gabinet jest nieczynny",
+    "loadingHours": "Ładowanie godzin",
+    "errorLoadingHours": "Błąd ładowania godzin",
+    "timeSlot": "Przedział czasowy"
   },
   "placeSelection": {
-    "selectPlace": "Wybór miejsca",
+    "selectPlace": "Wybierz miejsce",
     "seat": "Miejsce",
     "selected": "wybrane",
     "loading": "Ładowanie dostępnych miejsc...",
-    "noSeatsAvailable": "Brak wolnych miejsc",
+    "noSeatsAvailable": "Brak dostępnych miejsc",
     "status": {
       "available": "Dostępne",
       "selected": "Wybrane",
@@ -40,5 +48,12 @@
   "location": {
     "title": "Adres",
     "address": "Znajduje się pod adresem {{number}}"
+  },
+  "errors": {
+    "conflict": "Miejsce jest już zarezerwowane na ten czas",
+    "unauthorized": "Zaloguj się, aby dokonać rezerwacji",
+    "default": "Wystąpił błąd podczas dokonywania rezerwacji",
+    "roomLoadError": "Nie udało się załadować informacji o sali",
+    "roomNotFound": "Nie znaleziono sali"
   }
 }

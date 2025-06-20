@@ -1,30 +1,38 @@
 {
   "calendar": {
-    "selectDate": "Select date"
+    "selectDate": "Select a date"
   },
   "infoTable": {
-    "places": "Seats",
+    "places": "Places",
     "number": "No.",
-    "placeDescription": "Seat description"
+    "placeDescription": "Place description"
   },
   "reservation": {
-    "conferenceRoom": "Conference room #A101",
-    "capacity": "Capacity: {{count}} people",
+    "success": "Successfully booked seat {{seat}}. In room {{room}} on {{date}} from {{startTime}} to {{endTime}}",
     "reserveNow": "Reserve now",
+    "for": "for",
+    "at": "at",
+    "conferenceRoom": "Conference room #A101",
+    "capacity": "Capacity: {{count}} seats",
+    "missingFields": "Please fill in all required fields",
     "reservationConfirmed": "Room A101 reserved for {{date}} at {{time}}"
   },
   "roomDescription": {
     "title": "Room description",
     "subtitle": "Modern learning space",
-    "roomNumber": "Room {{number}}"
+    "roomNumber": "Room {{number}}",
+    "noImageAvailable": "No image available",
+    "defaultDescription": "Standard learning space with modern equipment"
   },
   "timeSlots": {
     "availableHours": "Available hours",
-    "noAvailableHours" : "No available hours",
-    "loadingHours" : "Loading hours"
+    "noAvailableHours": "The office is closed on this day",
+    "loadingHours": "Loading hours",
+    "errorLoadingHours": "Error loading hours",
+    "timeSlot": "Time slot"
   },
   "placeSelection": {
-    "selectPlace": "Seat selection",
+    "selectPlace": "Select a seat",
     "seat": "Seat",
     "selected": "selected",
     "loading": "Loading available seats...",
@@ -34,11 +42,18 @@
       "selected": "Selected",
       "occupied": "Occupied",
       "loading": "Loading...",
-      "status": "Location status"
+      "status": "Seat status"
     }
   },
   "location": {
     "title": "Address",
-    "address": "Located at {{number}}"
+    "address": "Located at address {{number}}"
+  },
+  "errors": {
+    "conflict": "The seat is already reserved for this time",
+    "unauthorized": "Please log in to make a reservation",
+    "default": "An error occurred while making the reservation",
+    "roomLoadError": "Failed to load room information",
+    "roomNotFound": "Room not found"
   }
 }

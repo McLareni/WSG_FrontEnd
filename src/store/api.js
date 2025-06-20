@@ -69,8 +69,8 @@ export const changePassword = async (oldPassword, newPassword) => {
   });
 };
 
-export const fetchTeacherRooms = async (teacherNumericId) => {
-  return fetchWithAuth(`getTeacherRooms?teacher_id=${teacherNumericId}`);
+export const fetchTeacherRooms = async (teacherId) => {
+  return fetchWithAuth(`getAllUserRoom/${teacherId}`);
 };
 
 export const fetchRoomInfo = async (roomId) => {
@@ -101,3 +101,18 @@ const formatDateForAPI = (date) => {
     year: 'numeric',
   }).replace(/\//g, '-');
 };
+
+export const reserveSeat = async (reservationData) => {
+  return fetchWithAuth("reservation", {
+    method: "POST",
+    body: JSON.stringify({
+      user_id: reservationData.user_id,
+      room_id: reservationData.room_id,
+      seat_desc: reservationData.seat_desc,
+      start_time: reservationData.start_time,
+      end_time: reservationData.end_time,
+      date: reservationData.date,
+    }),
+  });
+};
+

@@ -8,20 +8,28 @@
     "placeDescription": "Опис місця"
   },
   "reservation": {
+    "success": "Успішно заброньовано місце {{seat}}. В кімнаті {{room}} на {{date}} з {{startTime}} до {{endTime}}",
+    "reserveNow": "Забронювати",
+    "for": "на",
+    "at": "о",
     "conferenceRoom": "Конференц-зала #A101",
-    "capacity": "Вмістимість: {{count}} осіб",
-    "reserveNow": "Зарезервувати зараз",
+    "capacity": "Місткість: {{count}} місць",
+    "missingFields": "Будь ласка, заповніть всі обов'язкові поля",
     "reservationConfirmed": "Зала A101 зарезервована на {{date}} о {{time}}"
   },
   "roomDescription": {
     "title": "Опис зали",
     "subtitle": "Сучасний простір для навчання",
-    "roomNumber": "Зала {{number}}"
+    "roomNumber": "Зала {{number}}",
+    "noImageAvailable": "Зображення відсутнє",
+    "defaultDescription": "Стандартний навчальний простір з сучасним обладнанням"
   },
   "timeSlots": {
     "availableHours": "Доступні години",
-    "noAvailableHours" : "Немає вільних годин",
-    "loadingHours" : "Завантаження годин"
+    "noAvailableHours": "В даний день кабінет закрито",
+    "loadingHours": "Завантаження годин",
+    "errorLoadingHours": "Помилка завантаження годин",
+    "timeSlot": "Часовий слот"
   },
   "placeSelection": {
     "selectPlace": "Вибір місця",
@@ -37,9 +45,15 @@
       "status": "Статус місця"
     }
   },
- "location": { 
-  "title" : "Адреса",
-  "address" : "Знаходиться за адресою {{number}}"
- }
+  "location": {
+    "title": "Адреса",
+    "address": "Знаходиться за адресою {{number}}"
+  },
+  "errors": {
+    "conflict": "Місце вже зарезервовано на цей час",
+    "unauthorized": "Будь ласка, увійдіть для бронювання",
+    "default": "Сталася помилка під час бронювання",
+    "roomLoadError": "Не вдалося завантажити інформацію про кімнату",
+    "roomNotFound": "Кімнату не знайдено"
+  }
 }
-
