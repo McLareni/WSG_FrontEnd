@@ -12,9 +12,17 @@ const fetchWithAuth = async (endpoint, options = {}) => {
     throw new Error("Unauthorized");
   }
 
+  console.log(endpoint);
+  
   // Фікс для URL - прибираємо дублюючі слеші
   const normalizedEndpoint = endpoint.replace(/^\/+/, "");
-  const url = `${API_BASE_URL}/${normalizedEndpoint}`;
+
+  console.log(normalizedEndpoint);
+  
+
+  const url = `${API_BASE_URL}${normalizedEndpoint}`;
+
+  console.log("url:", url);
 
   const response = await fetch(url, {
     ...options,

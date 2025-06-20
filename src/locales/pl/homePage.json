@@ -35,11 +35,11 @@
     "date": "Data"
   },
   "categories": {
-    "it": "Informatyka",
-    "physics": "Fizyka",
-    "chemistry": "Chemia",
-    "graphics": "Grafika",
-    "pe": "Wychowanie fizyczne",
+    "informatyka": "Informatyka",
+    "fizyka": "Fizyka",
+    "chemia": "Chemia",
+    "grafika": "Grafika",
+    "wychowanie fizyczne": "Wychowanie fizyczne",
     "other": "Inne"
   }
 }

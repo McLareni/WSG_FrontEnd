@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Calendar } from 'react-modern-calendar-datepicker';
-import 'react-modern-calendar-datepicker/lib/DatePicker.css';
+import React, { useState, useEffect } from "react";
+import { Calendar } from "@hassanmojab/react-modern-calendar-datepicker";
+import "@hassanmojab/react-modern-calendar-datepicker/lib/DatePicker.css";
 import { useTranslation } from "react-i18next";
-import PropTypes from 'prop-types';
-import styles from './CombinedReservationPicker.module.css';
+import PropTypes from "prop-types";
+import styles from "./CombinedReservationPicker.module.css";
 import { fetchOpenHours } from "../../store/api";
 
 const CalendarPicker = ({ value, onChange }) => {
@@ -50,18 +50,12 @@ CalendarPicker.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-const allTimeSlots = [
-  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-  '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-  '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'
-];
-
 const TimeSlotPicker = ({
   selectedTime,
   setSelectedTime,
   selectedDate,
   roomId,
-  selectedSeatDescription
+  selectedSeatDescription,
 }) => {
   const { t } = useTranslation(["reservationRoom"]);
   const [availableTimes, setAvailableTimes] = useState([]);
@@ -78,7 +72,11 @@ const TimeSlotPicker = ({
       setLoadingHours(true);
       setErrorHours(null);
       try {
-        const openHours = await fetchOpenHours(selectedDate, roomId, selectedSeatDescription);
+        const openHours = await fetchOpenHours(
+          selectedDate,
+          roomId,
+          selectedSeatDescription
+        );
         setAvailableTimes(openHours);
       } catch (err) {
         console.error("Failed to fetch open hours:", err);
@@ -93,7 +91,6 @@ const TimeSlotPicker = ({
     return () => clearTimeout(timer);
   }, [selectedDate, roomId, selectedSeatDescription, t]);
 
-  // Функція для розподілу часових слотів по рядках по 6 слотів
   const getTimeRows = () => {
     const rows = [];
     const slotsPerRow = 6;
@@ -103,7 +100,7 @@ const TimeSlotPicker = ({
       const startIdx = row * slotsPerRow;
       const endIdx = startIdx + slotsPerRow;
       const rowSlots = availableTimes.slice(startIdx, endIdx);
-      
+
       // Додаємо порожні слоти, якщо в рядку менше 6 слотів
       while (rowSlots.length < slotsPerRow) {
         rowSlots.push(null);
@@ -111,12 +108,12 @@ const TimeSlotPicker = ({
 
       rows.push(
         <div key={`row-${row}`} className={styles.timeRow}>
-          {rowSlots.map((time, index) => (
+          {rowSlots.map((time, index) =>
             time ? (
               <button
                 key={time}
                 className={`${styles.timeSlot} ${
-                  selectedTime === time ? styles.selected : ''
+                  selectedTime === time ? styles.selected : ""
                 }`}
                 onClick={() => setSelectedTime(time)}
                 aria-label={`${t("timeSlots.timeSlot")} ${time}`}
@@ -125,13 +122,13 @@ const TimeSlotPicker = ({
                 {time}
               </button>
             ) : (
-              <div 
-                key={`empty-${row}-${index}`} 
+              <div
+                key={`empty-${row}-${index}`}
                 className={`${styles.timeSlot} ${styles.emptySlot}`}
                 aria-hidden="true"
               />
             )
-          ))}
+          )}
         </div>
       );
     }
@@ -148,20 +145,12 @@ const TimeSlotPicker = ({
         <div className={styles.divider}></div>
       </div>
       {loadingHours && (
-        <div className={styles.loading}>
-          {t("timeSlots.loadingHours")}
-        </div>
+        <div className={styles.loading}>{t("timeSlots.loadingHours")}</div>
       )}
-      {errorHours && (
-        <div className={styles.error}>
-          {errorHours}
-        </div>
-      )}
+      {errorHours && <div className={styles.error}>{errorHours}</div>}
       {!loadingHours && !errorHours && (
         <div className={styles.tableContainer}>
-          <div className={styles.timeGrid}>
-            {getTimeRows()}
-          </div>
+          <div className={styles.timeGrid}>{getTimeRows()}</div>
         </div>
       )}
     </div>
