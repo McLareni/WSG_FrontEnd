@@ -22,5 +22,6 @@
     "title": "404",
     "message": "Page Not Found",
     "goHome": "Return to Home"
-  }
+  },
+  "logout": "Logout"
 }

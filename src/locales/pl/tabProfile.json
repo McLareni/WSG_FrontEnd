@@ -22,5 +22,6 @@
     "title": "404",
     "message": "Strona nie znaleziona",
     "goHome": "Powrót do strony głównej"
-  }
+  },
+  "logout": "Wyloguj"
 }
