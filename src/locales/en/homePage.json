@@ -34,11 +34,11 @@
     "date": "Date"
   },
   "categories": {
-    "it": "Computer Science",
-    "physics": "Physics",
-    "chemistry": "Chemistry",
-    "graphics": "Graphics",
-    "pe": "Physical Education",
+    "informatyka": "Computer Science",
+    "fizyka": "Physics",
+    "chemia": "Chemistry",
+    "grafika": "Graphics",
+    "wychowanie fizyczne": "Physical Education",
     "other": "Other"
   }
 }

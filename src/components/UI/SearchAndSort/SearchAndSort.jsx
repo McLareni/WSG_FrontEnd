@@ -10,10 +10,17 @@ const SearchAndSort = () => {
 
   const [searchValue, setSearchValue] = useState("");
   const [sortBy, setSortBy] = useState("name");
-  const [category, setCategory] = useState("it");
+  const [category, setCategory] = useState("informatyka");
 
   const sortOptions = ["name", "teacher", "date"];
-  const categories = ["it", "physics", "chemistry", "graphics", "pe", "other"];
+  const categories = [
+    "informatyka",
+    "fizyka",
+    "chemia",
+    "grafika",
+    "wychowanie fizyczne",
+    "other",
+  ];
 
   return (
     <div className={styles.container}>

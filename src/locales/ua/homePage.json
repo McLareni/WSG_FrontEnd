@@ -35,11 +35,11 @@
     "date": "Дата"
   },
   "categories": {
-    "it": "Інформатика",
-    "physics": "Фізика",
-    "chemistry": "Хімія",
-    "graphics": "Графіка",
-    "pe": "Фізичне виховання",
+    "informatyka": "Інформатика",
+    "fizyka": "Фізика",
+    "chemia": "Хімія",
+    "grafika": "Графіка",
+    "wychowanie fizyczne": "Фізичне виховання",
     "other": "Інше"
   }
 }

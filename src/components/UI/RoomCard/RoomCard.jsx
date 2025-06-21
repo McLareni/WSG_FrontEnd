@@ -1,6 +1,15 @@
-// RoomCard.js
-import React from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./RoomCard.module.css";
+
+const DAYS = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];
 
 const RoomCard = ({
   name,
@@ -9,6 +18,8 @@ const RoomCard = ({
   schedule,
   onReserve = () => {},
 }) => {
+  const { t } = useTranslation("homePage");
+
   return (
     <div className={styles.card}>
       <div className={styles.front}>
@@ -22,14 +33,21 @@ const RoomCard = ({
         <div className={styles.scheduleContainer}>
           <h4 className={styles.scheduleTitle}>Harmonogram</h4>
           <ul className={styles.scheduleList}>
-            {Object.entries(schedule).map(([day, hours]) => (
-              <li key={day} className={styles.scheduleItem}>
-                <span className={styles.scheduleDay}>{day}:</span>
-                <span className={styles.scheduleHours}>
-                  {isNaN(hours[0]) ? <strong>Dzień wolny</strong> : hours}
-                </span>
-              </li>
-            ))}
+            {DAYS.map((day, i) => {
+              return (
+                <li key={day} className={styles.scheduleItem}>
+                  <span className={styles.scheduleDay}>
+                    {t(`days.${day}`)}:
+                  </span>
+                  <span className={styles.scheduleHours}>
+                    {DAYS.includes(schedule[i]?.day_of_week)
+                      ? `${schedule[i].open_time.slice(0, 5)} - 
+                  ${schedule[i].close_time.slice(0, 5)}`
+                      : t(`days.dayOff`)}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <button

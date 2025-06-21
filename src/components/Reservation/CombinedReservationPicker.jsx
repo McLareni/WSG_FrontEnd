@@ -108,6 +108,7 @@ const TimeSlotPicker = ({
     return () => clearTimeout(timer);
   }, [selectedDate, roomId, selectedSeatDescription, t]);
 
+
   const handleTimeClick = (time) => {
     const index = availableTimes.indexOf(time);
     if (index === -1) return;

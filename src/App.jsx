@@ -38,10 +38,9 @@ function App() {
       } catch (error) {
         console.error(t('validation:errors.serverError'), error);
       } finally {
-        // Додаємо затримку для завершення анімації
         setTimeout(() => {
           setIsAuthCheckComplete(true);
-        }, 500); // Час для завершення анімації лоадера
+        }, 500); 
       }
     };
 
