@@ -118,7 +118,7 @@ const CreateRoomForm = () => {
       const data = await res.json();
       return data.url;
     } catch (error) {
-      toast.error("Image upload failed.");
+      toast.error(t("errors.uploadPhoto"));
     }
   };
 
@@ -144,9 +144,8 @@ const CreateRoomForm = () => {
     }
 
     if (!image) {
-      return toast.error("Select image");
+      return toast.error(t("validation.selectPhoto"));
     }
-
     const url = await handleFileChange();
 
     if (!url) {
@@ -158,7 +157,7 @@ const CreateRoomForm = () => {
     const response = await createRoomRequest(roomData);
 
     if (response.status === 201) {
-      toast.success("Room created");
+      toast.success(t("success"));
       navigate("/");
     }
   };
