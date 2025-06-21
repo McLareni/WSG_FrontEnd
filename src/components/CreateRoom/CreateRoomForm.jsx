@@ -122,8 +122,6 @@ const CreateRoomForm = () => {
     }
   };
 
-  console.log(CLOUDINARY_CLOUD_NAME);
-
   const handleCreateRoom = async (e) => {
     e.preventDefault();
 
@@ -158,7 +156,8 @@ const CreateRoomForm = () => {
     roomData.photo_url = url;
 
     const response = await createRoomRequest(roomData);
-    if (response.id) {
+
+    if (response.status === 201) {
       toast.success("Room created");
       navigate("/");
     }

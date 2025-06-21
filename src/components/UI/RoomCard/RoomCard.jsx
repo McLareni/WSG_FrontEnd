@@ -2,13 +2,13 @@ import { useTranslation } from "react-i18next";
 import styles from "./RoomCard.module.css";
 
 const DAYS = [
-  "sunday",
   "monday",
   "tuesday",
   "wednesday",
   "thursday",
   "friday",
   "saturday",
+  "sunday",
 ];
 
 const RoomCard = ({
