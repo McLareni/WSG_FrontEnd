@@ -19,5 +19,29 @@
     "typePlaceholder": "наприклад, Температура",
     "valuePlaceholder": "наприклад, 23.4",
     "selectUnit": "Виберіть одиницю"
+  },
+  "category": {
+    "Length": "Довжина",
+    "Area": "Площа",
+    "Mass": "Маса",
+    "Volume": "Обʼєм",
+    "Volume Flow Rate": "Швидкість потоку обʼєму",
+    "Temperature": "Температура",
+    "Time": "Час",
+    "Frequency": "Частота",
+    "Speed": "Швидкість",
+    "Pace": "Темп",
+    "Pressure": "Тиск",
+    "Digital": "Цифрове",
+    "Illuminance": "Освітленість",
+    "Parts-Per": "Частин на",
+    "Voltage": "Напруга",
+    "Current": "Струм",
+    "Power": "Потужність",
+    "Apparent Power": "Повна потужність",
+    "Reactive Power": "Реактивна потужність",
+    "Energy": "Енергія",
+    "Reactive Energy": "Реактивна енергія",
+    "Angle": "Кут"
   }
 }

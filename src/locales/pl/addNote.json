@@ -19,5 +19,29 @@
     "typePlaceholder": "np. Temperatura",
     "valuePlaceholder": "np. 23.4",
     "selectUnit": "Wybierz jednostkę"
+  },
+  "category": {
+    "Length": "Długość",
+    "Area": "Powierzchnia",
+    "Mass": "Masa",
+    "Volume": "Objętość",
+    "Volume Flow Rate": "Przepływ objętości",
+    "Temperature": "Temperatura",
+    "Time": "Czas",
+    "Frequency": "Częstotliwość",
+    "Speed": "Prędkość",
+    "Pace": "Tempo",
+    "Pressure": "Ciśnienie",
+    "Digital": "Cyfrowe",
+    "Illuminance": "Oświetlenie",
+    "Parts-Per": "Cząstki na",
+    "Voltage": "Napięcie",
+    "Current": "Prąd",
+    "Power": "Moc",
+    "Apparent Power": "Moc pozorna",
+    "Reactive Power": "Moc bierna",
+    "Energy": "Energia",
+    "Reactive Energy": "Energia bierna",
+    "Angle": "Kąt"
   }
 }
