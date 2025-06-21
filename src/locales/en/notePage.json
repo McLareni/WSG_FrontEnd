@@ -1,0 +1,21 @@
+{
+  "selectRoom": "Select a room",
+  "selectType": "Select type",
+  "selectChartType": "Select type of chart",
+  "measurements": "Measurements",
+  "table": {
+    "date": "Date",
+    "value": "Value",
+    "unit": "Unit",
+    "active": "Active",
+    "valid": "Valid",
+    "invalid": "Invalid",
+    "noData": "No measurements to display."
+  },
+  "chartTypes": {
+    "line": "Line Chart",
+    "bar": "Bar Chart",
+    "pie": "Pie Chart",
+    "radar": "Radar Chart"
+  }
+}

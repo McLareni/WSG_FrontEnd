@@ -1,56 +1,76 @@
 // src/components/MyReservation/ReservationTable.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Dropdown from "../UI/Dropdown/Dropdown";
 import styles from "./ReservationTable.module.css";
+import axios from "axios";
+import useAuthStore from "../../store/useAuthStore";
 
-const reservationData = [
-  {
-    date: "2025-07-01",
-    startTime: "10:00",
-    endTime: "12:45",
-    room: "B101",
-    seat: "P29",
-    status: "realized",
-  },
-  {
-    date: "2025-07-01",
-    startTime: "12:00",
-    endTime: "13:30",
-    room: "B101",
-    seat: "P23",
-    status: "pending",
-  },
-  {
-    date: "2025-07-01",
-    startTime: "13:45",
-    endTime: "15:00",
-    room: "B101",
-    seat: "P26",
-    status: "realized",
-  },
-  {
-    date: "2025-07-01",
-    startTime: "09:00",
-    endTime: "10:00",
-    room: "B101",
-    seat: "P9",
-    status: "canceled",
-  },
-];
+const URL = import.meta.env.VITE_URL;
 
 const ReservationTable = () => {
   const { t } = useTranslation("reservationTable");
   const navigate = useNavigate();
   const [filter, setFilter] = useState("all");
+  const [reservations, setReservations] = useState([]);
+  const [showCancelPopup, setShowCancelPopup] = useState(false);
+  const [selectedReservation, setSelectedReservation] = useState(null);
 
-  const statusOptions = ["all", "realized", "pending", "canceled"];
+  const { session } = useAuthStore();
+
+  const statusOptions = ["all", "done", "active", "cancelled"];
+
+  const cancelReservation = async (reservationId) => {
+    try {
+      await axios.post(
+        `${URL}cancel-reservation`,
+        {
+          id: reservationId,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + session.access_token,
+          },
+        }
+      );
+
+      // Оновити список
+      setReservations((prev) =>
+        prev.map((res) =>
+          res.id === reservationId ? { ...res, status: "cancelled" } : res
+        )
+      );
+
+      setShowCancelPopup(false);
+      setSelectedReservation(null);
+    } catch (error) {
+      console.error("Failed to cancel reservation:", error);
+    }
+  };
+
+  useEffect(() => {
+    async function fetchReservations() {
+      const response = await axios.get(
+        URL + `getMyResrvation/${session.user.id}`,
+        {
+          headers: {
+            Authorization: "Bearer " + session.access_token,
+          },
+        }
+      );
+      setReservations(response.data.updateReservations);
+    }
+
+    if (session?.user?.id) {
+      fetchReservations();
+    }
+  }, [session?.user?.id]);
 
   const filteredData =
     filter === "all"
-      ? reservationData
-      : reservationData.filter((res) => res.status === filter);
+      ? reservations
+      : reservations?.filter((res) => res.status === filter);
 
   return (
     <div className={styles.wrapper}>
@@ -85,7 +105,7 @@ const ReservationTable = () => {
                 <th className={styles.th}>{t("date")}</th>
                 <th className={styles.th}>{t("time")}</th>
                 <th className={styles.th}>{t("room")}</th>
-                <th className={styles.th}>{t("seat")}</th>
+                {/* <th className={styles.th}>{t("seat")}</th> */}
                 <th className={styles.th}>{t("status")}</th>
                 <th className={styles.th}>{t("action")}</th>
               </tr>
@@ -96,25 +116,31 @@ const ReservationTable = () => {
                   key={index}
                   className={index % 2 === 0 ? styles.evenRow : ""}
                 >
-                  <td className={styles.td}>{index + 1}</td>
+                  <td className={styles.td}>{res.id}</td>
                   <td className={styles.td}>{res.date}</td>
                   <td className={styles.td}>
-                    {res.startTime} - {res.endTime}
+                    {res.start_time.slice(0, 5)} - {res.end_time.slice(0, 5)}
                   </td>
-                  <td className={styles.td}>{res.room}</td>
-                  <td className={styles.td}>{res.seat}</td>
+                  <td className={styles.td}>{res.Seats.Rooms.name}</td>
+                  {/* <td className={styles.td}>{res.seat}</td> */}
                   <td className={styles.td}>{t(`statuses.${res.status}`)}</td>
                   <td className={styles.td}>
-                    {res.status === "pending" ? (
+                    {res.status === "active" ? (
                       <button
                         className={`${styles.actionButton} ${styles.cancel}`}
+                        onClick={() => {
+                          setSelectedReservation(res);
+                          setShowCancelPopup(true);
+                        }}
                       >
                         {t("cancel")}
                       </button>
-                    ) : res.status === "realized" ? (
+                    ) : res.status === "done" ? (
                       <button
                         className={`${styles.actionButton} ${styles.note}`}
-                        onClick={() => navigate("/notes")}
+                        onClick={() =>
+                          navigate(`/add-note/${res.Seats.Rooms.id}/${res.id}`)
+                        }
                       >
                         {t("note")}
                       </button>
@@ -127,6 +153,28 @@ const ReservationTable = () => {
             </tbody>
           </table>
         </div>
+
+        {showCancelPopup && (
+          <div className={styles.popupOverlay}>
+            <div className={styles.popup}>
+              <p>{t("confirmCancel")}</p>
+              <div className={styles.popupActions}>
+                <button
+                  className={styles.confirmBtn}
+                  onClick={() => cancelReservation(selectedReservation.id)}
+                >
+                  {t("yes")}
+                </button>
+                <button
+                  className={styles.cancelBtn}
+                  onClick={() => setShowCancelPopup(false)}
+                >
+                  {t("no")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

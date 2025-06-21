@@ -1,0 +1,23 @@
+{
+  "addNotePage": {
+    "title": "Dodaj notatkę i pomiary",
+    "noteLabel": "Notatka:",
+    "notePlaceholder": "Napisz swoją notatkę...",
+    "measurementsTitle": "Pomiary",
+    "addRow": "+ Dodaj wiersz",
+    "submit": "Wyślij",
+    "errors": {
+      "emptyNote": "Notatka nie może być pusta",
+      "incompleteMeasurements": "Wszystkie pola pomiarów muszą być wypełnione"
+    },
+    "success": "Notatka i pomiary zostały pomyślnie dodane"
+  },
+  "measurementTable": {
+    "type": "Typ",
+    "value": "Wartość",
+    "unit": "Jednostka",
+    "typePlaceholder": "np. Temperatura",
+    "valuePlaceholder": "np. 23.4",
+    "selectUnit": "Wybierz jednostkę"
+  }
+}

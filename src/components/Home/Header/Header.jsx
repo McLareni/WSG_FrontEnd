@@ -11,9 +11,10 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.headerContainer}>
-        <h1 className={styles.logo}>WorkRoom</h1>
-
         <nav className={styles.centerSection}>
+          <NavLink to={"/"} className={styles.navLink}>
+            <h1 className={styles.logo}>WorkRoom</h1>
+          </NavLink>
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -29,6 +30,22 @@ const Header = () => {
             }
           >
             {t("header.profile")}
+          </NavLink>
+          <NavLink
+            to="/my-reservations"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive && styles.active}`
+            }
+          >
+            {t("header.my-reservations")}
+          </NavLink>
+          <NavLink
+            to="/notes"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive && styles.active}`
+            }
+          >
+            {t("header.notes")}
           </NavLink>
           {user?.role === "teacher" && (
             <NavLink

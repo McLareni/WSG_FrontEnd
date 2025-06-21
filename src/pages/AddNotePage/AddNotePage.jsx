@@ -2,20 +2,24 @@ import { useState } from "react";
 import styles from "./AddNotePage.module.css";
 import Input from "../../components/UI/Input/Input";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAuthStore from "../../store/useAuthStore.js";
 import MeasurementTable from "../../components/AddNote/MeasurementTable/MeasurementTable.jsx";
+import { useTranslation } from "react-i18next";
 
 const URL = import.meta.env.VITE_URL;
 
 export default function AddNotePage() {
   const { session } = useAuthStore();
+  const { t } = useTranslation("addNote");
   const { roomId, reservationId } = useParams();
   const [note, setNote] = useState("");
   const [measurements, setMeasurements] = useState([
     { type: "", value: "", unit: "" },
   ]);
+
+  const navigate = useNavigate();
 
   const addRow = () => {
     setMeasurements([...measurements, { type: "", value: "", unit: "" }]);
@@ -25,11 +29,11 @@ export default function AddNotePage() {
     e.preventDefault();
 
     if (!note.trim()) {
-      toast.error("Note cannot be empty");
+      toast.error(t("addNotePage.error.emptyNote"));
     }
 
     if (measurements.some((m) => !m.type || !m.value || !m.unit)) {
-      toast.error("All measurement fields must be filled");
+      toast.error(t("addNotePage.error.incompleteMeasurements"));
     }
 
     const response = await axios.post(
@@ -49,24 +53,25 @@ export default function AddNotePage() {
     );
 
     if (response.status === 200) {
-      toast.success("Note and measurements added successfully");
+      toast.success(t("addNotePage.success"));
+      navigate("/notes");
     }
   };
 
   return (
     <div className={styles.container}>
-      <h2>Add Note and Measurements</h2>
+      <h2>{t("addNotePage.title")}</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
         <Input
-          label="Note:"
+          label={t("addNotePage.noteLabel")}
           value={note}
           onChange={(e) => setNote(e.target.value)}
-          placeholder="Write your note..."
+          placeholder={t("addNotePage.notePlaceholder")}
           isTextarea
         />
 
         <div className={styles.tableWrapper}>
-          <h3>Measurements</h3>
+          <h3>{t("addNotePage.measurementsTitle")}</h3>
           {measurements.length > 0 && (
             <MeasurementTable
               measurements={measurements}
@@ -74,11 +79,11 @@ export default function AddNotePage() {
             />
           )}
           <button type="button" onClick={addRow}>
-            + Add Row
+            {t("addNotePage.addRow")}
           </button>
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit">{t("addNotePage.submit")}</button>
       </form>
     </div>
   );

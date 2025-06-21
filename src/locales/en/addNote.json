@@ -1,0 +1,23 @@
+{
+  "addNotePage": {
+    "title": "Add Note and Measurements",
+    "noteLabel": "Note:",
+    "notePlaceholder": "Write your note...",
+    "measurementsTitle": "Measurements",
+    "addRow": "+ Add Row",
+    "submit": "Submit",
+    "errors": {
+      "emptyNote": "Note cannot be empty",
+      "incompleteMeasurements": "All measurement fields must be filled"
+    },
+    "success": "Note and measurements added successfully"
+  },
+  "measurementTable": {
+    "type": "Type",
+    "value": "Value",
+    "unit": "Unit",
+    "typePlaceholder": "e.g. Temperature",
+    "valuePlaceholder": "e.g. 23.4",
+    "selectUnit": "Select unit"
+  }
+}

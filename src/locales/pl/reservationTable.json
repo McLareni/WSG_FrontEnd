@@ -13,10 +13,13 @@
   "note": "Dodaj notatkę",
   "none": "—",
   "addReservation": "Dodaj rezerwację +",
+    "confirmCancel": "Czy na pewno chcesz anulować tę rezerwację?",
+  "yes": "Tak",
+  "no": "Nie",
   "statuses": {
     "all": "Wszystkie",
-    "realized": "Zrealizowana",
-    "pending": "Oczekująca",
-    "canceled": "Anulowana"
+    "done": "Zrealizowana",
+    "active": "Oczekująca",
+    "cancelled": "Anulowana"
   }
 }

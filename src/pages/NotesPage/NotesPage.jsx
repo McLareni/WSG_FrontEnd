@@ -7,18 +7,26 @@ import axios from "axios";
 import useAuthStore from "../../store/useAuthStore";
 import useDebounce from "../../hooks/useDebounce";
 import { unitsConverter } from "../../utils/units";
+import { useTranslation } from "react-i18next";
 
-const CHART_TYPES = ["Line Chart", "Bar Chart", "Pie Chart", "Radar Chart"];
 const URL = import.meta.env.VITE_URL;
 
 const NotesPage = () => {
   const { session } = useAuthStore();
+  const { t } = useTranslation("notePage");
+
+  const CHART_TYPES = [
+    { key: "line", label: t("chartTypes.line") },
+    { key: "bar", label: t("chartTypes.bar") },
+    { key: "pie", label: t("chartTypes.pie") },
+    { key: "radar", label: t("chartTypes.radar") },
+  ];
 
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState("");
-  const [selectedChartType, setSelectedChartType] = useState("");
+  const [selectedChartType, setSelectedChartType] = useState("line");
   const [typeQuery, setTypeQuery] = useState("");
   const [roomQuery, setRoomQuery] = useState("");
 
@@ -62,10 +70,6 @@ const NotesPage = () => {
 
   useEffect(() => {
     fetchRooms("");
-
-    if (CHART_TYPES.length > 0) {
-      setSelectedChartType(CHART_TYPES[0]);
-    }
   }, []);
 
   useEffect(() => {
@@ -101,16 +105,12 @@ const NotesPage = () => {
     if (selectedType?.length > 0 && selectedRoom) {
       fetchMeasurements();
     }
-
-    console.log(selectedType, selectedRoom);
   }, [selectedType, selectedRoom]);
-
-  console.log(data);
 
   return (
     <main className="">
       <section className={styles.filters}>
-        Select a room
+        {t("selectRoom")}
         <SearchableDropdown
           options={listRoomNames}
           option={selectedRoom?.name || ""}
@@ -119,42 +119,49 @@ const NotesPage = () => {
             setSelectedRoom(rooms.find((room) => room.name === name));
           }}
         />
-        Select type
+        {t("selectType")}
         <SearchableDropdown
           options={types}
           option={selectedType}
           onSelect={setSelectedType}
           onChangeText={setTypeQuery}
         />
-        Select type of chart
+        {t("selectChartType")}
         <Dropdown
-          selected={selectedChartType}
-          options={CHART_TYPES}
-          onSelect={setSelectedChartType}
+          selected={
+            CHART_TYPES.find((type) => type.key === selectedChartType)?.label ||
+            ""
+          }
+          options={CHART_TYPES.map((type) => type.label)}
+          onSelect={(label) => {
+            const selected = CHART_TYPES.find((type) => type.label === label);
+            setSelectedChartType(selected?.key || "line");
+          }}
         />
       </section>
 
       <section className={styles["chart-container"]}>
-        {selectedChartType === "Line Chart" && (
+        {selectedChartType === "line" && (
           <VictoryChart theme={VictoryTheme.clean}>
             <VictoryLine
               data={data
                 .filter((measurement) => measurement.active)
-                .map((measurement) => measurement.value)}
+                .map((measurement) => measurement.value)
+                .reverse()}
             />
           </VictoryChart>
         )}
       </section>
       <section className={styles.measurements}>
-        <h3>Measurements</h3>
+        <h3>{t("measurements")}</h3>
         {Array.isArray(data) && data.length > 0 ? (
           <table className={styles.measurementsTable}>
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Value</th>
-                <th>Unit</th>
-                <th>Active</th>
+                <th>{t("table.date")}</th>
+                <th>{t("table.value")}</th>
+                <th>{t("table.unit")}</th>
+                <th>{t("table.active")}</th>
               </tr>
             </thead>
             <tbody>
@@ -167,13 +174,15 @@ const NotesPage = () => {
                   </td>
                   <td>{measurement.value}</td>
                   <td>{measurement.unit}</td>
-                  <td>{measurement.active ? "Valid" : "Invalid"}</td>
+                  <td>
+                    {measurement.active ? t("table.valid") : t("table.invalid")}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         ) : (
-          <p>No measurements to display.</p>
+          <p>{t("table.noData")}</p>
         )}
       </section>
     </main>

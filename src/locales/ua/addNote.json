@@ -1,0 +1,23 @@
+{
+  "addNotePage": {
+    "title": "Додати нотатку та вимірювання",
+    "noteLabel": "Нотатка:",
+    "notePlaceholder": "Напишіть вашу нотатку...",
+    "measurementsTitle": "Вимірювання",
+    "addRow": "+ Додати рядок",
+    "submit": "Відправити",
+    "errors": {
+      "emptyNote": "Нотатка не може бути порожньою",
+      "incompleteMeasurements": "Усі поля вимірювань мають бути заповнені"
+    },
+    "success": "Нотатка та вимірювання успішно додані"
+  },
+  "measurementTable": {
+    "type": "Тип",
+    "value": "Значення",
+    "unit": "Одиниця",
+    "typePlaceholder": "наприклад, Температура",
+    "valuePlaceholder": "наприклад, 23.4",
+    "selectUnit": "Виберіть одиницю"
+  }
+}

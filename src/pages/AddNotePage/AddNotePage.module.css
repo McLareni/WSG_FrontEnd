@@ -58,7 +58,7 @@ textarea {
   cursor: pointer;
 }
 
-.tableWrapper > button[type="submit"] {
+.form > button[type="submit"] {
   background: #1eadff;
   color: #ffffff;
   border-radius: 99px;
