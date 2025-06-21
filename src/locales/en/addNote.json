@@ -19,5 +19,29 @@
     "typePlaceholder": "e.g. Temperature",
     "valuePlaceholder": "e.g. 23.4",
     "selectUnit": "Select unit"
+  },
+  "category": {
+    "Length": "Length",
+    "Area": "Area",
+    "Mass": "Mass",
+    "Volume": "Volume",
+    "Volume Flow Rate": "Volume Flow Rate",
+    "Temperature": "Temperature",
+    "Time": "Time",
+    "Frequency": "Frequency",
+    "Speed": "Speed",
+    "Pace": "Pace",
+    "Pressure": "Pressure",
+    "Digital": "Digital",
+    "Illuminance": "Illuminance",
+    "Parts-Per": "Parts-Per",
+    "Voltage": "Voltage",
+    "Current": "Current",
+    "Power": "Power",
+    "Apparent Power": "Apparent Power",
+    "Reactive Power": "Reactive Power",
+    "Energy": "Energy",
+    "Reactive Energy": "Reactive Energy",
+    "Angle": "Angle"
   }
 }

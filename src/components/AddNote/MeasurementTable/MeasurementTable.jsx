@@ -128,7 +128,10 @@ const MeasurementTable = ({ measurements, updateMeasuremets }) => {
 
                   if (unitCategory) {
                     return (
-                      <optgroup key={unitCategory.key} label={unitCategory.key}>
+                      <optgroup
+                        key={unitCategory.key}
+                        label={t(`category.${unitCategory.key}`)}
+                      >
                         {unitCategory.units.map((unit) => (
                           <option key={unit} value={unit}>
                             {unit}
@@ -139,7 +142,10 @@ const MeasurementTable = ({ measurements, updateMeasuremets }) => {
                   } else {
                     return Object.entries(unitsByCategory).map(
                       ([category, units]) => (
-                        <optgroup key={category} label={category}>
+                        <optgroup
+                          key={category}
+                          label={t(`category.${category}`)}
+                        >
                           {units.map((unit) => (
                             <option key={unit} value={unit}>
                               {unit}
