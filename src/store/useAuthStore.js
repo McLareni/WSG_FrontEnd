@@ -45,7 +45,10 @@ const useAuthStore = create(
             }
 
             // Використовуємо нову функцію з api.js
-            const result = await api.updateUserProfile(session.user.id, updates);
+            const result = await api.updateUserProfile(
+              session.user.id,
+              updates
+            );
 
             set({
               user: {
@@ -99,14 +102,20 @@ const useAuthStore = create(
 
         getTeacherRooms: async () => {
           try {
-            const { user } = get();
-            if (!user?.id) throw new Error("User ID is missing");
+            const { user, session } = get();
 
-            const data = await api.fetchTeacherRooms(user.id);
-            return { success: true, data: data.rooms || [] };
+            if (!user || !session) throw new Error("User not authenticated");
+
+            const teacherUid = session.user.id;
+
+            if (!teacherUid) throw new Error("Teacher UUID not found");
+
+            console.log("Using Teacher UUID:", teacherUid);
+            const result = await api.fetchTeacherRooms(teacherUid);
+            return { success: true, data: result.rooms || [] };
           } catch (error) {
-            console.error("Error fetching teacher rooms:", error);
-            return get()._handleError(error);
+            console.error("Error fetching rooms:", error);
+            return { success: false, error: error.message };
           }
         },
 
