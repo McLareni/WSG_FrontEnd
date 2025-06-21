@@ -47,6 +47,14 @@ const Header = () => {
           >
             {t("header.notes")}
           </NavLink>
+          <NavLink
+            to="/measurements"
+            className={({ isActive }) =>
+              `${styles.navLink} ${isActive && styles.active}`
+            }
+          >
+            {t("header.measurements")}
+          </NavLink>
           {user?.role === "teacher" && (
             <NavLink
               to={"/create-room"}
