@@ -5,7 +5,8 @@
     "room": "Offices",
     "newRoom": "Add new room",
     "my-reservations": "My Reservations",
-    "notes": "Notes"
+    "notes": "Notes",
+    "measurements": "Measurements"
   },
   "searchAndSort": {
     "searchPlaceholder": "Search rooms...",

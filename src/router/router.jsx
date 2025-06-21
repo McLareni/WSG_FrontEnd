@@ -11,7 +11,8 @@ import LoginRouter from "./LoginRouter";
 import TeacherRouter from "./TeacherRouter";
 import CreateRoomPage from "../pages/CreateRoom/CreateRoom";
 import AddNotePage from "../pages/AddNotePage/AddNotePage";
-import NotesPage from "../pages/NotesPage/NotesPage";
+import MeasurementsPage from "../pages/MeasurementsPage/MeasuremensPage";
+import NotesPage from "../pages/NotePage/NotePage";
 import Reservation from "../pages/Resetvation/Reservation";
 import MyReservationPage from "../pages/MyReservationPage/MyReservationPage";
 
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
             element: <HomePage />,
           },
           { path: "notes", element: <NotesPage /> },
+          { path: "measurements", element: <MeasurementsPage /> },
           {
             path: "add-note/:roomId/:reservationId",
             element: <AddNotePage />,

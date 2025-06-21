@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Dropdown from "../../components/UI/Dropdown/Dropdown";
-import styles from "./NotePage.module.css";
+import styles from "./MeasurementsPage.module.css";
 import { VictoryChart, VictoryLine, VictoryTheme } from "victory";
 import SearchableDropdown from "../../components/UI/SearchableDropdown/SearchableDropdown";
 import axios from "axios";

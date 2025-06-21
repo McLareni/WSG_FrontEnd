@@ -17,5 +17,6 @@
     "bar": "Bar Chart",
     "pie": "Pie Chart",
     "radar": "Radar Chart"
-  }
+  },
+  "noNotes": "No notes available."
 }
