@@ -42,6 +42,7 @@
     "chemia": "Chemistry",
     "grafika": "Graphics",
     "wychowanie fizyczne": "Physical Education",
-    "other": "Other"
+    "other": "Other",
+    "all": "All Categories"
   }
 }

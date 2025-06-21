@@ -29,11 +29,13 @@ export default function AddNotePage() {
     e.preventDefault();
 
     if (!note.trim()) {
-      toast.error(t("addNotePage.error.emptyNote"));
+      toast.error(t("addNotePage.errors.emptyNote"));
+      return;
     }
 
     if (measurements.some((m) => !m.type || !m.value || !m.unit)) {
-      toast.error(t("addNotePage.error.incompleteMeasurements"));
+      toast.error(t("addNotePage.errors.incompleteMeasurements"));
+      return;
     }
 
     const response = await axios.post(

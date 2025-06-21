@@ -8,13 +8,9 @@ const createRoomRequest = async (room) => {
     data: { session },
   } = await supabase.auth.getSession();
 
-  console.log(room);
-
   const places = room.places.flatMap((place) =>
     Array(Number(place.count)).fill(place.description)
   );
-
-  console.log(places);
 
   const response = await axios.post(
     `${API_BASE_URL}addNewRoom`,
@@ -27,7 +23,7 @@ const createRoomRequest = async (room) => {
     }
   );
 
-  console.log(response);
+  return response;
 };
 
 export { createRoomRequest };

@@ -118,11 +118,9 @@ const CreateRoomForm = () => {
       const data = await res.json();
       return data.url;
     } catch (error) {
-      toast.error("Image upload failed.");
+      toast.error(t("errors.uploadPhoto"));
     }
   };
-
-  console.log(CLOUDINARY_CLOUD_NAME);
 
   const handleCreateRoom = async (e) => {
     e.preventDefault();
@@ -146,9 +144,8 @@ const CreateRoomForm = () => {
     }
 
     if (!image) {
-      return toast.error("Select image");
+      return toast.error(t("validation.selectPhoto"));
     }
-
     const url = await handleFileChange();
 
     if (!url) {
@@ -158,8 +155,9 @@ const CreateRoomForm = () => {
     roomData.photo_url = url;
 
     const response = await createRoomRequest(roomData);
-    if (response.id) {
-      toast.success("Room created");
+
+    if (response.status === 201) {
+      toast.success(t("success"));
       navigate("/");
     }
   };

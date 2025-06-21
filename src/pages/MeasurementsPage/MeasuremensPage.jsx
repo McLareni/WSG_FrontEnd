@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 const URL = import.meta.env.VITE_URL;
 
+
 const NotesPage = () => {
   const { session } = useAuthStore();
   const { t } = useTranslation("notePage");

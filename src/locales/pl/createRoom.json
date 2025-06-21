@@ -1,4 +1,5 @@
 {
+  "success": "Pokój stworzony",
   "type": {
     "informatyka": "Informatyka",
     "fizyka": "Fizyka",
@@ -50,6 +51,10 @@
     "schedule.timeOrder": "Godzina rozpoczęcia musi być wcześniejsza niż godzina zakończenia",
     "schedule.from.requiredDay": "Godzina rozpoczęcia jest wymagana dla dnia",
     "schedule.to.requiredDay": "Godzina zakończenia jest wymagana dla dnia",
-    "schedule.timeOrderDay": "Godzina rozpoczęcia musi być wcześniejsza niż godzina zakończenia dla dnia"
+    "schedule.timeOrderDay": "Godzina rozpoczęcia musi być wcześniejsza niż godzina zakończenia dla dnia",
+    "selectPhoto": "Obraz jest wymagany"
+  },
+  "errors": {
+    "uploadPhoto": "Przesyłanie obrazu nie powiodło się."
   }
 }

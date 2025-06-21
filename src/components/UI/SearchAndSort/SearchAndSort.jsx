@@ -5,15 +5,16 @@ import Input from "../Input/Input";
 import inputStyles from "../Input/Input.projector.module.css";
 import Dropdown from "../Dropdown/Dropdown";
 
-const SearchAndSort = () => {
+const SearchAndSort = ({ changeCategory, changeSortBy, changeSearchValue }) => {
   const { t } = useTranslation("homePage");
 
   const [searchValue, setSearchValue] = useState("");
   const [sortBy, setSortBy] = useState("name");
-  const [category, setCategory] = useState("informatyka");
+  const [category, setCategory] = useState("all");
 
   const sortOptions = ["name", "teacher", "date"];
   const categories = [
+    "all",
     "informatyka",
     "fizyka",
     "chemia",
@@ -27,7 +28,10 @@ const SearchAndSort = () => {
       <div className={styles.inputWrapper}>
         <Input
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+            changeSearchValue(e.target.value);
+          }}
           placeholder={t("placeholder")}
           // label={t("searchAndSort.searchPlaceholder")}
           className={inputStyles.container}
@@ -40,13 +44,18 @@ const SearchAndSort = () => {
         <Dropdown
           options={categories.map((key) => t(`categories.${key}`))}
           selected={t(`categories.${category}`)}
-          onSelect={(val) =>
+          onSelect={(val) => {
             setCategory(
               categories[
                 categories.map((k) => t(`categories.${k}`)).indexOf(val)
               ]
-            )
-          }
+            );
+            changeCategory(
+              categories[
+                categories.map((k) => t(`categories.${k}`)).indexOf(val)
+              ]
+            );
+          }}
           width="242px"
           height="55px"
         />
@@ -55,13 +64,18 @@ const SearchAndSort = () => {
           label={t("sortByLabel")}
           options={sortOptions.map((key) => t(`sortOptions.${key}`))}
           selected={t(`sortOptions.${sortBy}`)}
-          onSelect={(val) =>
+          onSelect={(val) => {
             setSortBy(
               sortOptions[
                 sortOptions.map((k) => t(`sortOptions.${k}`)).indexOf(val)
               ]
-            )
-          }
+            );
+            changeSortBy(
+              sortOptions[
+                sortOptions.map((k) => t(`sortOptions.${k}`)).indexOf(val)
+              ]
+            );
+          }}
           width="242px"
           height="55px"
         />
