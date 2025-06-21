@@ -11,10 +11,29 @@ import TeacherRooms from "../../components/Profile/TeacherRooms";
 import useAuthStore from "../../store/useAuthStore";
 import styles from "../../components/Profile/ProfileLayout.module.css";
 
+const devButtonStyle = {
+  position: "fixed",
+  bottom: "20px",
+  right: "20px",
+  zIndex: 1000,
+  padding: "10px 15px",
+  backgroundColor: "#ff4444",
+  color: "white",
+  border: "none",
+  borderRadius: "4px",
+  cursor: "pointer",
+  fontSize: "14px",
+  boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
+  transition: "all 0.3s ease",
+  ":hover": {
+    backgroundColor: "#cc0000",
+  },
+};
+
 const ProfileView = () => {
   const { t } = useTranslation("tabProfile");
   const navigate = useNavigate();
-  const { user, getTeacherRooms } = useAuthStore();
+  const { user, getTeacherRooms, logout } = useAuthStore();
 
   const isTeacher = user?.role === "teacher";
   const isStudent = user?.role === "student";
@@ -29,9 +48,9 @@ const ProfileView = () => {
       try {
         setLoadingRooms(true);
         setRoomsError(null);
-        
+
         const result = await getTeacherRooms();
-        
+
         if (result.success) {
           setRooms(result.data);
         } else {
@@ -91,11 +110,7 @@ const ProfileView = () => {
       )}
 
       {isTeacher && (
-        <TeacherRooms
-          rooms={rooms}
-          loading={loadingRooms}
-          error={roomsError}
-        />
+        <TeacherRooms rooms={rooms} loading={loadingRooms} error={roomsError} />
       )}
 
       <ProfileActions
@@ -103,6 +118,9 @@ const ProfileView = () => {
         onEdit={() => navigate("/profile/edit")}
         onChangePassword={() => navigate("/profile/password")}
       />
+      <button onClick={logout} style={devButtonStyle} title="Тестовий логаут">
+        {t("logout")}
+      </button>
     </ProfileLayout>
   );
 };
