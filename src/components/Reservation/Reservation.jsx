@@ -1,24 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./Reservation.module.css";
 import { CalendarPicker, TimeSlotPicker } from "./CombinedReservationPicker";
-import { InfoTable as RoomInfoTable, Location, RoomDescription } from "./RoomInfoComponents";
+import {
+  InfoTable as RoomInfoTable,
+  Location,
+  RoomDescription,
+} from "./RoomInfoComponents";
 import Button from "../UI/Button/Button";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
-import { fetchRoomInfo } from "../../store/api";
+import { useParams, useNavigate } from "react-router-dom";
+import { fetchRoomInfo, reserveSeat, fetchOpenHours } from "../../store/api";
+import { useAuthToast } from "../../components/UI/ToastAuth/ToastAuth";
+import { supabase } from "../../supabaseClient";
 
 const Reservation = () => {
   const { t } = useTranslation(["reservationRoom"]);
+  const authToast = useAuthToast();
   const { roomId } = useParams();
+  const navigate = useNavigate();
+  const calendarRef = useRef(null);
 
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
-  const [selectedSeatDescription, setSelectedSeatDescription] = useState('');
+  const [selectedSeatDescription, setSelectedSeatDescription] = useState("");
   const [reservedSeats, setReservedSeats] = useState([]);
-  const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedTimes, setSelectedTimes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showTimeSlots, setShowTimeSlots] = useState(false);
   const [roomData, setRoomData] = useState(null);
+  const [closedDays, setClosedDays] = useState([]);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   useEffect(() => {
     const loadRoomInfo = async () => {
@@ -29,11 +40,19 @@ const Reservation = () => {
         const data = await fetchRoomInfo(roomId);
         setRoomData({
           ...data.room,
-          seats: data.seats
+          seats: data.seats,
+          schedule: data.schedule,
+          days: data.days
         });
+
+        // Set closed days from API response
+        const closed = data.days.filter(day => !day.isOpen).map(day => day.day.toLowerCase());
+        setClosedDays(closed);
+        
         setReservedSeats([]);
       } catch (error) {
         console.error("Error loading room info:", error);
+        authToast.error(t("errors.roomLoadError"));
       } finally {
         setIsLoading(false);
       }
@@ -45,8 +64,8 @@ const Reservation = () => {
   useEffect(() => {
     if (selectedDate) {
       setSelectedSeats([]);
-      setSelectedSeatDescription('');
-      setSelectedTime(null);
+      setSelectedSeatDescription("");
+      setSelectedTimes([]);
       setShowTimeSlots(false);
       setReservedSeats([]);
     }
@@ -56,45 +75,123 @@ const Reservation = () => {
     if (selectedSeats.length > 0 && selectedDate && roomData) {
       setShowTimeSlots(true);
     } else {
-      setSelectedTime(null);
+      setSelectedTimes([]);
       setShowTimeSlots(false);
     }
   }, [selectedSeats, selectedDate, roomData]);
 
+  const isDateClosed = (date) => {
+    if (!closedDays.length) return false;
+    
+    const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    const dayOfWeek = dayNames[date.getDay()];
+    return closedDays.includes(dayOfWeek);
+  };
+
+  const checkDateAvailability = async (date) => {
+    if (!roomData || !roomData.seats?.[0] || isDateClosed(date)) return false;
+    
+    try {
+      const openHours = await fetchOpenHours(
+        date, 
+        roomData.id, 
+        roomData.seats[0].description || ""
+      );
+      return openHours.length > 0;
+    } catch (error) {
+      console.error("Error checking date availability:", error);
+      return false;
+    }
+  };
+
+  const handleDateChange = async (date) => {
+    if (!date) return;
+    
+    if (isDateClosed(date)) {
+      authToast.warn(t("timeSlots.cabinetClosed"));
+      return;
+    }
+    
+    const isAvailable = await checkDateAvailability(date);
+    if (isAvailable) {
+      setSelectedDate(date);
+    } else {
+      authToast.warn(t("timeSlots.noAvailableHours"));
+    }
+  };
+
   const handleSeatSelect = (seat) => {
     if (!seat) {
       setSelectedSeats([]);
-      setSelectedSeatDescription('');
+      setSelectedSeatDescription("");
       return;
     }
 
     setSelectedSeats([seat.seat_number]);
-    setSelectedSeatDescription(seat.description || '');
+    setSelectedSeatDescription(seat.description || "");
   };
 
-  const handleReservation = () => {
-    if (selectedDate && selectedTime && selectedSeats.length > 0 && roomData) {
+  const handleReservation = async () => {
+    if (selectedDate && selectedTimes.length > 0 && selectedSeats.length > 0 && roomData) {
       setIsLoading(true);
-      const seatIdsToReserve = roomData.seats
-        .filter(seat => selectedSeats.includes(seat.seat_number))
-        .map(seat => seat.id);
 
-      console.log('Reservation details:', {
-        roomId: roomData.id,
-        date: selectedDate.toLocaleDateString('en-CA'),
-        startTime: selectedTime,
-        seatIds: seatIdsToReserve
-      });
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
 
-      setTimeout(() => {
-        alert(
-          `${t("reservation.success")} ${roomData?.name || 'A101'} ${t("reservation.for")} ${selectedDate.toLocaleDateString()} ${t("reservation.at")} ${selectedTime}`
-        );
+        if (error || !user) {
+          throw new Error("Unauthorized");
+        }
+
+        const formattedDate = selectedDate.toISOString().split('T')[0];
+        const startTime = selectedTimes[0];
+        const endTime = getNextTime(selectedTimes[selectedTimes.length - 1]);
+
+        const reservationData = {
+          user_id: user.id,
+          room_id: roomData.id,
+          seat_desc: selectedSeatDescription,
+          start_time: startTime,
+          end_time: endTime,
+          date: formattedDate,
+        };
+
+        await reserveSeat(reservationData);
+
+        authToast.success(t("reservation.success", {
+          seat: selectedSeatDescription || `№${selectedSeats[0]}`,
+          room: roomData?.name || 'Error',
+          date: selectedDate.toLocaleDateString(),
+          startTime: startTime,
+          endTime: endTime
+        }));
+
+        setReservedSeats([...reservedSeats, ...selectedSeats]);
+        setSelectedSeats([]);
+        setSelectedTimes([]);
+        navigate("/my-reservations");
+      } catch (error) {
+        console.error("Reservation error:", error);
+        
+        if (error.message.includes("No available seats")) {
+          authToast.error(t("errors.conflict"));
+        } else if (error.message.includes("Unauthorized")) {
+          authToast.error(t("errors.unauthorized"));
+        } else {
+          authToast.error(t("errors.default"));
+        }
+      } finally {
         setIsLoading(false);
-      }, 1500);
+      }
     } else {
-      alert(t("reservation.missingFields"));
+      authToast.warn(t("reservation.missingFields"));
     }
+  };
+
+  const getNextTime = (time) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    const nextHour = hours + (minutes + 30 >= 60 ? 1 : 0);
+    const nextMinute = (minutes + 30) % 60;
+    return `${String(nextHour).padStart(2, "0")}:${String(nextMinute).padStart(2, "0")}`;
   };
 
   if (isLoading && !roomData) {
@@ -107,7 +204,6 @@ const Reservation = () => {
 
   return (
     <div className={styles.container}>
-      {/* Новий div для об'єднання лівої та правої панелей */}
       <div className={styles.contentWrapper}>
         <div className={styles.leftPanel}>
           <div className={styles.imagePlaceholder}>
@@ -118,7 +214,7 @@ const Reservation = () => {
                 className={styles.roomImage}
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/600x350?text=Room+Image';
+                  e.target.src = "https://via.placeholder.com/600x350?text=Room+Image";
                 }}
               />
             ) : (
@@ -130,25 +226,29 @@ const Reservation = () => {
               <h2 className={styles.imageTitle}>
                 {t("roomDescription.roomNumber", { number: `#${roomData.name}` })}
               </h2>
-              <p className={styles.imageSubtitle}>
-                {roomData.location}
-              </p>
+              <p className={styles.imageSubtitle}>{roomData.location}</p>
             </div>
           </div>
 
           <Location address={roomData.location} />
 
-          <CalendarPicker
-            value={selectedDate}
-            onChange={setSelectedDate}
-          />
+          <div ref={calendarRef}>
+            <CalendarPicker 
+              value={selectedDate} 
+              onChange={handleDateChange}
+              disabledDates={(date) => {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                return date < today || isDateClosed(date);
+              }}
+              onMonthChange={(month) => setCurrentMonth(month)}
+            />
+          </div>
         </div>
 
         <div className={styles.rightPanel}>
           <div className={styles.headerSection}>
-            <h1 className={styles.roomTitle}>
-              {roomData.name}
-            </h1>
+            <h1 className={styles.roomTitle}>{roomData.name}</h1>
             <div className={styles.roomMeta}>
               <span className={styles.metaItem}>
                 {t("reservation.capacity", { count: roomData.seats?.length || 0 })}
@@ -169,8 +269,8 @@ const Reservation = () => {
           )}
           {showTimeSlots && (
             <TimeSlotPicker
-              selectedTime={selectedTime}
-              setSelectedTime={setSelectedTime}
+              selectedTimes={selectedTimes}
+              setSelectedTimes={setSelectedTimes}
               selectedDate={selectedDate}
               roomId={roomData.id}
               selectedSeatDescription={selectedSeatDescription}
@@ -179,7 +279,7 @@ const Reservation = () => {
         </div>
       </div>
 
-      {selectedDate && selectedSeats.length > 0 && selectedTime && (
+      {selectedDate && selectedSeats.length > 0 && selectedTimes.length > 0 && (
         <div className={styles.actionSection}>
           <Button
             variant="primary"

@@ -14,7 +14,7 @@ import styles from "../../components/Profile/ProfileLayout.module.css";
 const ProfileView = () => {
   const { t } = useTranslation("tabProfile");
   const navigate = useNavigate();
-  const { user } = useAuthStore();
+  const { user, getTeacherRooms } = useAuthStore();
 
   const isTeacher = user?.role === "teacher";
   const isStudent = user?.role === "student";
@@ -23,20 +23,19 @@ const ProfileView = () => {
   const [loadingRooms, setLoadingRooms] = useState(false);
   const [roomsError, setRoomsError] = useState(null);
 
- useEffect(() => {
+  useEffect(() => {
+    console.log("Current user object:", user);
     const fetchRooms = async () => {
-      const checkAuth = async () => {
-    const session = await useAuthStore.getState().checkSession();
-    console.log('Session check:', session);
-  };
-  checkAuth();
       try {
         setLoadingRooms(true);
-        const result = await useAuthStore.getState().getTeacherRooms();
+        setRoomsError(null);
+        
+        const result = await getTeacherRooms();
+        
         if (result.success) {
           setRooms(result.data);
         } else {
-          setRoomsError(result.error);
+          setRoomsError(result.error || t("errors.fetchRoomsFailed"));
         }
       } catch (err) {
         console.error("Помилка завантаження кімнат:", err);
@@ -46,13 +45,10 @@ const ProfileView = () => {
       }
     };
 
-     console.log('Current user ID:', user?.id, 'Type:', typeof user?.id);
-  
-  if (isTeacher && user?.id) {
-    fetchRooms();
-  }
-    
-  }, [isTeacher, user?.id, t]);
+    if (isTeacher && user?.id) {
+      fetchRooms();
+    }
+  }, [isTeacher, user?.id, t, getTeacherRooms]);
 
   return (
     <ProfileLayout title={t(user?.role || "profile")}>
@@ -103,10 +99,10 @@ const ProfileView = () => {
       )}
 
       <ProfileActions
-  mode="view"
-  onEdit={() => navigate("/profile/edit")}
-  onChangePassword={() => navigate("/profile/password")}
-/>
+        mode="view"
+        onEdit={() => navigate("/profile/edit")}
+        onChangePassword={() => navigate("/profile/password")}
+      />
     </ProfileLayout>
   );
 };
