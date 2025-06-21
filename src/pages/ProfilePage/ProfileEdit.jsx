@@ -9,12 +9,12 @@ import ProfileSection from "../../components/Profile/ProfileSection";
 import Input from "../../components/UI/Input/Input";
 import ProfileActions from "../../components/Profile/ProfileActions";
 import useAuthStore from "../../store/useAuthStore";
-import { validateProfileData } from "../../store/validators"; // *** ЗМІНА: Оновлений імпорт ***
+import { validateProfileData } from "./useForm";
 import styles from "../../components/Profile/ProfileLayout.module.css";
 import 'react-toastify/dist/ReactToastify.css';
 
 const ProfileEdit = () => {
-  const { t } = useTranslation([ "validation", "tabProfile", "errors"]);
+  const { t } = useTranslation([ "validation", "tabProfile"]);
   const navigate = useNavigate();
   const { user, updateProfile, isLoading: isAuthLoading } = useAuthStore();
 

@@ -101,24 +101,28 @@ const useAuthStore = create(
         },
 
         getTeacherRooms: async () => {
-          try {
-            const { user, session } = get();
+  try {
+    const { user, session } = get();
+    if (!user || !session) throw new Error("User not authenticated");
 
-            if (!user || !session) throw new Error("User not authenticated");
-
-            const teacherUid = session.user.id;
-
-            if (!teacherUid) throw new Error("Teacher UUID not found");
-
-            console.log("Using Teacher UUID:", teacherUid);
-            const result = await api.fetchTeacherRooms(teacherUid);
-            return { success: true, data: result.rooms || [] };
-          } catch (error) {
-            console.error("Error fetching rooms:", error);
-            return { success: false, error: error.message };
-          }
-        },
-
+    const result = await api.fetchTeacherRooms(session.user.id);
+    
+    return {
+      success: result.success,
+      data: result.data || [],
+      error: result.error,
+      isEmpty: result.isEmpty
+    };
+  } catch (error) {
+    console.error("Error in getTeacherRooms:", error);
+    return {
+      success: false,
+      error: error.message,
+      data: [],
+      isEmpty: false
+    };
+  }
+},
         login: async (email, password) => {
           try {
             set({ error: null });

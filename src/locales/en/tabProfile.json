@@ -1,27 +1,29 @@
 {
   "teacher": "Teacher",
-  "albumNumber": "Student ID",
+  "albumNumber": "Album number",
   "student": "Student",
   "email": "Email",
-  "firstName": "First Name",
-  "lastName": "Last Name",
-  "createdRooms": "Created Rooms",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "createdRooms": "Created rooms",
   "active": "Active",
   "inactive": "Inactive",
   "edit": "Edit",
-  "changePassword": "Change Password",
-  "currentPassword": "Current Password",
-  "newPassword": "New Password",
-  "noRooms" : "No rooms created",
-  "confirmPassword": "Confirm New Password",
+  "changePassword": "Change password",
+  "currentPassword": "Current password",
+  "newPassword": "New password",
+  "noRooms": "You haven't created any rooms yet",
+  "fetchRoomsFailed": "Failed to load rooms list",
+  "confirmPassword": "Confirm new password",
+  "onlyLatin": "Latin letters only",
   "buttons": {
-    "saveChanges": "Save Changes",
+    "saveChanges": "Save changes",
     "cancel": "Cancel"
   },
   "notFound": {
     "title": "404",
-    "message": "Page Not Found",
-    "goHome": "Return to Home"
+    "message": "Page not found",
+    "goHome": "Go to homepage"
   },
   "logout": "Logout"
 }
