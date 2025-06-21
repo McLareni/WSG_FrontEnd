@@ -1,0 +1,21 @@
+{
+  "selectRoom": "Wybierz pokój",
+  "selectType": "Wybierz typ",
+  "selectChartType": "Wybierz typ wykresu",
+  "measurements": "Pomiary",
+  "table": {
+    "date": "Data",
+    "value": "Wartość",
+    "unit": "Jednostka",
+    "active": "Aktywny",
+    "valid": "Poprawny",
+    "invalid": "Niepoprawny",
+    "noData": "Brak dostępnych pomiarów."
+  },
+  "chartTypes": {
+    "line": "Wykres liniowy",
+    "bar": "Wykres słupkowy",
+    "pie": "Wykres kołowy",
+    "radar": "Wykres radarowy"
+  }
+}

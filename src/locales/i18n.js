@@ -34,6 +34,14 @@ import reservationTableEN from "./en/reservationTable.json";
 import reservationTablePL from "./pl/reservationTable.json";
 import reservationTableUK from "./ua/reservationTable.json";
 
+import addNoteEN from "./en/addNote.json";
+import addNotePL from "./pl/addNote.json";
+import addNoteUK from "./ua/addNote.json";
+
+import notePageEN from "./en/notePage.json";
+import notePagePL from "./pl/notePage.json";
+import notePageUK from "./ua/notePage.json";
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -48,6 +56,8 @@ i18n
         validationNewPassword: validationNewPasswordEN,
         homePage: homePageEN,
         reservationTable: reservationTableEN,
+        addNote: addNoteEN,
+        notePage: notePageEN,
       },
       pl: {
         adminUser: adminUserPL,
@@ -58,6 +68,8 @@ i18n
         validationNewPassword: validationNewPasswordPL,
         homePage: homePagePL,
         reservationTable: reservationTablePL,
+        addNote: addNotePL,
+        notePage: notePagePL,
       },
       uk: {
         adminUser: adminUserUK,
@@ -68,6 +80,8 @@ i18n
         validationNewPassword: validationNewPasswordUK,
         homePage: homePageUK,
         reservationTable: reservationTableUK,
+        addNote: addNoteUK,
+        notePage: notePageUK,
       },
     },
     fallbackLng: "en",

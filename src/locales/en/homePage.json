@@ -3,7 +3,9 @@
     "home": "Home",
     "profile": "My Profile",
     "room": "Offices",
-    "newRoom": "Add new room"
+    "newRoom": "Add new room",
+    "my-reservations": "My Reservations",
+    "notes": "Notes"
   },
   "searchAndSort": {
     "searchPlaceholder": "Search rooms...",

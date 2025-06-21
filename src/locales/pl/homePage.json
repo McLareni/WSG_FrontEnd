@@ -3,7 +3,9 @@
     "home": "Strona główna",
     "profile": "Mój profil",
     "room": "Biura",
-    "newRoom": "Dodać nową sale"
+    "newRoom": "Dodać nową sale",
+    "my-reservations": "Moje rezerwacje",
+    "notes": "Notatki"
   },
 
   "searchAndSort": {

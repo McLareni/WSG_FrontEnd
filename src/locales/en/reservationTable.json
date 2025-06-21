@@ -13,10 +13,13 @@
   "note": "Add note",
   "none": "—",
   "addReservation": "Add reservation +",
+  "confirmCancel": "Are you sure you want to cancel this reservation?",
+  "yes": "Yes",
+  "no": "No",
   "statuses": {
     "all": "All",
-    "realized": "Realized",
-    "pending": "Pending",
-    "canceled": "Canceled"
+    "done": "Realized",
+    "active": "Pending",
+    "cancelled": "Canceled"
   }
 }

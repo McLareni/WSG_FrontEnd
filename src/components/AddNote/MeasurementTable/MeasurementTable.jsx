@@ -4,11 +4,13 @@ import { getUnitCategory, unitsByCategory } from "../../../utils/units";
 import axios from "axios";
 import useAuthStore from "../../../store/useAuthStore";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const URL = import.meta.env.VITE_URL;
 
 const MeasurementTable = ({ measurements, updateMeasuremets }) => {
   const { session } = useAuthStore();
+  const { t } = useTranslation("addNote");
   const params = useParams();
 
   const [suggestions, setSuggestions] = useState([]);
@@ -73,9 +75,9 @@ const MeasurementTable = ({ measurements, updateMeasuremets }) => {
     <table className={styles.table}>
       <thead>
         <tr>
-          <th>Type</th>
-          <th>Value</th>
-          <th>Unit</th>
+          <th>{t("measurementTable.type")}</th>
+          <th>{t("measurementTable.value")}</th>
+          <th>{t("measurementTable.unit")}</th>
           <th></th>
         </tr>
       </thead>
@@ -87,7 +89,7 @@ const MeasurementTable = ({ measurements, updateMeasuremets }) => {
                 type="text"
                 value={m.type}
                 onChange={(e) => handleChange(index, "type", e.target.value)}
-                placeholder="e.g. temperature"
+                placeholder={t("measurementTable.typePlaceholder")}
                 autoComplete="off"
                 onFocus={() => setActiveInputIndex(index)}
                 onBlur={() => setTimeout(() => setSuggestions([]), 150)}
@@ -111,7 +113,7 @@ const MeasurementTable = ({ measurements, updateMeasuremets }) => {
                 type="number"
                 value={m.value}
                 onChange={(e) => handleChange(index, "value", e.target.value)}
-                placeholder="e.g. 23.4"
+                placeholder={t("measurementTable.valuePlaceholder")}
                 step="any"
               />
             </td>
@@ -120,7 +122,7 @@ const MeasurementTable = ({ measurements, updateMeasuremets }) => {
                 value={m.unit}
                 onChange={(e) => handleChange(index, "unit", e.target.value)}
               >
-                <option value="">Select unit</option>
+                <option value="">{t("measurementTable.selectUnit")}</option>
                 {(() => {
                   const unitCategory = getUnitCategory(m?.type);
 
