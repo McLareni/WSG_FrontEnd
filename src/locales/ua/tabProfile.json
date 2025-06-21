@@ -12,8 +12,10 @@
   "changePassword": "Змінити пароль",
   "currentPassword": "Поточний пароль",
   "newPassword": "Новий пароль",
-  "noRooms": "Немає створених кімнат",
+  "noRooms" : "Ви ще не створили жодної кімнати",
+  "fetchRoomsFailed": "Не вдалося завантажити список кімнат",
   "confirmPassword": "Підтвердіть новий пароль",
+  "onlyLatin": "Тільки латинські букви",
   "buttons": {
     "saveChanges": "Зберегти зміни",
     "cancel": "Скасувати"

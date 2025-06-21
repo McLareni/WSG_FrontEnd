@@ -12,17 +12,9 @@ const fetchWithAuth = async (endpoint, options = {}) => {
     throw new Error("Unauthorized");
   }
 
-  console.log(endpoint);
-  
   // Фікс для URL - прибираємо дублюючі слеші
-  const normalizedEndpoint = endpoint.replace(/^\/+/, "");
-
-  console.log(normalizedEndpoint);
-  
-
-  const url = `${API_BASE_URL}${normalizedEndpoint}`;
-
-  console.log("url:", url);
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+  const url = `${API_BASE_URL}/${normalizedEndpoint}`;
 
   const response = await fetch(url, {
     ...options,
@@ -78,7 +70,24 @@ export const changePassword = async (oldPassword, newPassword) => {
 };
 
 export const fetchTeacherRooms = async (teacherId) => {
-  return fetchWithAuth(`getAllUserRoom/${teacherId}`);
+  try {
+    const endpoint = `getAllUserRoom/${encodeURIComponent(teacherId)}`;
+    const response = await fetchWithAuth(endpoint);
+    
+    if (response.rooms && response.rooms.length === 0) {
+      return { success: true, data: [] };
+    }
+    
+    return { success: true, data: response.rooms || [] };
+  } catch (error) {
+    console.error("Error fetching teacher rooms:", error);
+    
+    if (error.message?.includes("No rooms found")) {
+      return { success: true, data: [] };
+    }
+    
+    return { success: false, error: error.message };
+  }
 };
 
 export const fetchRoomInfo = async (roomId) => {
@@ -124,6 +133,3 @@ export const reserveSeat = async (reservationData) => {
   });
 };
 
-export const fetchClosedDays = async (roomId, month, year) => {
-  return fetchWithAuth(`getClosedDays?room_id=${roomId}&month=${month}&year=${year}`);
-};

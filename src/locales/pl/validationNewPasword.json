@@ -2,7 +2,11 @@
   "password": {
     "required": "Hasło jest wymagane",
     "requirements": {
-      "length": "Musi zawierać co najmniej 8 znaków"
+      "length": "Musi mieć co najmniej 8 znaków",
+      "uppercase": "Musi zawierać co najmniej 1 wielką literę (A-Z)",
+      "lowercase": "Musi zawierać co najmniej 1 małą literę (a-z)",
+      "digit": "Musi zawierać co najmniej 1 cyfrę (0-9)",
+      "special": "Musi zawierać co najmniej 1 znak specjalny (!@#$...)"
     },
     "confirmPassword": {
       "notMatch": "Hasła nie pasują do siebie"
@@ -10,11 +14,11 @@
     "change": {
       "success": "Hasło zostało pomyślnie zmienione",
       "failed": "Nie udało się zmienić hasła",
-      "currentRequired": "Obecne hasło jest wymagane",
-      "invalidCurrent": "Nieprawidłowe obecne hasło",
+      "currentRequired": "Bieżące hasło jest wymagane",
+      "invalidCurrent": "Nieprawidłowe bieżące hasło",
       "sameAsOld": "Nowe hasło musi różnić się od starego",
-      "updatesuccess": "Dane zostały pomyślnie zaktualizowane",
-      "missingFields": "Brak starego lub nowego hasła"
+      "updatesuccess": "Dane zaktualizowano pomyślnie",
+      "missingFields": "Brakuje starego lub nowego hasła"
     }
   }
 }

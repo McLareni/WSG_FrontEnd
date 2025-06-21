@@ -2,18 +2,22 @@
   "password": {
     "required": "Password is required",
     "requirements": {
-      "length": "Must contain at least 8 characters"
+      "length": "Must be at least 8 characters",
+      "uppercase": "Must contain at least 1 uppercase letter (A-Z)",
+      "lowercase": "Must contain at least 1 lowercase letter (a-z)",
+      "digit": "Must contain at least 1 digit (0-9)",
+      "special": "Must contain at least 1 special character (!@#$...)"
     },
     "confirmPassword": {
       "notMatch": "Passwords do not match"
     },
     "change": {
-      "success": "Password successfully changed",
+      "success": "Password changed successfully",
       "failed": "Failed to change password",
       "currentRequired": "Current password is required",
-      "invalidCurrent": "Invalid current password",
+      "invalidCurrent": "Incorrect current password",
       "sameAsOld": "New password must be different from the old one",
-      "updatesuccess": "Data successfully updated",
+      "updatesuccess": "Data updated successfully",
       "missingFields": "Missing old or new password"
     }
   }
