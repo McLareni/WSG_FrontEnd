@@ -1,8 +1,8 @@
 {
-  "teacher": "Nauczyciel",
+  "teacher": "Wykładowca",
   "albumNumber": "Numer albumu",
   "student": "Student",
-  "email": "Email",
+  "email": "Adres e-mail",
   "firstName": "Imię",
   "lastName": "Nazwisko",
   "createdRooms": "Utworzone pokoje",
@@ -10,10 +10,12 @@
   "inactive": "Nieaktywny",
   "edit": "Edytuj",
   "changePassword": "Zmień hasło",
-  "currentPassword": "Aktualne hasło",
+  "currentPassword": "Bieżące hasło",
   "newPassword": "Nowe hasło",
-  "noRooms" : "Nie ma utworzonych pokoi",
+  "noRooms": "Nie utworzyłeś jeszcze żadnych pokoi",
+  "fetchRoomsFailed": "Nie udało się załadować listy pokoi",
   "confirmPassword": "Potwierdź nowe hasło",
+  "onlyLatin": "Tylko litery łacińskie",
   "buttons": {
     "saveChanges": "Zapisz zmiany",
     "cancel": "Anuluj"
@@ -21,7 +23,7 @@
   "notFound": {
     "title": "404",
     "message": "Strona nie znaleziona",
-    "goHome": "Powrót do strony głównej"
+    "goHome": "Wróć do strony głównej"
   },
   "logout": "Wyloguj"
 }

@@ -168,7 +168,7 @@ const ProfilePassword = () => {
         <ProfileSection>
           {error && !errors.currentPassword && !error.includes('network') && (
             <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
-              {t(error)} {/* Тут 'error' може бути ключем з useAuthStore, який може посилатися на errors.json або validationNewPassword.json */}
+              {t(error)}
             </div>
           )}
           
