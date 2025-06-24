@@ -14,7 +14,7 @@ const fetchWithAuth = async (endpoint, options = {}) => {
 
   // Фікс для URL - прибираємо дублюючі слеші
   const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
-  const url = `${API_BASE_URL}/${normalizedEndpoint}`;
+  const url = `${API_BASE_URL}${normalizedEndpoint}`;
 
   const response = await fetch(url, {
     ...options,
